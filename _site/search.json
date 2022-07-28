@@ -1,8 +1,8 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Tyler George",
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About Me",
     "section": "",
     "text": "Twitter:\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
   },
@@ -26,13 +26,6 @@
     "title": "Talks",
     "section": "",
     "text": "Here I want to add a list of links to talks websites/repos."
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About Me",
-    "section": "",
-    "text": "Twitter:\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
   },
   {
     "objectID": "student_work.html",

@@ -4,14 +4,17 @@ project:
 website:
   title: "Tyler George"
   navbar:
-    background: primary
+    background: "#523178"
     left:
-      - href: teaching.qmd
-        text: Teaching
+      - teaching.qmd
       - cv.qmd
       - talks.qmd
-      - about.qmd
       - student_work.qmd
+    right:
+      - about.qmd
+    icon: 
+      - "github"
+      - "twitter"
 
 format:
   html:
