@@ -1,8 +1,8 @@
 ---
-title: "personal_site"
+title: "Tyler George"
 ---
 
-This is a Quarto website.
+I am a professor of statistics and data science at [Cornell College](https://www.cornellcollege.edu/)
 
 To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
 
