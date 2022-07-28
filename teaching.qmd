@@ -1,0 +1,23 @@
+---
+title: "Teaching"
+---
+
+## Teaching
+
+## Courses
+
+### STA 201 - Statistical Methods I
+
+Teaching .... always
+
+### STA 202 - Statistical Methods II
+
+Teaching in Fall 2021
+
+### DSC 223 - Introduction to Data Science
+
+Teaching in Fall 2021
+
+### STA XXX - Introduction to Time Series
+
+### STA XXX - Advanced Regression

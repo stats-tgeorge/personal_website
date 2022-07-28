@@ -1,0 +1,5 @@
+---
+title: "CV"
+---
+
+At first, I want this to have my pdf CV. Later it needs to be recreated in quarto.

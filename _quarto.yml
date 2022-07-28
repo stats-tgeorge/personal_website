@@ -6,9 +6,12 @@ website:
   navbar:
     background: primary
     left:
-      - href: index.qmd
-        text: Home
+      - href: teaching.qmd
+        text: Teaching
+      - cv.qmd
+      - talks.qmd
       - about.qmd
+      - student_work.qmd
 
 format:
   html:
