@@ -1,5 +1,5 @@
 ---
-title: "About Me"
+title: "About"
 ---
 
 I am a assistant professor of statistics (and data science) at [Cornell College](https://www.cornellcollege.edu/).

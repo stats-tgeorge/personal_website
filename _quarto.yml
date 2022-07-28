@@ -7,11 +7,14 @@ website:
     background: "#523178"
     left:
       - teaching.qmd
-      - cv.qmd
-      - talks.qmd
-      - student_work.qmd
+      - student_work_showcase.qmd
+      - teaching_ped.qmd
+      
     right:
+      - talks.qmd
+      - cv.qmd
       - about.qmd
+      
     icon: 
       - "github"
       - "twitter"

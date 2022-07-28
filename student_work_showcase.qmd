@@ -1,5 +1,5 @@
 ---
-title: "Student Work"
+title: "Student Work Showcase"
 ---
 
 Here I want a list of Student projects and related things.
