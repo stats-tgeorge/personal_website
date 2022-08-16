@@ -6,4 +6,6 @@ I am a assistant professor of statistics (and data science) at [Cornell College]
 
 Twitter:
 
+This is a test
+
 To learn more about Quarto websites visit <https://quarto.org/docs/websites>.

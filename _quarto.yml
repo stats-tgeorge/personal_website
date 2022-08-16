@@ -1,6 +1,9 @@
 project:
   type: website
 
+execute:
+  freeze: auto
+    
 website:
   title: "Tyler George"
   navbar:
@@ -18,8 +21,7 @@ website:
     icon: 
       - "github"
       - "twitter"
-  execute:
-    freeze: auto
+
   
 format:
   html:
