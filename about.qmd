@@ -4,7 +4,10 @@ title: "About"
 
 I am a assistant professor of statistics (and data science) at [Cornell College](https://www.cornellcollege.edu/).
 
-Twitter:
+`r fontawesome::fa("twitter")` @stats-tgeorge
+`r fontawesome::fa("email")` tgeorge@cornellcollege.edu
+ 
+`r fontawesome::fa("github")` stats_tgeorge
 
 This is a test
 
