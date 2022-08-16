@@ -1,22 +1,41 @@
 ---
-title: "About"
+title: "Tyler George"
 ---
 
-#### Professional Me
-I am an Assistant Professor of Statistics (and data science) at [Cornell College](https://www.cornellcollege.edu/). I received my PhD in Statistics and Analytics at Central Michigan University. Teaching has always been my passion. 
 
-#### More about me...
-Being an academic is a dream come true (even with all of the meetings). My wife, Alyx, and our two dogs, Jennabell and Mocha, live in small town in Iowa. Yes, I do love corn! 
+::: {layout="[100,50]"}
+::: {#about layout-ncol=1}
+I am an Assistant Professor of Statistics (and data science) at [Cornell College](https://www.cornellcollege.edu/) - a small undergraduate liberal arts college. I received my PhD in Statistics and Analytics at Central Michigan University. During my PhD I also studied mathematics and statistics education. My dissertation work involved creating a new lack of fit test for linear regression models. My interests are broadly in statistics education and data science. 
 
-`r fontawesome::fa("twitter")`[@stats-tgeorge](https://twitter.com/stats_tgeorge) 
+`r fontawesome::fa("twitter")`[@stats-tgeorge](https://twitter.com/stats_tgeorge)
 
 `r fontawesome::fa("envelope")` <a href="mailto:tgeorge@cornellcollege.edu"> tgeorge@cornellcollege.edu </a>
-
-
 
 `r fontawesome::fa("github")` [stats_tgeorge](https://github.com/stats-tgeorge) 
 
 `r fontawesome::fa("github")` [Page Source](https://github.com/stats-tgeorge/personal_website)
+:::
+
+![](img/TGeorge.jpg)
+:::
+
+::: {layout-ncol=2}
+
+My wife, Alyx, and our two dogs, Jennabell and Mocha, live in small town in Iowa. Yes, I do love corn! And snow!
+
+![My wife Alyx, and I](img/tyler_alyx.jpg)
+
+
+![Mocha](img/mocha.jpg)
+
+
+![Jennabell](img/jennabell.jpg)
+
+
+
+:::
+
+
 
 
 

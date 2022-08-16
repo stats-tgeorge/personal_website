@@ -17,10 +17,13 @@ website:
       - talks.qmd
       - cv.qmd
       - about.qmd
-      
-    icon: 
-      - "github"
-      - "twitter"
+      - icon: github 
+        href: https://github.com/stats-tgeorge/personal_website
+        aria-label: GitHub
+      - icon: twitter
+        href: https://twitter.com/stats_tgeorge
+        aria-label: stats-tgeorge
+
 
   
 format:
