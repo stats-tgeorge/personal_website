@@ -14,11 +14,11 @@
     "text": "At first, I want this to have my pdf CV. Later it needs to be recreated in quarto."
   },
   {
-    "objectID": "teaching.html#courses",
-    "href": "teaching.html#courses",
-    "title": "Courses",
-    "section": "Courses",
-    "text": "Courses\n\nSTA 201 - Statistical Methods I\nTeaching …. always\n\n\nSTA 202 - Statistical Methods II\nTeaching in Fall 2021\n\n\nDSC 223 - Introduction to Data Science\nTeaching in Fall 2021\n\n\nSTA XXX - Introduction to Time Series\n\n\nSTA XXX - Advanced Regression"
+    "objectID": "student_work_showcase.html",
+    "href": "student_work_showcase.html",
+    "title": "Student Work Showcase",
+    "section": "",
+    "text": "Here I want a list of Student projects and related things."
   },
   {
     "objectID": "talks.html",
@@ -28,18 +28,11 @@
     "text": "Here I want to add a list of links to talks websites/repos."
   },
   {
-    "objectID": "student_work.html",
-    "href": "student_work.html",
-    "title": "Student Work",
-    "section": "",
-    "text": "Here I want a list of Student projects and related things."
-  },
-  {
-    "objectID": "student_work_showcase.html",
-    "href": "student_work_showcase.html",
-    "title": "Student Work Showcase",
-    "section": "",
-    "text": "Here I want a list of Student projects and related things."
+    "objectID": "teaching.html#courses",
+    "href": "teaching.html#courses",
+    "title": "Courses",
+    "section": "Courses",
+    "text": "Courses\n\nSTA 201 - Statistical Methods I\nTeaching …. always\n\n\nSTA 202 - Statistical Methods II\nTeaching in Fall 2021\n\n\nDSC 223 - Introduction to Data Science\nTeaching in Fall 2021\n\n\nSTA XXX - Introduction to Time Series\n\n\nSTA XXX - Advanced Regression"
   },
   {
     "objectID": "teaching_ped.html",
