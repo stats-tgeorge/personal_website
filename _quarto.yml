@@ -18,7 +18,9 @@ website:
     icon: 
       - "github"
       - "twitter"
-
+  execute:
+    freeze: auto
+  
 format:
   html:
     theme: cosmo
