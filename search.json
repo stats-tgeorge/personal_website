@@ -1,5 +1,12 @@
 [
   {
+    "objectID": "teaching.html#courses",
+    "href": "teaching.html#courses",
+    "title": "Courses",
+    "section": "Courses",
+    "text": "Courses\n\nSTA 201 - Statistical Methods I\nTeaching …. always\n\n\nSTA 202 - Statistical Methods II\nTeaching in Fall 2021\n\n\nDSC 223 - Introduction to Data Science\nTeaching in Fall 2021\n\n\nSTA XXX - Introduction to Time Series\n\n\nSTA XXX - Advanced Regression"
+  },
+  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
@@ -14,13 +21,6 @@
     "text": "At first, I want this to have my pdf CV. Later it needs to be recreated in quarto."
   },
   {
-    "objectID": "student_work_showcase.html",
-    "href": "student_work_showcase.html",
-    "title": "Student Work Showcase",
-    "section": "",
-    "text": "Here I want a list of Student projects and related things."
-  },
-  {
     "objectID": "talks.html",
     "href": "talks.html",
     "title": "Talks",
@@ -28,17 +28,17 @@
     "text": "Here I want to add a list of links to talks websites/repos."
   },
   {
-    "objectID": "teaching.html#courses",
-    "href": "teaching.html#courses",
-    "title": "Courses",
-    "section": "Courses",
-    "text": "Courses\n\nSTA 201 - Statistical Methods I\nTeaching …. always\n\n\nSTA 202 - Statistical Methods II\nTeaching in Fall 2021\n\n\nDSC 223 - Introduction to Data Science\nTeaching in Fall 2021\n\n\nSTA XXX - Introduction to Time Series\n\n\nSTA XXX - Advanced Regression"
-  },
-  {
     "objectID": "teaching_ped.html",
     "href": "teaching_ped.html",
     "title": "Teaching Pedagogy",
     "section": "",
     "text": "My written take on teaching"
+  },
+  {
+    "objectID": "student_work_showcase.html",
+    "href": "student_work_showcase.html",
+    "title": "Student Work Showcase",
+    "section": "",
+    "text": "Here I want a list of Student projects and related things."
   }
 ]
