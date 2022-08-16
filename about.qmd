@@ -2,13 +2,22 @@
 title: "About"
 ---
 
-I am a assistant professor of statistics (and data science) at [Cornell College](https://www.cornellcollege.edu/).
+#### Professional Me
+I am an Assistant Professor of Statistics (and data science) at [Cornell College](https://www.cornellcollege.edu/). I received my PhD in Statistics and Analytics at Central Michigan University. Teaching has always been my passion. 
 
-`r fontawesome::fa("twitter")` @stats-tgeorge
-`r fontawesome::fa("email")` tgeorge@cornellcollege.edu
- 
-`r fontawesome::fa("github")` stats_tgeorge
+#### More about me...
+Being an academic is a dream come true (even with all of the meetings). My wife, Alyx, and our two dogs, Jennabell and Mocha, live in small town in Iowa. Yes, I do love corn! 
 
-This is a test
+`r fontawesome::fa("twitter")`[@stats-tgeorge](https://twitter.com/stats_tgeorge) 
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+`r fontawesome::fa("envelope")` <a href="mailto:tgeorge@cornellcollege.edu"> tgeorge@cornellcollege.edu </a>
+
+
+
+`r fontawesome::fa("github")` [stats_tgeorge](https://github.com/stats-tgeorge) 
+
+`r fontawesome::fa("github")` [Page Source](https://github.com/stats-tgeorge/personal_website)
+
+
+
+
