@@ -1,12 +1,5 @@
 [
   {
-    "objectID": "teaching.html#courses",
-    "href": "teaching.html#courses",
-    "title": "Courses",
-    "section": "Courses",
-    "text": "Courses\n\nSTA 201 - Statistical Methods I\nTeaching …. always\n\n\nSTA 202 - Statistical Methods II\nTeaching in Fall 2021\n\n\nDSC 223 - Introduction to Data Science\nTeaching in Fall 2021\n\n\nSTA XXX - Introduction to Time Series\n\n\nSTA XXX - Advanced Regression"
-  },
-  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "Tyler George",
@@ -26,6 +19,13 @@
     "title": "Talks",
     "section": "",
     "text": "Here I want to add a list of links to talks websites/repos."
+  },
+  {
+    "objectID": "courses.html#courses",
+    "href": "courses.html#courses",
+    "title": "Courses",
+    "section": "Courses",
+    "text": "Courses\n\nSTA 201 - Statistical Methods I\nTeaching …. always\n\n\nSTA 202 - Statistical Methods II\nTeaching in Fall 2021\n\n\nDSC 223 - Introduction to Data Science\nTeaching in Fall 2021\n\n\nSTA XXX - Introduction to Time Series\n\n\nSTA XXX - Advanced Regression"
   },
   {
     "objectID": "teaching_ped.html",
