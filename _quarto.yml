@@ -9,7 +9,7 @@ website:
   navbar:
     background: "#523178"
     left:
-      - teaching.qmd
+      - courses.qmd
       # - student_work_showcase.qmd
       # - teaching_ped.qmd
       
