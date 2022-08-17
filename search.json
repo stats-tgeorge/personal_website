@@ -21,11 +21,11 @@
     "text": "Here I want to add a list of links to talks websites/repos."
   },
   {
-    "objectID": "courses.html#courses",
-    "href": "courses.html#courses",
+    "objectID": "courses.html",
+    "href": "courses.html",
     "title": "Courses",
-    "section": "Courses",
-    "text": "Courses\n\nSTA 201 - Statistical Methods I\nTeaching …. always\n\n\nSTA 202 - Statistical Methods II\nTeaching in Fall 2021\n\n\nDSC 223 - Introduction to Data Science\nTeaching in Fall 2021\n\n\nSTA XXX - Introduction to Time Series\n\n\nSTA XXX - Advanced Regression"
+    "section": "",
+    "text": "Teaching …. always\n\n\n\nFall 2021, 2022\n\n\n\nFall 2021, 2022\n\n\n\nSpring 2021, 2023\n\n\n\nSpring 2021"
   },
   {
     "objectID": "teaching_ped.html",
