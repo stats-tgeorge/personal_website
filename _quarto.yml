@@ -10,12 +10,12 @@ website:
     background: "#523178"
     left:
       - teaching.qmd
-      - student_work_showcase.qmd
-      - teaching_ped.qmd
+      # - student_work_showcase.qmd
+      # - teaching_ped.qmd
       
     right:
-      - talks.qmd
-      - cv.qmd
+      # - talks.qmd
+      # - cv.qmd
       - about.qmd
       - icon: github 
         href: https://github.com/stats-tgeorge/personal_website
