@@ -2,8 +2,6 @@
 title: "Courses"
 ---
 
-## Teaching Philosophy
-
 ## Courses
 
 ### STA 201 - Statistical Methods I
@@ -12,12 +10,16 @@ Teaching .... always
 
 ### STA 202 - Statistical Methods II
 
-Teaching in Fall 2021
+Fall 2021, 2022
 
 ### DSC 223 - Introduction to Data Science
 
-Teaching in Fall 2021
+Fall 2021, 2022
 
 ### STA XXX - Introduction to Time Series
 
+Spring 2021, 2023
+
 ### STA XXX - Advanced Regression
+
+Spring 2021
