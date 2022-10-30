@@ -1,31 +1,10 @@
 [
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "Tyler George",
-    "section": "",
-    "text": "My wife, Alyx, and our two dogs, Jennabell and Mocha, live in small town in Iowa. Yes, I do love corn! And snow!\n\n\n\n\n\nMy wife Alyx, and I\n\n\n\n\n\n\n\n\n\nMocha\n\n\n\n\n\n\n\nJennabell"
-  },
-  {
     "objectID": "cv.html",
     "href": "cv.html",
     "title": "CV",
     "section": "",
     "text": "At first, I want this to have my pdf CV. Later it needs to be recreated in quarto."
-  },
-  {
-    "objectID": "talks.html",
-    "href": "talks.html",
-    "title": "Talks",
-    "section": "",
-    "text": "Here I want to add a list of links to talks websites/repos."
-  },
-  {
-    "objectID": "courses.html",
-    "href": "courses.html",
-    "title": "Courses",
-    "section": "",
-    "text": "Teaching …. always\n\n\n\nFall 2021, 2022\n\n\n\nFall 2021, 2022\n\n\n\nSpring 2021, 2023\n\n\n\nSpring 2021"
   },
   {
     "objectID": "teaching_ped.html",
@@ -40,5 +19,26 @@
     "title": "Student Work Showcase",
     "section": "",
     "text": "Here I want a list of Student projects and related things."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "Tyler George",
+    "section": "",
+    "text": "My wife, Alyx, and our two dogs, Jennabell and Mocha, live in small town in Iowa. Yes, I do love corn! And snow!\n\n\n\n\n\nMy wife Alyx, and I\n\n\n\n\n\n\n\n\n\nMocha\n\n\n\n\n\n\n\nJennabell"
+  },
+  {
+    "objectID": "talks.html",
+    "href": "talks.html",
+    "title": "Talks",
+    "section": "",
+    "text": "Here I want to add a list of links to talks websites/repos."
+  },
+  {
+    "objectID": "courses.html",
+    "href": "courses.html",
+    "title": "Courses",
+    "section": "",
+    "text": "Semesters: All of them\n\n\n\nSemesters: Fall 2021, 2022\n\n\n\n\n\nSemesters: Fall 2022 Block 2, Fall 2021 Block 4 Course website: dsc223-fb2-2022.github.io/website/\nTopics have included data cleaning and wrangling, version control, data ethics, data visualizations, web scraping, and text analysis. The course is taught in R, using the free version of RStudio Server on a Cornell College campus computing cluster. Please reach out if you want more details!\nCourse materials are primarily from Data Science in a Box by Mine Çetinkaya-Rundel.\n\n\n\n\n\n\n\n\n\n\n\nSemesters: Spring 2021, 2023\n\n\n\nSemester: Spring 2021\n\n\n\nSemester: Co-facilitated in 2021-2022"
   }
 ]
