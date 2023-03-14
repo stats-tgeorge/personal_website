@@ -1,10 +1,31 @@
 [
   {
+    "objectID": "talks.html",
+    "href": "talks.html",
+    "title": "Talks",
+    "section": "",
+    "text": "Here I want to add a list of links to talks websites/repos."
+  },
+  {
     "objectID": "cv.html",
     "href": "cv.html",
     "title": "CV",
     "section": "",
     "text": "At first, I want this to have my pdf CV. Later it needs to be recreated in quarto."
+  },
+  {
+    "objectID": "teaching.html",
+    "href": "teaching.html",
+    "title": "Teaching",
+    "section": "",
+    "text": "Semesters: All of them\nI teach this course using a combination of simulation and traditional methods from the Lock5 book “Statistics: Unlocking the Power of Data.” I understand the jury is still out on which approach is best when teaching statistics but I can speak from at least a few years of experience teaching each way. The simulation methods bootstrapping and randomization) are easier for me to explain, and lend themselves to fun activities for students to learn through. Specifically the concept of a sampling distribution really clicks for my students when explaining using bootstrapping.\nI use a combination of the authors free online StatKey product and Minitab as statistical software’s. I have also been using the WileyPlus platform (paid) for the very nice eBook, and assigning the skill builder questions from the homework. Students complete the other exercises and present them in class the following day. This gives students a nice mix of some immediate feedback and delayed feedback and allows them to only try the more challenging questions after they have been successful online.\n\n\n\nSemesters: Fall 2021, 2022\n\n\n\n\n\nSemesters: Fall 2022 Block 2, Fall 2021 Block 4 Course website: dsc223-fb2-2022.github.io/website/\nTopics have included data cleaning and wrangling, version control, data ethics, data visualizations, web scraping, and text analysis. The course is taught in R, using the free version of RStudio Server on a Cornell College campus computing cluster. Please reach out if you want more details!\nCourse materials are primarily from Data Science in a Box by Mine Çetinkaya-Rundel.\n\n\n\n\n\n\n\n\n\n\n\nSemesters: Spring 2021, 2023\nIf you are considering adding an undergraduate course, or changing your existing course, this was my experience in that process. This course currently falls in an interesting place in Cornell’s curriculum. Originally this was a topics course that we wanted to make sure was going to be accessible by a large variety of students. The first iteration of the course only had an introductory statistics prerequisite and was a 200 level undergraduate course. The second iteration, we raised the course number to 300. The class was still too limited in scope by only having a single prerequisites and the fourth iteration of the course will now both be 300 level and have two statistics course prerequisites.\nIn spring of 2022 I chose to use a book I ended up relying on, as a secondary reference, during my 2021 iteration of the course, “Forecasting: Principles and Practice (3rd ed)” by Hyndman and Athanasopoulos. I made this decision because the book clearly required less mathematics than my previous used book (see below). That being said, it also uses more R code and gives extremely brief introductions to some more advanced concepts. There was an R learning curve for about 1/3 of the course but beyond that almost all functions were repeated or modified from previous examples.\nI enjoyed the text and the authors include notes that you modify, and solutions to all of the homework assignments (after you confirm your are an instructor). My favorite section of the book was their explanation, using diagrams of the algorithm the ARIMA function users when selecting a best model using AICc. As a side note, the authors use tidyverse friendly time series R code, primarily fable but offer their own package, fpp3 to make it easy to teach your course with.\nIn spring of 2021 I used “Introductory Time Series with R” by Cowpertwait and Metcalfe. The preamble of this book indicates it is appropriate for an undergraduate with only introductory statistics knowledge. This was mostly true for the content in the chapters but was not true, for the students in my classroom, when it came to completing most of the exercises. Both myself, and my student evaluations agreed that the text’s primarily limitation was the lack of applied exercises. This book uses base R time series tools and is not tidyverse friendly.\n\n\n\nSemester: Spring 2021\n\n\n\nSemester: Co-facilitated in 2021-2022"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "Tyler George",
+    "section": "",
+    "text": "I am an Assistant Professor of Statistics (and data science) at Cornell College - a small undergraduate liberal arts college. I received my PhD in Statistics and Analytics at Central Michigan University. During my PhD I also studied mathematics and statistics education. My dissertation work involved creating a new lack of fit test for linear regression models. My interests are broadly in statistics education and data science.\n\n\n\n\n@stats-tgeorge\n\n\n\n\n  tgeorge@cornellcollege.edu \n\n\n\n\n stats_tgeorge\n\n\n\n\n Page Source\n\n\n\n\n\n\n\n\n\n\n\nMy wife, Alyx, and our two dogs, Jennabell and Mocha, live in small town in Iowa. Yes, I do love corn! And snow!\n\n\n\n\n\nMy wife Alyx, and I\n\n\n\n\n\n\n\n\n\nMocha\n\n\n\n\n\n\n\nJennabell"
   },
   {
     "objectID": "teaching_ped.html",
@@ -19,26 +40,5 @@
     "title": "Student Work Showcase",
     "section": "",
     "text": "Here I want a list of Student projects and related things."
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "Tyler George",
-    "section": "",
-    "text": "My wife, Alyx, and our two dogs, Jennabell and Mocha, live in small town in Iowa. Yes, I do love corn! And snow!\n\n\n\n\n\nMy wife Alyx, and I\n\n\n\n\n\n\n\n\n\nMocha\n\n\n\n\n\n\n\nJennabell"
-  },
-  {
-    "objectID": "talks.html",
-    "href": "talks.html",
-    "title": "Talks",
-    "section": "",
-    "text": "Here I want to add a list of links to talks websites/repos."
-  },
-  {
-    "objectID": "courses.html",
-    "href": "courses.html",
-    "title": "Courses",
-    "section": "",
-    "text": "Semesters: All of them\n\n\n\nSemesters: Fall 2021, 2022\n\n\n\n\n\nSemesters: Fall 2022 Block 2, Fall 2021 Block 4 Course website: dsc223-fb2-2022.github.io/website/\nTopics have included data cleaning and wrangling, version control, data ethics, data visualizations, web scraping, and text analysis. The course is taught in R, using the free version of RStudio Server on a Cornell College campus computing cluster. Please reach out if you want more details!\nCourse materials are primarily from Data Science in a Box by Mine Çetinkaya-Rundel.\n\n\n\n\n\n\n\n\n\n\n\nSemesters: Spring 2021, 2023\n\n\n\nSemester: Spring 2021\n\n\n\nSemester: Co-facilitated in 2021-2022"
   }
 ]

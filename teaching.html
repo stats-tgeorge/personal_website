@@ -2,19 +2,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.0.38">
+<meta name="generator" content="quarto-1.2.335">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Tyler George - Courses</title>
+<title>Tyler George - Teaching</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
 </style>
 
 
@@ -64,31 +69,33 @@ ul.task-list{list-style: none;}
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
-      <a class="navbar-brand" href="./index.html">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Tyler George</span>
-  </a>
+    </a>
+  </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link active" href="./teaching.html" aria-current="page">Courses</a>
-  </li>  
-</ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html">About Me</a>
+    <a class="nav-link active" href="./teaching.html" aria-current="page">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html">
+ <span class="menu-text">Tyler George</span></a>
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/stats-tgeorge/personal_website"><i class="bi bi-github" role="img" aria-label="GitHub">
 </i> 
- </a>
+ <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://twitter.com/stats_tgeorge"><i class="bi bi-twitter" role="img" aria-label="stats-tgeorge">
 </i> 
- </a>
+ <span class="menu-text"></span></a>
   </li>  
 </ul>
               <div id="quarto-search" class="" title="Search"></div>
@@ -101,18 +108,18 @@ ul.task-list{list-style: none;}
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc">
+        <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#teaching-philosophy" id="toc-teaching-philosophy" class="nav-link active" data-scroll-target="#teaching-philosophy">Teaching Philosophy</a></li>
-  <li><a href="#courses" id="toc-courses" class="nav-link" data-scroll-target="#courses">Courses</a>
+  <li><a href="#teaching" id="toc-teaching" class="nav-link active" data-scroll-target="#teaching">Teaching</a>
   <ul class="collapse">
-  <li><a href="#sta-201---statistical-methods-i" id="toc-sta-201---statistical-methods-i" class="nav-link" data-scroll-target="#sta-201---statistical-methods-i">STA 201 - Statistical Methods I</a></li>
-  <li><a href="#sta-202---statistical-methods-ii" id="toc-sta-202---statistical-methods-ii" class="nav-link" data-scroll-target="#sta-202---statistical-methods-ii">STA 202 - Statistical Methods II</a></li>
-  <li><a href="#dsc-223---introduction-to-data-science" id="toc-dsc-223---introduction-to-data-science" class="nav-link" data-scroll-target="#dsc-223---introduction-to-data-science">DSC 223 - Introduction to Data Science</a></li>
-  <li><a href="#sta-xxx---introduction-to-time-series" id="toc-sta-xxx---introduction-to-time-series" class="nav-link" data-scroll-target="#sta-xxx---introduction-to-time-series">STA XXX - Introduction to Time Series</a></li>
-  <li><a href="#sta-xxx---advanced-regression" id="toc-sta-xxx---advanced-regression" class="nav-link" data-scroll-target="#sta-xxx---advanced-regression">STA XXX - Advanced Regression</a></li>
+  <li><a href="#statistical-methods-i-sta-201" id="toc-statistical-methods-i-sta-201" class="nav-link" data-scroll-target="#statistical-methods-i-sta-201">Statistical Methods I (STA 201)</a></li>
+  <li><a href="#statistical-methods-ii-sta-202" id="toc-statistical-methods-ii-sta-202" class="nav-link" data-scroll-target="#statistical-methods-ii-sta-202">Statistical Methods II (STA 202)</a></li>
+  <li><a href="#introduction-to-data-science-dsc-223" id="toc-introduction-to-data-science-dsc-223" class="nav-link" data-scroll-target="#introduction-to-data-science-dsc-223">Introduction to Data Science (DSC 223)</a></li>
+  <li><a href="#introduction-to-time-series-sta-364" id="toc-introduction-to-time-series-sta-364" class="nav-link" data-scroll-target="#introduction-to-time-series-sta-364">Introduction to Time Series (STA 364)</a></li>
+  <li><a href="#advanced-regression-sta-363" id="toc-advanced-regression-sta-363" class="nav-link" data-scroll-target="#advanced-regression-sta-363">Advanced Regression (STA 363)</a></li>
+  <li><a href="#statistics-and-data-science-capstone-sta-484-and-sta-502" id="toc-statistics-and-data-science-capstone-sta-484-and-sta-502" class="nav-link" data-scroll-target="#statistics-and-data-science-capstone-sta-484-and-sta-502">Statistics and Data Science Capstone (STA 484 and STA 502)</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -122,7 +129,7 @@ ul.task-list{list-style: none;}
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Courses</h1>
+<h1 class="title">Teaching</h1>
 </div>
 
 
@@ -130,34 +137,56 @@ ul.task-list{list-style: none;}
 <div class="quarto-title-meta">
 
     
+  
     
   </div>
   
 
 </header>
 
-<section id="teaching-philosophy" class="level2">
-<h2 class="anchored" data-anchor-id="teaching-philosophy">Teaching Philosophy</h2>
+<section id="teaching" class="level2">
+<h2 class="anchored" data-anchor-id="teaching">Teaching</h2>
+<section id="statistical-methods-i-sta-201" class="level3">
+<h3 class="anchored" data-anchor-id="statistical-methods-i-sta-201">Statistical Methods I (STA 201)</h3>
+<p>Semesters: All of them</p>
+<p>I teach this course using a combination of simulation and traditional methods from the Lock5 book <a href="https://www.lock5stat.com/">“Statistics: Unlocking the Power of Data.”</a> I understand the jury is still out on which approach is best when teaching statistics but I can speak from at least a few years of experience teaching each way. The simulation methods bootstrapping and randomization) are easier for me to explain, and lend themselves to fun activities for students to learn through. Specifically the concept of a sampling distribution really clicks for my students when explaining using bootstrapping.</p>
+<p>I use a combination of the authors free online StatKey product and Minitab as statistical software’s. I have also been using the WileyPlus platform (paid) for the very nice eBook, and assigning the skill builder questions from the homework. Students complete the other exercises and present them in class the following day. This gives students a nice mix of some immediate feedback and delayed feedback and allows them to only try the more challenging questions after they have been successful online.</p>
 </section>
-<section id="courses" class="level2">
-<h2 class="anchored" data-anchor-id="courses">Courses</h2>
-<section id="sta-201---statistical-methods-i" class="level3">
-<h3 class="anchored" data-anchor-id="sta-201---statistical-methods-i">STA 201 - Statistical Methods I</h3>
-<p>Teaching …. always</p>
+<section id="statistical-methods-ii-sta-202" class="level3">
+<h3 class="anchored" data-anchor-id="statistical-methods-ii-sta-202">Statistical Methods II (STA 202)</h3>
+<p>Semesters: Fall 2021, 2022</p>
 </section>
-<section id="sta-202---statistical-methods-ii" class="level3">
-<h3 class="anchored" data-anchor-id="sta-202---statistical-methods-ii">STA 202 - Statistical Methods II</h3>
-<p>Teaching in Fall 2021</p>
+<section id="introduction-to-data-science-dsc-223" class="level3">
+<h3 class="anchored" data-anchor-id="introduction-to-data-science-dsc-223">Introduction to Data Science (DSC 223)</h3>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>Semesters: Fall 2022 Block 2, Fall 2021 Block 4 Course website: <a href="https://dsc223-fb2-2022.github.io/website/">dsc223-fb2-2022.github.io/website/</a></p>
+<p>Topics have included data cleaning and wrangling, version control, data ethics, data visualizations, web scraping, and text analysis. The course is taught in R, using the free version of RStudio Server on a Cornell College campus computing cluster. Please reach out if you want more details!</p>
+<p>Course materials are primarily from <a href="https://datasciencebox.org/">Data Science in a Box</a> by Mine Çetinkaya-Rundel.</p>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://dsc223-fb2-2022.github.io/website/"><img src="img/ds_logo.png" class="img-fluid figure-img" width="225"></a></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
-<section id="dsc-223---introduction-to-data-science" class="level3">
-<h3 class="anchored" data-anchor-id="dsc-223---introduction-to-data-science">DSC 223 - Introduction to Data Science</h3>
-<p>Teaching in Fall 2021</p>
+<section id="introduction-to-time-series-sta-364" class="level3">
+<h3 class="anchored" data-anchor-id="introduction-to-time-series-sta-364">Introduction to Time Series (STA 364)</h3>
+<p>Semesters: Spring 2021, 2023</p>
+<p>If you are considering adding an undergraduate course, or changing your existing course, this was my experience in that process. This course currently falls in an interesting place in Cornell’s curriculum. Originally this was a topics course that we wanted to make sure was going to be accessible by a large variety of students. The first iteration of the course only had an introductory statistics prerequisite and was a 200 level undergraduate course. The second iteration, we raised the course number to 300. The class was still too limited in scope by only having a single prerequisites and the fourth iteration of the course will now both be 300 level and have two statistics course prerequisites.</p>
+<p>In spring of 2022 I chose to use a book I ended up relying on, as a secondary reference, during my 2021 iteration of the course, <a href="https://otexts.com/fpp3/">“Forecasting: Principles and Practice (3rd ed)”</a> by Hyndman and Athanasopoulos. I made this decision because the book clearly required less mathematics than my previous used book (see below). That being said, it also uses more R code and gives extremely brief introductions to some more advanced concepts. There was an R learning curve for about 1/3 of the course but beyond that almost all functions were repeated or modified from previous examples.</p>
+<p>I enjoyed the text and the authors include notes that you modify, and solutions to all of the homework assignments (after you confirm your are an instructor). My favorite section of the book was their explanation, using diagrams of the algorithm the ARIMA function users when selecting a best model using AICc. As a side note, the authors use tidyverse friendly time series R code, primarily <strong>fable</strong> but offer their own package, <strong>fpp3</strong> to make it easy to teach your course with.</p>
+<p>In spring of 2021 I used <a href="https://www.amazon.com/Introductory-Time-R-Use/dp/0387886974">“Introductory Time Series with R”</a> by Cowpertwait and Metcalfe. The preamble of this book indicates it is appropriate for an undergraduate with only introductory statistics knowledge. This was mostly true for the content in the chapters but was not true, for the students in my classroom, when it came to completing most of the exercises. Both myself, and my student evaluations agreed that the text’s primarily limitation was the lack of applied exercises. This book uses base R time series tools and is not tidyverse friendly.</p>
 </section>
-<section id="sta-xxx---introduction-to-time-series" class="level3">
-<h3 class="anchored" data-anchor-id="sta-xxx---introduction-to-time-series">STA XXX - Introduction to Time Series</h3>
+<section id="advanced-regression-sta-363" class="level3">
+<h3 class="anchored" data-anchor-id="advanced-regression-sta-363">Advanced Regression (STA 363)</h3>
+<p>Semester: Spring 2021</p>
 </section>
-<section id="sta-xxx---advanced-regression" class="level3">
-<h3 class="anchored" data-anchor-id="sta-xxx---advanced-regression">STA XXX - Advanced Regression</h3>
+<section id="statistics-and-data-science-capstone-sta-484-and-sta-502" class="level3">
+<h3 class="anchored" data-anchor-id="statistics-and-data-science-capstone-sta-484-and-sta-502">Statistics and Data Science Capstone (STA 484 and STA 502)</h3>
+<p>Semester: Co-facilitated in 2021-2022</p>
 
 
 </section>
@@ -205,7 +234,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
     button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
     setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
       button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
@@ -233,31 +279,50 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      let href = ref.getAttribute('href');
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
     });
   }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
   var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
   for (var i=0; i<bibliorefs.length; i++) {
     const ref = bibliorefs[i];
-    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
-    tippyHover(ref, function() {
-      var popup = window.document.createElement('div');
-      cites.forEach(function(cite) {
-        var citeDiv = window.document.createElement('div');
-        citeDiv.classList.add('hanging-indent');
-        citeDiv.classList.add('csl-entry');
-        var biblioDiv = window.document.getElementById('ref-' + cite);
-        if (biblioDiv) {
-          citeDiv.innerHTML = biblioDiv.innerHTML;
-        }
-        popup.appendChild(citeDiv);
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
       });
-      return popup.innerHTML;
-    });
+    }
   }
 });
 </script>
