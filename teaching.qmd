@@ -2,10 +2,6 @@
 title: "Teaching"
 ---
 
-## Teaching
-
-
-
 ### Statistical Methods I (STA 201)
 
 Semesters: All of them

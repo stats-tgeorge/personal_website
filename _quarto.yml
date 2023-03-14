@@ -22,7 +22,9 @@ website:
       # - cv.qmd
       - text: "Home"
         file: about.qmd
+        
       - teaching.qmd
+      
       - icon: github 
         href: https://github.com/stats-tgeorge/personal_website
         aria-label: GitHub
