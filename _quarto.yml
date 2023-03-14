@@ -21,8 +21,8 @@ website:
       # - talks.qmd
       # - cv.qmd
       - text: "Home"
-        file: teaching.qmd
-      - about.qmd
+        file: about.qmd
+      - teaching.qmd
       - icon: github 
         href: https://github.com/stats-tgeorge/personal_website
         aria-label: GitHub
