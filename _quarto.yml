@@ -6,16 +6,22 @@ execute:
     
 website:
   title: "Tyler George"
+  search: 
+    location: navbar
+    type: overlay
+    
   navbar:
     background: "#523178"
-    left:
-      - courses.qmd
+    #left:
+      
       # - student_work_showcase.qmd
       # - teaching_ped.qmd
       
     right:
       # - talks.qmd
       # - cv.qmd
+      - text: "Home"
+        file: teaching.qmd
       - about.qmd
       - icon: github 
         href: https://github.com/stats-tgeorge/personal_website

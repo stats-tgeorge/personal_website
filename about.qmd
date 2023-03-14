@@ -1,7 +1,6 @@
 ---
-title: "About Me"
+title: "Tyler George"
 ---
-
 
 ::: {layout="[100,50]"}
 ::: {#about layout-ncol=1}
