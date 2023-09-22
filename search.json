@@ -1,5 +1,19 @@
 [
   {
+    "objectID": "teaching_ped.html",
+    "href": "teaching_ped.html",
+    "title": "Teaching Pedagogy",
+    "section": "",
+    "text": "My written take on teaching"
+  },
+  {
+    "objectID": "teaching_ped.html#teaching-philosophy",
+    "href": "teaching_ped.html#teaching-philosophy",
+    "title": "Teaching Pedagogy",
+    "section": "",
+    "text": "My written take on teaching"
+  },
+  {
     "objectID": "talks.html",
     "href": "talks.html",
     "title": "Talks",
@@ -14,25 +28,88 @@
     "text": "At first, I want this to have my pdf CV. Later it needs to be recreated in quarto."
   },
   {
-    "objectID": "teaching.html",
-    "href": "teaching.html",
-    "title": "Teaching",
-    "section": "",
-    "text": "Statistical Methods I (STA 201)\nSemesters: All of them\nI teach this course using a combination of simulation and traditional methods from the Lock5 book “Statistics: Unlocking the Power of Data.” I understand the jury is still out on which approach is best when teaching statistics but I can speak from at least a few years of experience teaching each way. The simulation methods bootstrapping and randomization) are easier for me to explain, and lend themselves to fun activities for students to learn through. Specifically the concept of a sampling distribution really clicks for my students when explaining using bootstrapping.\nI use a combination of the authors free online StatKey product and Minitab as statistical software’s. I have also been using the WileyPlus platform (paid) for the very nice eBook, and assigning the skill builder questions from the homework. Students complete the other exercises and present them in class the following day. This gives students a nice mix of some immediate feedback and delayed feedback and allows them to only try the more challenging questions after they have been successful online.\n\n\nStatistical Methods II (STA 202)\nSemesters: Fall 2021, 2022\n\n\nIntroduction to Data Science (DSC 223)\n\n\nSemesters: Fall 2022 Block 2, Fall 2021 Block 4 Course website: dsc223-fb2-2022.github.io/website/\nTopics have included data cleaning and wrangling, version control, data ethics, data visualizations, web scraping, and text analysis. The course is taught in R, using the free version of RStudio Server on a Cornell College campus computing cluster. Please reach out if you want more details!\nCourse materials are primarily from Data Science in a Box by Mine Çetinkaya-Rundel.\n\n\n\n\n\n\n\n\n\n\nIntroduction to Time Series (STA 364)\nSemesters: Spring 2021, 2023\nIf you are considering adding an undergraduate course, or changing your existing course, this was my experience in that process. This course currently falls in an interesting place in Cornell’s curriculum. Originally this was a topics course that we wanted to make sure was going to be accessible by a large variety of students. The first iteration of the course only had an introductory statistics prerequisite and was a 200 level undergraduate course. The second iteration, we raised the course number to 300. The class was still too limited in scope by only having a single prerequisites and the fourth iteration of the course will now both be 300 level and have two statistics course prerequisites.\nIn spring of 2022 I chose to use a book I ended up relying on, as a secondary reference, during my 2021 iteration of the course, “Forecasting: Principles and Practice (3rd ed)” by Hyndman and Athanasopoulos. I made this decision because the book clearly required less mathematics than my previous used book (see below). That being said, it also uses more R code and gives extremely brief introductions to some more advanced concepts. There was an R learning curve for about 1/3 of the course but beyond that almost all functions were repeated or modified from previous examples.\nI enjoyed the text and the authors include notes that you modify, and solutions to all of the homework assignments (after you confirm your are an instructor). My favorite section of the book was their explanation, using diagrams of the algorithm the ARIMA function users when selecting a best model using AICc. As a side note, the authors use tidyverse friendly time series R code, primarily fable but offer their own package, fpp3 to make it easy to teach your course with.\nIn spring of 2021 I used “Introductory Time Series with R” by Cowpertwait and Metcalfe. The preamble of this book indicates it is appropriate for an undergraduate with only introductory statistics knowledge. This was mostly true for the content in the chapters but was not true, for the students in my classroom, when it came to completing most of the exercises. Both myself, and my student evaluations agreed that the text’s primarily limitation was the lack of applied exercises. This book uses base R time series tools and is not tidyverse friendly.\n\n\nAdvanced Regression (STA 363)\nSemester: Spring 2021\n\n\nStatistics and Data Science Capstone (STA 484 and STA 502)\nSemester: Co-facilitated in 2021-2022"
-  },
-  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "Tyler George",
     "section": "",
-    "text": "I am an Assistant Professor of Statistics (and data science) at Cornell College - a small undergraduate liberal arts college. I received my PhD in Statistics and Analytics at Central Michigan University. During my PhD I also studied mathematics and statistics education. My dissertation work involved creating a new lack of fit test for linear regression models. My interests are broadly in statistics education and data science.\n\n\n\n\n@stats-tgeorge\n\n\n\n\n  tgeorge@cornellcollege.edu \n\n\n\n\n stats_tgeorge\n\n\n\n\n Page Source\n\n\n\n\n\n\n\n\n\n\n\nMy wife, Alyx, and our two dogs, Jennabell and Mocha, live in small town in Iowa. Yes, I do love corn! And snow!\n\n\n\n\n\nMy wife Alyx, and I\n\n\n\n\n\n\n\n\n\nMocha\n\n\n\n\n\n\n\nJennabell"
+    "text": "I am an Assistant Professor of Statistics (and data science) at Cornell College - a small undergraduate liberal arts college. I received my PhD in Statistics and Analytics at Central Michigan University. During my PhD I also studied mathematics and statistics education. My dissertation work involved creating a new lack of fit test for linear regression models. My interests are broadly in statistics education and data science.\n\n\n\n\nr fontawesome::fa(\"twitter\")@stats-tgeorge\n\n\n\n\nr fontawesome::fa(\"envelope\")  tgeorge@cornellcollege.edu \n\n\n\n\nr fontawesome::fa(\"github\") stats_tgeorge\n\n\n\n\nr fontawesome::fa(\"github\") Page Source\n\n\n\n\n\n\n\n\n\n\n\nMy wife, Alyx, and our two dogs, Jennabell and Mocha, live in small town in Iowa. Yes, I do love corn! And snow!\n\n\n\n\n\nMy wife Alyx, and I\n\n\n\n\n\n\n\n\n\nMocha\n\n\n\n\n\n\n\nJennabell"
   },
   {
-    "objectID": "teaching_ped.html",
-    "href": "teaching_ped.html",
-    "title": "Teaching Pedagogy",
+    "objectID": "course-support.html",
+    "href": "course-support.html",
+    "title": "Cornell College Course and Student Support",
     "section": "",
-    "text": "My written take on teaching"
+    "text": "My goal this block is to help you learn the material. I want to first and foremost recognize that you are an individual and thus are unique and may learn uniquely. Additionally, your health and well being are first priority. Learning cannot happen effectively if you don’t meet your other personal needs. That all being said, I have structured the class in a way that I, from experience teaching and learning myself, think will be most beneficial for the majority of students. I promise you that I will do my best to create an inclusive and engaging learning environment. I ask that you keep an open line of communication between us for when you may need help and/or flexibility. You and your learning are why I am here.\nMost of you will need help at some point and we want to make sure you can identify when that is without getting too frustrated and feel comfortable seeking help."
+  },
+  {
+    "objectID": "course-support.html#you-are-human-first-and-a-student-second-or-3rd4th5th-etc.",
+    "href": "course-support.html#you-are-human-first-and-a-student-second-or-3rd4th5th-etc.",
+    "title": "Cornell College Course and Student Support",
+    "section": "",
+    "text": "My goal this block is to help you learn the material. I want to first and foremost recognize that you are an individual and thus are unique and may learn uniquely. Additionally, your health and well being are first priority. Learning cannot happen effectively if you don’t meet your other personal needs. That all being said, I have structured the class in a way that I, from experience teaching and learning myself, think will be most beneficial for the majority of students. I promise you that I will do my best to create an inclusive and engaging learning environment. I ask that you keep an open line of communication between us for when you may need help and/or flexibility. You and your learning are why I am here.\nMost of you will need help at some point and we want to make sure you can identify when that is without getting too frustrated and feel comfortable seeking help."
+  },
+  {
+    "objectID": "course-support.html#lectures-and-labs",
+    "href": "course-support.html#lectures-and-labs",
+    "title": "Cornell College Course and Student Support",
+    "section": "Lectures and labs",
+    "text": "Lectures and labs\nIf you have a question during class, feel free to ask it! There are likely other students with the same question, so by asking you will create a learning opportunity for everyone."
+  },
+  {
+    "objectID": "course-support.html#office-hours",
+    "href": "course-support.html#office-hours",
+    "title": "Cornell College Course and Student Support",
+    "section": "Office hours",
+    "text": "Office hours\nYou are encouraged to attend office hours during the times posted on the home page to ask questions about the course content and assignments. A lot of questions are most effectively answered in-person, so office hours are a valuable resource. I encourage each and every one of you to take advantage of this resource! Make a pledge to stop by office hours at least once during the first few days of class. If you truly have no questions to ask, just stop by and say hi and introduce yourself. You can find a list of your professors office hours here."
+  },
+  {
+    "objectID": "course-support.html#academic-support",
+    "href": "course-support.html#academic-support",
+    "title": "Cornell College Course and Student Support",
+    "section": "Academic support",
+    "text": "Academic support\n\nQuantitative Reasoning Studio (QRS)\nThere are times you may need help outside of class or office hours. Or, maybe you need something explained in a different way. In those instances, I encourage you to visit the Quantitative Reasoning Studio in Cole Library room 322. The Quantitative Reasoning Studio (QRS) offers free tutoring to all students at Cornell College. There will be at least 1 peer tutor that has taken this course and will be able to help you, if you arrive at a time they are working. Feel free to email Jessica Johanningmeier at QRS@cornellcollege.edu to ask when the tutor for this class will be available. They often will have a schedule posted on the wall in the studio.\n\n\nQRS Hours\n\n\n\nDay(s)\nTimes\n\n\n\n\nMonday-Thursday\n8 a.m. - 5 p.m. and 7 p.m. - 10 p.m.\n\n\nFriday\n8 a.m. - 5 p.m.\n\n\nSunday\n3 p.m. - 5 p.m. and 7 p.m. - 10 p.m.\n\n\n\n\n\nDungy Writing Studio\nFor help with your writing, visit the Dungy Writing Studio. You can make online appointments individual or groups to get help with items such as your group project. If you have any questions about the studio, email Dungy Writing Studio Director and Director of Fellowships and Scholarships, Laura Farmer, at lfarmer@cornellcollege.edu.\n\n\nWriting Studio Hours\n\n\n\nDay(s)\nTimes\n\n\n\n\nMonday-Thursday\n8 a.m. - 5 p.m. and 7 p.m. - 10 p.m.\n\n\nFriday\n8 a.m. - 5 p.m.\n\n\nSunday\n1 p.m. - 5 p.m."
+  },
+  {
+    "objectID": "course-support.html#student-success-center",
+    "href": "course-support.html#student-success-center",
+    "title": "Cornell College Course and Student Support",
+    "section": "Student Success Center",
+    "text": "Student Success Center\nThe Student Success Center is a resource for all students. Their staff serves as student success coaches for all students and welcome students to visit us to talk about academic concerns, study plans, finding their place at Cornell, or any questions you have and aren’t sure where to start! You can walk in to chat or contact a staff member directly to set up an appointment! See the website for more information."
+  },
+  {
+    "objectID": "course-support.html#professor-email",
+    "href": "course-support.html#professor-email",
+    "title": "Cornell College Course and Student Support",
+    "section": "Professor Email",
+    "text": "Professor Email\nIf you are not available during office hours times or have a questions later in the evening or other times outside of class, email your professor at tgeorge@cornellcollege.edu. If your question involves code - it is very likely you will need to meet with him to get help. Please reach out with any concerns you have during the course!"
+  },
+  {
+    "objectID": "course-support.html#ebersole-health-and-wellbeing-center",
+    "href": "course-support.html#ebersole-health-and-wellbeing-center",
+    "title": "Cornell College Course and Student Support",
+    "section": "Ebersole Health and Wellbeing Center",
+    "text": "Ebersole Health and Wellbeing Center\nThe mission of Cornell College Student Health Services complements the mission of the college by promoting the optimal well-being of students. We do this by:\n\nproviding and coordinating quality health care services\nadvocating for students in their pursuit of health and wellness\npreparing students to be their own health advocates and informed consumers of appropriate health care services\nproviding health education to promote the development of healthy lifestyles\n\nThe Student Health Center is located in the Ebersole Building, directly south of the Thomas Commons. Appointments are preferred. You can schedule an appointment online or by phone at 319-895-4292. Walk-ins will be accommodated as time permits. Appointments with the nurse are free."
+  },
+  {
+    "objectID": "course-support.html#free-microsoft-office",
+    "href": "course-support.html#free-microsoft-office",
+    "title": "Cornell College Course and Student Support",
+    "section": "FREE Microsoft Office",
+    "text": "FREE Microsoft Office\nAs a student at Cornell College you can download and install many Microsoft products for free. Please go to the following page and scroll down to MS Office for personal use. https://www.cornellcollege.edu/information-technology/employee-discounts.shtml"
+  },
+  {
+    "objectID": "course-support.html#technology-support",
+    "href": "course-support.html#technology-support",
+    "title": "Cornell College Course and Student Support",
+    "section": "Technology Support",
+    "text": "Technology Support\nIf you have issues with your computer during the block, IT may be able to help. Please submit a ticket."
+  },
+  {
+    "objectID": "course-support.html#course-materials-costs",
+    "href": "course-support.html#course-materials-costs",
+    "title": "Cornell College Course and Student Support",
+    "section": "Course materials costs",
+    "text": "Course materials costs\nThere are no costs associated with this course. All readings will come from freely available, open resources (open-source textbooks, journal articles, etc.)."
   },
   {
     "objectID": "student_work_showcase.html",
@@ -40,5 +117,12 @@
     "title": "Student Work Showcase",
     "section": "",
     "text": "Here I want a list of Student projects and related things."
+  },
+  {
+    "objectID": "teaching.html",
+    "href": "teaching.html",
+    "title": "Teaching",
+    "section": "",
+    "text": "Statistical Methods I (STA 201)\nSemesters: All of them\nI teach this course using a combination of simulation and traditional methods from the Lock5 book “Statistics: Unlocking the Power of Data.” I understand the jury is still out on which approach is best when teaching statistics but I can speak from at least a few years of experience teaching each way. The simulation methods bootstrapping and randomization) are easier for me to explain, and lend themselves to fun activities for students to learn through. Specifically the concept of a sampling distribution really clicks for my students when explaining using bootstrapping.\nI use a combination of the authors free online StatKey product and Minitab as statistical software’s. I have also been using the WileyPlus platform (paid) for the very nice eBook, and assigning the skill builder questions from the homework. Students complete the other exercises and present them in class the following day. This gives students a nice mix of some immediate feedback and delayed feedback and allows them to only try the more challenging questions after they have been successful online.\n\n\nStatistics for Social Justice (STA 200)\nSemester: Fall 2023\n\n\nSemesters: Fall 2023 Block 1\nCourse Website: stats-tgeorge.quarto.pub/sta-200-stats4sj/\nCourse Description: How equitable are housing services in Iowa? In this course we will seek to understand the intersection of race and housing services. We will be collaborating with the Iowa non-profit Waypoint to identify which communities are most affected, and which housing services have the largest racial disparities. The course will include: (1) reading about and discussing the historical role race has played in Iowa housing; (2) learning the descriptive statistics needed to investigate data; (3) communicating with Waypoint representatives to establish clear research questions, learn what data they collect and how to access their database; and (4) complete the analysis of their data. Students will work in groups throughout the block to investigate different data and answer different questions. There may be small group visits to some off campus locations to gather data currently only available on paper.\n\n\n\n\n\n\n\n\n\n\nStatistical Methods II (STA 202)\nSemesters: Fall 2021, 2022\n\n\nIntroduction to Data Science (DSC 223)\n\n\nSemesters: Fall 2022 Block 2, Fall 2021 Block 4\nCourse website: dsc223-fb2-2022.github.io/website/\nTopics have included data cleaning and wrangling, version control, data ethics, data visualizations, web scraping, and text analysis. The course is taught in R, using the free version of RStudio Server on a Cornell College campus computing cluster. Please reach out if you want more details!\nCourse materials are primarily from Data Science in a Box by Mine Çetinkaya-Rundel.\n\n\n\n\n\n\n\n\n\n\nIntroduction to Time Series (STA 364)\nSemesters: Spring 2021, 2023\nIf you are considering adding an undergraduate course, or changing your existing course, this was my experience in that process. This course currently falls in an interesting place in Cornell’s curriculum. Originally this was a topics course that we wanted to make sure was going to be accessible by a large variety of students. The first iteration of the course only had an introductory statistics prerequisite and was a 200 level undergraduate course. The second iteration, we raised the course number to 300. The class was still too limited in scope by only having a single prerequisites and the fourth iteration of the course will now both be 300 level and have two statistics course prerequisites.\nIn spring of 2022 I chose to use a book I ended up relying on, as a secondary reference, during my 2021 iteration of the course, “Forecasting: Principles and Practice (3rd ed)” by Hyndman and Athanasopoulos. I made this decision because the book clearly required less mathematics than my previous used book (see below). That being said, it also uses more R code and gives extremely brief introductions to some more advanced concepts. There was an R learning curve for about 1/3 of the course but beyond that almost all functions were repeated or modified from previous examples.\nI enjoyed the text and the authors include notes that you modify, and solutions to all of the homework assignments (after you confirm your are an instructor). My favorite section of the book was their explanation, using diagrams of the algorithm the ARIMA function users when selecting a best model using AICc. As a side note, the authors use tidyverse friendly time series R code, primarily fable but offer their own package, fpp3 to make it easy to teach your course with.\nIn spring of 2021 I used “Introductory Time Series with R” by Cowpertwait and Metcalfe. The preamble of this book indicates it is appropriate for an undergraduate with only introductory statistics knowledge. This was mostly true for the content in the chapters but was not true, for the students in my classroom, when it came to completing most of the exercises. Both myself, and my student evaluations agreed that the text’s primarily limitation was the lack of applied exercises. This book uses base R time series tools and is not tidyverse friendly.\n\n\nAdvanced Regression (STA 363)\nSemester: Spring 2021\n\n\nStatistics and Data Science Capstone (STA 484 and STA 502)\nSemester: Co-facilitated in 2021-2022"
   }
 ]

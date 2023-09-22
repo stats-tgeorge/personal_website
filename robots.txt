@@ -1,1 +1,1 @@
-Sitemap: https://github.com/stats-tgeorge/personal_website/sitemap.xml
+Sitemap: https://stats-tgeorge.github.io/personal_website/sitemap.xml
