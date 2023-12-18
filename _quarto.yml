@@ -18,12 +18,19 @@ website:
       # - teaching_ped.qmd
       
     right:
+      
       # - talks.qmd
       # - cv.qmd
       - text: "Home"
         file: about.qmd
         
+              
+      - text: "Student Support"
+        file: course-support.qmd
       - teaching.qmd
+      
+      - text: "Blog"
+        file: Blog.qmd
       
       - icon: github 
         href: https://github.com/stats-tgeorge/personal_website

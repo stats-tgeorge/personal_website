@@ -3,37 +3,29 @@ title: "Tyler George"
 ---
 
 ::: {layout="[100,50]"}
-::: {#about layout-ncol=1}
-I am an Assistant Professor of Statistics (and data science) at [Cornell College](https://www.cornellcollege.edu/) - a small undergraduate liberal arts college. I received my PhD in Statistics and Analytics at Central Michigan University. During my PhD I also studied mathematics and statistics education. My dissertation work involved creating a new lack of fit test for linear regression models. My interests are broadly in statistics education and data science. 
+::: {#about layout-ncol="1"}
+I am an Assistant Professor of Statistics (and data science) at [Cornell College](https://www.cornellcollege.edu/) - a small undergraduate liberal arts college. I received my PhD in Statistics and Analytics at Central Michigan University. During my PhD I also studied mathematics and statistics education. My dissertation work involved creating a new lack of fit test for linear regression models. My interests are broadly in statistics education and data science.
 
-`r fontawesome::fa("twitter")`[@stats-tgeorge](https://twitter.com/stats_tgeorge)
+{{< fa brands twitter >}} [stats_tgeorge](https://twitter.com/stats_tgeorge)
 
-`r fontawesome::fa("envelope")` <a href="mailto:tgeorge@cornellcollege.edu"> tgeorge@cornellcollege.edu </a>
+{{< fa solid envelope >}} <a href="mailto:tgeorge@cornellcollege.edu"> tgeorge\@cornellcollege.edu </a>
 
-`r fontawesome::fa("github")` [stats_tgeorge](https://github.com/stats-tgeorge) 
+{{< fa brands github >}} [stats-tgeorge](https://github.com/stats-tgeorge)
 
-`r fontawesome::fa("github")` [Page Source](https://github.com/stats-tgeorge/personal_website)
+{{< fa brands github >}} [Page Source](https://github.com/stats-tgeorge/personal_website)
+
+:::
+![](img/TG_cornellreport.jpg)
 :::
 
-![](img/TGeorge.jpg)
-:::
-
-::: {layout-ncol=2}
-
-My wife, Alyx, and our two dogs, Jennabell and Mocha, live in small town in Iowa. Yes, I do love corn! And snow!
+::: {layout-ncol="2"}
+My wife, Alyx, and our three dogs, Jennabell, Mocha, and Macchiato, live in small town in Iowa. Yes, I do love corn and snow!
 
 ![My wife Alyx, and I](img/tyler_alyx.jpg)
 
-
 ![Mocha](img/mocha.jpg)
-
 
 ![Jennabell](img/jennabell.jpg)
 
+![Macchiato](img/baby_noodle.jpg)
 :::
-
-
-
-
-
-

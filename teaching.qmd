@@ -10,6 +10,30 @@ I teach this course using a combination of simulation and traditional methods fr
 
 I use a combination of the authors free online StatKey product and Minitab as statistical software's. I have also been using the WileyPlus platform (paid) for the very nice eBook, and assigning the skill builder questions from the homework. Students complete the other exercises and present them in class the following day. This gives students a nice mix of some immediate feedback and delayed feedback and allows them to only try the more challenging questions after they have been successful online.  
 
+### Statistics for Social Justice (STA 200)
+
+Semester: Fall 2023
+
+:::: {.columns}
+
+::: {.column width="70%"}
+
+Semesters: Fall 2023 Block 1
+
+Course Website: [stats-tgeorge.quarto.pub/sta-200-stats4sj/](https://stats-tgeorge.quarto.pub/sta-200-stats4sj/)
+
+**Course Description:** How equitable are housing services in Iowa? In this course we will seek to understand the intersection of race and housing services. We will be collaborating with the Iowa non-profit Waypoint to identify which communities are most affected, and which housing services have the largest racial disparities. The course will include: (1) reading about and discussing the historical role race has played in Iowa housing; (2) learning the descriptive statistics needed to investigate data; (3) communicating with Waypoint representatives to establish clear research questions, learn what data they collect and how to access their database; and (4) complete the analysis of their data. Students will work in groups throughout the block to investigate different data and answer different questions. There may be small group visits to some off campus locations to gather data currently only available on paper.
+
+:::
+
+::: {.column width="30%"}
+[![](img/sys_logo.png){width="225"}](https://stats-tgeorge.quarto.pub/sta-200-stats4sj/)
+
+:::
+
+::::
+
+
 ### Statistical Methods II (STA 202)
 
 Semesters: Fall 2021, 2022
@@ -18,9 +42,10 @@ Semesters: Fall 2021, 2022
 
 :::: {.columns}
 
-::: {.column width="50%"}
+::: {.column width="70%"}
 
 Semesters: Fall 2022 Block 2, Fall 2021 Block 4
+
 Course website: [dsc223-fb2-2022.github.io/website/](https://dsc223-fb2-2022.github.io/website/)
 
 Topics have included data cleaning and wrangling, version control, data ethics, data visualizations, web scraping, and text analysis. The course is taught in R, using the free version of RStudio Server on a Cornell College campus computing cluster. Please reach out if you want more details! 
@@ -29,7 +54,7 @@ Course materials are primarily from [Data Science in a Box](https://datascienceb
 
 :::
 
-::: {.column width="50%"}
+::: {.column width="30%"}
 [![](img/ds_logo.png){width="225"}](https://dsc223-fb2-2022.github.io/website/)
 
 :::
