@@ -1,5 +1,7 @@
 ---
-title: "CV"
+title: "Curriculum Vitae"
 ---
 
-At first, I want this to have my pdf CV. Later it needs to be recreated in quarto.
+## Dr. Tyler George, Fall 2023
+
+{{< pdf Tyler_George_CV_23.pdf width=75% height=1000 >}}
