@@ -60,7 +60,3 @@ The Student Health Center is located in the Ebersole Building, directly south of
 ## Technology Support
 
 If you have issues with your computer during the block, IT may be able to help. [Please submit a ticket](https://www.cornellcollege.edu/information-technology/).
-
-## **Course materials costs**
-
-There are no costs associated with this course. All readings will come from freely available, open resources (open-source textbooks, journal articles, etc.).
