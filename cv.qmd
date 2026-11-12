@@ -1,7 +1,560 @@
 ---
 title: "Curriculum Vitae"
+author: "Tyler George"
+date: last-modified
+date-format: "MMMM YYYY"
+toc: true
+toc-depth: 3
+
+# This one file makes two things: the web page (html) and a PDF (typst).
+# Typst is a PDF engine that comes built into Quarto, so there is
+# nothing extra to install.
+format:
+  html: default
+  typst:
+    papersize: us-letter
+    margin:
+      x: 0.9in
+      y: 0.9in
+    fontsize: 10pt
+    toc: false
+
+# Quarto would add its own "Other Formats" link in the page margin.
+# It is switched off because the page has a clearer download link below.
+format-links: false
 ---
 
-## Dr. Tyler George, Fall 2023
+<!--
+  HOW THIS FILE IS LAID OUT (please keep to it)
 
-{{< pdf Tyler_George_CV_23.pdf width=75% height=1000 >}}
+  ##   a main category          (in explore mode: one wing of the Hall)
+  ###  a section in a category  (in explore mode: one exhibit in that wing)
+
+  Under a ### heading, write anything: paragraphs, bullet lists, links.
+  Entries are written as   **Name** *(dates)*   so they look the same
+  on the web page and in the PDF.
+
+  To add a section, add a ### heading under the right ## heading.
+  To add a category, add a ## heading.
+-->
+
+[tgeorge@cornellcollege.edu](mailto:tgeorge@cornellcollege.edu) • (231)-660-3004 • <https://stats-tgeorge.github.io/personal_website/>
+
+<!-- These links only appear on the web page, not inside the PDF.
+     cv.pdf is made automatically from this file every time the site renders. -->
+::: {.content-visible when-format="html"}
+[Download this CV as a PDF](cv.pdf){.btn .btn-outline-secondary .btn-sm}
+
+A **[previous PDF version of this CV (2025)](Tyler_George_CV_25.pdf)** is also available.
+:::
+
+## Education
+
+### Degrees
+
+**Doctor of Philosophy in Statistics and Analytics**\
+Central Michigan University (Mt. Pleasant, MI)
+
+**Bachelor of Science in Applied Mathematics**\
+Ferris State University (Big Rapids, MI)
+
+## Research and Publications
+
+### Publications
+
+- George, T. & Wang, D. (2025). Lack-of-fit Testing Without Replicates Available: The Extrema Partition Test. Submitted.
+- George, T., et al. (2025). Accountability Hour Offers Section Members Support, Time for Work. *AMSTAT NEWS: The Membership Magazine of the American Statistical Association*. <https://magazine.amstat.org/blog/2025/08/01/accountability-hour-sdse/>
+- Kuiper, S., Chakraborty, A., George, T., Kay, L. W., Lesser, L. M., Rowell, G., … Olsen, A. (2025). The Greenhouse Effect: Using Student-Generated Game Data to Warm up Students for Data-based Decision Making. *Journal of Statistics and Data Science Education*, 33(2), 143–151. <https://doi.org/10.1080/26939169.2024.2441672>
+- Grimes, D., Chavan, A., George, T. (2025). WIP: Understanding the Pipeline: Investigating the Impact of Intro STEM Courses on Major Choice. *2025 ASEE Annual Conference & Exposition*, Montreal, Quebec, Canada. <https://doi.org/10.18260/1-2--57459>
+- George, T. (2015). E-ergodicity and speedups of ergodic systems. *Rose-Hulman Undergraduate Math. Journal*.
+- Lee, S., George, T. et al. (2014). A Mathematical Model of the Effects of Aspergillus fumigatus on Iron Import in Airway Epithelial Cells. (Doctoral dissertation, Virginia Polytechnic Institute and State University), Chapter 4.
+
+### Software
+
+George, T. (2025). lof: Lack of fit functions for linear regression. GitHub repository. Available at <https://github.com/stats-tgeorge/lof>.
+
+### Research
+
+**Cornell College**
+
+**Building Text Analysis Tools for Scottish Gaelic** *(Nov 2023 – Present)*
+
+- Collaborative project with Dr. Pete Barclay and Dr. Alistair Lawson at Napier University in Edinburgh, Scotland.
+- Building a text corpus of Scottish Gaelic
+- Creating Python tools to support text analysis with Scottish Gaelic
+
+**Central Michigan University**
+
+**PhD Dissertation Research** (Advisors: D. Wang and M. Amezziane) *(Jan 2016 – Present)*
+
+- Created two new linear regression lack of fit tests specialized in detecting an array of departures from linearity
+- Use power simulations and non-central distribution approximations to find the statistical power of the tests
+- Worked on developing an R programming package LOFnorep containing partition lack of fit methods
+
+**Data Analytics Class Project** (Professor: C. Lee) *(Jan 2017 – May 2017)*
+
+- Found and cleaned data containing every documented crime in New York City, New York, recorded via a New York State database
+- Unsupervised techniques were used to study the relationship between the number of crimes, the types of crimes, and demographics by geographic location within the city (down to census tract)
+- Various predictive models, including linear regression, logistic regression, and neural networks, were fit using cross-validation
+- The chosen model was then scored with the most recent crime data, and the model showed that such predictions can be made with the few demographic variables chosen and location
+
+**Graduate Research** (Advisor: D. Wang) *(Jan 2016 – July 2016)*
+
+- Programmed linear regression lack of fit tests into R to make them accessible to more statisticians and simulated new and past results
+- Hypothesized application of recommended alterations for sinusoidal data structures
+
+### Presentations and Workshops
+
+- **“Teaching Abroad: The History of Statistics in the UK and Ireland”**
+  - Talk, Joint Statistical Meetings *(Summer 2025)*
+  - Talk, Iowa Chapter, American Statistical Association Conference, Grinnell College *(Spring 2025)*
+  - Invited Talk, Gustavus Adolphus College *(Fall 2024)*
+- **“Community-Engaged Statistics and Data Science Courses”**
+  - Talk, United States Conference on Teaching Statistics, Liberal Arts Symposium *(Summer 2025)*
+- **“Let's build and share social justice statistical education resources”**
+  - Talk, United States Conference on Teaching Statistics, with Jess Kunke *(Summer 2025)*
+- **“Statistics Abroad? WOW!”**
+  - Poster, United States Conference on Teaching Statistics *(Summer 2025)*
+- **“Using games to help students use models to make decisions”**
+  - Talk, United States Conference on Teaching Statistics, with Shonda K., Lisa K., and Abhishek C. *(Summer 2025)*
+- **“Show us Your Data!”**
+  - Talk, Webinar, ASA Section of Statistics and Data Science Education, with Alana U., Kelly M., Samantha R., and Donnah L. *(Summer 2025)*
+- **“Star Wars: The Data Awakens”**
+  - Workshop, Admissions, Cornell College STEM Day *(Spring 2025)*
+- **“Crafting Narrative Through Technology in Humanities and STEM Classrooms”**
+  - Talk, Science Interest Group (SIG), with Katie Sagal and Cornell College students *(Spring 2025)*
+- **“Data Science”**
+  - Workshop, Mount Vernon High School Class Visit *(Spring 2025)*
+- **“Resources for JEDI-Informed Teaching of Statistics”**
+  - Discussion Session, Joint Statistical Meetings, with Jo Hardin (leader) and Jennifer Ward *(Summer 2024)*
+  - Virtual Birds-of-a-Feather Discussion, Joint Statistical Meetings (JSM) *(Summer 2023)*
+- **“Data Science Tools Workshop”**
+  - Workshop, Online, American Statistical Association and the American Mathematical Association of Two-Year Colleges *(Summer 2024)*
+- **“Resources for JEDI-Informed Statistics Teaching”**
+  - Talk, electronic Conference on Teaching Statistics, with Jo H., Jess K., and Jennifer W. *(Summer 2024)*
+- **“Course: Exploring Housing Inequities in Iowa”**
+  - Talk + Poster, Joint Statistical Meetings *(Summer 2024)*
+  - Poster, electronic Conference on Teaching Statistics *(Summer 2024)*
+- **“Using 21st Century Digital Tools to Assess 18th Century Literature: A Case Study”**
+  - Talk, Science Interest Group (SIG), Cornell College, with Dr. Katie Sagal *(Spring 2024)*
+- **“Engaging the Modern Student in Statistics and Data Science”**
+  - Invited Session Speaker and Panelist, Joint Statistical Meetings *(Summer 2023)*. Available at <http://bit.ly/Engage_JSM>
+- **“Statistical Games”**
+  - Short Presentation, Cornell Summer Research Institute *(Summer 2023)*
+- **“Improving Students’ Communication About Data Using Online Statistical Games”**
+  - Workshop, with Dr. Abhishek Chakraborty, U.S. Conference on Teaching Statistics *(Summer 2023)*
+- **“Active Learning and Group Work”**
+  - Short Presentation, Cornell College *(Spring 2023)*
+- **“Utilizing Open Source Resources to Teach Introduction to Data Science”**. Available at <https://bit.ly/3Qq99Qb>
+  - Speed Talk and Electronic Poster, Joint Statistical Meetings (JSM) *(Summer 2022)*
+  - Virtual Poster, useR! *(Summer 2022)*
+  - Virtual Poster, Electronic Conference on Teaching Statistics (eCOTS) *(Summer 2022)*
+- **“A Hands-on Introduction to RStudio + Applications in Art and the Humanities”**. Available at <https://stats-tgeorge.github.io/Cornell-R-Workshop-2022/>
+  - Short Workshop, Cornell College *(Spring 2022)*
+- **“What is Lack of Fit?”**
+  - Short Presentation, Cornell Summer Research Institute *(Summer 2021)*
+- **“Lack of Fit Testing without Replicates Available”**
+  - Poster, International Conference on Statistical Distributions and Applications *(Fall 2019)*
+  - Poster, Student Research and Creative Endeavors Exhibition *(April 2019)*
+  - Presentation, International Conference on the Use of R in Official Statistics (uRos) *(September 2018)*
+  - Presentation, American Mathematical Society, Central Michigan University *(September 2018)*
+- **“Crimes of New York City”**
+  - Poster, Student Research and Creative Endeavors Exhibition *(March 2017)*
+- **“Methods for Linear Regression Lack of Fit Tests”**
+  - Presentation, International Chinese Statistical Assoc. Applied Statistics Symposium *(June 2016)*
+
+### Session Organizer or Chair
+
+**Joint Statistical Meetings**
+
+- “New Approaches to Teaching Probability and Inference Concepts” *(Summer 2025)*
+- “Improving Statistics and Data Science Education: Empirical Studies on Teaching, Learning, and Belonging” *(Summer 2024)*
+- “Careers in Teaching Undergraduate Statistical and Data Sciences: Who? What? Where? Why? How?” *(Summer 2023)*
+- “Engaging the Modern Student in Statistics and Data Science” *(Summer 2023)*
+
+**Cornell College**
+
+- “Data Science 101” *(Fall 2021)*. Speaker: Gokul Murugesan, Hybrid Format, Cornell College
+- “Comparing Observed Climate Variability with Climate Model Output Using Observation based Simulation” *(Spring 2022)*. Speaker: Dr. Andy Poppick, Hybrid Format, Cornell College
+- “Unlimited Data Science Applications!” *(Spring 2022)*. Speakers: Dr. Daniel Goetz, Dr. Drew Muscente, and Dr. Megan Goldberg
+
+**International Conference on Statistical Distributions and Applications (ICOSDA)**
+
+- “TX Family: Extensions and Inference” *(Fall 2019)*
+
+## Teaching
+
+### Programs Developed at Cornell College
+
+**Developed a New Major in Applied Statistics** *(Summer 2021)*\
+Collaborative effort with Dr. Ann Cannon
+
+**Developed a New Major in Data Science** *(Summer 2021)*\
+Collaborative effort with the newly established data science committee
+
+### Courses at Cornell College
+
+**Statistical Methods I** *(Fifteen sections)*
+
+- Taught in hybrid, synchronous online, and asynchronous online formats
+- Utilized technologies include learning management system Moodle, Citrix virtual machines, Google Drive, Panopto, Zoom, Google Survey, and an iPad for live annotations of course notes
+- Used statistical software Minitab® and StatKey
+- Covered topics including data collection, organizing and summarizing data, numerically summarizing data, describing the relation between two variables, sampling distributions, hypothesis testing, and confidence intervals using both theoretical and simulation methods, and linear regression – chapters 1-6 in *Statistics: Unlocking the Power of Data*, 2e by Lock et. al. (2017)
+- Used the WileyPlus website corresponding to the above textbook for homework and the eBook
+
+**The History of Statistics in the UK and Ireland** *(One section)*
+
+- Developed the course based on a similar course at the University of Florida
+- Course website at: <https://stats-tgeorge.quarto.pub/history-of-stats-uk-ireland/>
+- Led students across the British Isles in 22 days to learn about statistics, where they were developed
+- Organized logistics, including accommodations, ground transportation, tickets, tours, and some meals
+- Talks about this course are available at: <https://github.com/stats-tgeorge/STA257_talks/>
+
+**Second Year Seminar, Community Engaged Statistics** *(Two sections)*
+
+- Bi-annual redevelopment of the course based on the community partner, Waypoint Services, needs.
+- Recent course website developed at: <https://stats-tgeorge.github.io/STA200_S4E>
+- Coordinated with nonprofits Waypoint Services and Iowa Legal Aid to: agree on reasonable research questions based on data availability and stakeholder interest, gain access to their databases, set up Zoom trainings for partners to teach my students how to access, navigate, and collect data from various sources, including Wellsky, Iowa Courts Online, and EMDS
+- Final student presentations included brochures and infographics presented to both the Cornell College community and the community partner Waypoint Services
+- Topics included: inequities along race and gender lines, specifically in relation to housing and incarceration, the descriptive statistics to explore, visualize, and understand data, and communicating statistical results to the community partner, including their CEO.
+- In the 2023 iteration, co-organized a panel of speakers from five nonprofits in Iowa that serve the unhoused, and a panel of currently and previously unhoused youth from Des Moines, Iowa
+- Technologies include Minitab® statistical software and Canva
+
+**Statistical Learning** *(One section)*
+
+- Developed course
+- Course website at: <https://sta362-sb8-24.github.io/STA362StatLearning/>
+- Topics included cross-validation, model comparison, and fitting, prediction, and interpretation of models, including least squares regression, principal component analysis, decision trees, random forests, boosted trees, K-nearest neighbors, linear and quadratic discriminant analysis, naïve Bayes, and more
+- Technologies included R, RStudio, LMS Moodle, Google Drive, Panopto, and Zoom
+
+**Statistics and Data Science Internship Advisor**
+
+- The student collaborated with Cornell admissions to develop an aggregate engagement score, build a logistic regression model to predict whether an individual would attend Cornell, and identify factors related to whether a student would apply and ultimately attend Cornell.
+- The student collaborated with the baseball coach to collect data and model, using logistic regression, the optimal pitch styles for inducing strikeouts based on previous pitches.
+- The student collaborated with the Cornell advancement office to analyze gift funds to the college over time and by location and presented the findings to stakeholders in an interpretable manner.
+
+**Introduction to Data Science** *(Three sections)*
+
+- Re-designed existing and created website at: <https://dsc223-fb2-2022.github.io/website/>
+- Utilized R within RStudio Server environment; primarily Rmarkdown + tidyverse
+- Used an open source book, *Data Science in a Box* by Mine Cetinkaya-Rundel. Available at <https://datasciencebox.org/>
+- Development of new data ethics materials in collaboration with Dr. Megan Altman
+- Talk about this course, and the course materials are available at <https://bit.ly/3Qq99Qb>
+- Topics include learning R (tidyverse), reproducible research (version control with Git/GitHub), data visualizations, data cleaning/wrangling, data ethics, feature engineering, and communicating with data
+
+**Statistical Methods II** *(Two sections)*
+
+- Taught both in face-to-face and online formats
+- Technologies utilized included the LMS Moodle, Google Drive, Panopto, Zoom, and Minitab® statistical software
+- Topics included multiple linear and logistic regression, multiple testing procedures, ANOVA, and more from *Stat2: Modeling with Regression and Anova*, 2e by Cannon et. al. (2019)
+
+**Student Capstone** *(One section)*
+
+- Mentored student capstone projects in Mathematics, Data Science, and Statistics.
+- Course instruction included weekly meetings, as-needed teaching, and giving feedback on students’ written and oral communications on their projects.
+- Project areas were broad, including the twin prime conjecture, estimating mask adherence by county, statistical analysis of trail camera trap data, mathematical modeling of basketball league travel schedules, mathematics in media, hyperbolic geometry, identifying risk factors for diabetes in Mexico, identifying important factors for kids considering college, and predicting election outcomes based on campaign spending.
+
+**Advanced Regression** *(Two sections)*
+
+- Developed course
+- Course website at: <https://stats-tgeorge.github.io/STA363_AdvReg/>
+- Taught in in-person and hybrid formats
+- Use live coding in R for instruction
+- Technologies include R, RStudio, LMS Moodle, Google Drive, Panopto, and Zoom
+- Cover the class of generalized linear models and models within them from “Applied Generalized Linear Models and Multilevel Models in R” by Paul Roback and Julie Legler (2021). This text utilizes current case studies from open-access publications cited in the text for all examples and exercises.
+
+**Time Series Applications** *(Three sections)*
+
+- Developed course
+- Course website at: <https://stats-tgeorge.github.io/STA364_TSApps/>
+- Taught in in-person and hybrid formats
+- Use live coding in R for instruction
+- Technologies utilized include the learning management system Moodle, Google Drive, Panopto, and Zoom
+- Topics included an introduction to time series, starting with understanding and identifying autocorrelation using a correlogram. Then various models were covered, including SARIMA, regression, and exponential smoothing.
+- Primary text: *Forecasting: Principles and Practice* by Hyndman and Athanasopoulos (2025)
+
+### Courses at Central Michigan University
+
+Central Michigan University College of Science and Engineering, Mt. Pleasant, Michigan\
+**Graduate Teaching Assistant** *(Fall 2015 – Spring 2020)*
+
+**Introductory Statistics** *(Two sections)*
+
+- Internship experience with daily supervision by a tenured professor of lectures and corresponding materials
+- Chose course materials including online homework, student projects, and in class technology-based activities (Minitab®)
+- Utilized technology while teaching in a computer lab (Microsoft Windows 10 operating system)
+- Used other technologies, including Blackboard, virtual machine(s), and a shared class network drive to give students flexibility for completing course materials
+- Structured course grading categories and course policies
+- Covered topics included data collection, organizing and summarizing data, numerically summarizing data, describing the relation between two variables, probability, discrete, continuous, and sampling distributions, estimating parameter values, hypothesis testing with parameters, two-sample inferences, and least square inferences – chapters 1-11 and 14 in *Statistics: Informed Decisions using Data* 5e by Sullivan (2017)
+- Used Pearson’s MyStatLabPlus software corresponding to the above textbook
+
+**Intermediate Algebra** *(Two sections)*
+
+- Created course lecture notes and quizzes
+- Used both Pearson systems MyMathLab and MyMathLabPlus
+- Homework included Pearson’s online adaptive homework system, Study Plan within MyMathLab
+- Presented material following a strict course-coordinated topic schedule
+- Covered topics including rational expressions, graphs, linear equations, and systems, relations and functions, roots, radicals, and root functions from *Beginning and Intermediate Algebra* 6e by Lial et. al. (2016)
+
+**College Geometry for Secondary Education**
+
+- Internship experience with daily supervision by a tenured professor of lectures and corresponding materials
+- Topics include early history of geometry, axiomatic systems, finite geometries, both Euclidean and non-Euclidean geometries, and dynamic geometry software
+
+**Trigonometry** *(Three sections)*
+
+- Used examples relevant to the majority of the students in the course
+- Integrated more activities in each successive semester, teaching the course
+- Created homework using Pearson’s MyMathLab system with the built-in gradebook link to Blackboard
+- Covered topics including trigonometric functions, acute angles and right triangles, radian measure and the unit circle, graphs and circular functions, trigonometric identities, inverse trigonometric functions and trigonometric equations, and applications of trigonometry and vectors – chapters 1-7 in *Trigonometry* 11e by Lial et. al. (2016)
+
+**Elementary Algebra** *(Three sections)*
+
+- Created course lecture notes and quizzes
+- Used both Pearson systems MyMathLab and MyMathLabPlus
+- Homework included Pearson’s online adaptive homework system, Study Plan within MyMathLab
+- Presented material following a strict course-coordinated topic schedule
+- Covered topics including linear equations and inequalities, exponents and polynomials, and factoring from *Beginning and Intermediate Algebra* 6e by Lial et. al. (2016)
+
+### Mentorship
+
+Cornell College, Mount Vernon, Iowa
+
+**Cornell Summer Research Institute (CSRI)** *(Summer 2021 – 2025)*\
+Advising students in statistics and data science projects. The program includes faculty-student mentoring, daily meetings where students present their progress, daily journal entries where students reflect on their progress, and the use of Trello for list-making and tracking deliverables. Projects have included: by county estimation of adherence to masking policies, Shiny dashboards on Iowa watershed water composition, time series modeling on Iowa watershed nitrogen levels, building a homework system using learnR, investigating parasitic wasps and fly RNA, visualizing crimes in Minnesota using an R Shiny dashboard, and statistical analysis on chemical composition of historic pottery samples from Iowa.
+
+**Independent Study for Independent Project** *(Mar 2021 – Apr 2021)*\
+Advised a student to create detailed and publishable visualizations for their independent research project in ecology using data collected by the Felidae Foundation. Visualizations were created using R programming and included maps with trails, buffer zones, and camera locations, accompanied by text.
+
+**Advisor of Student Groups in MinneMUDAC Data Science Challenge** *(Spring 2021, 2023, 2025)*\
+In 2025, students received a second-place finish in the undergraduate division.
+
+## Grants
+
+### Teaching and Research Grants
+
+- Unfunded (2025): “FUSER (Fostering Undergraduate Scholarly Exploration through Research).” Arthur Vining Davis Foundation, Letter of Inquiry. Co-PI. \$298,000.
+- Funded (2025): “Educational Engagement & Expanding Access to NAIRR Pilot Resources for Researchers in Iowa.” National Science Foundation Supplement, NAIRR Pilot Expansion. Co-PI. \$19,564 Cornell College. \$44,995 Total.
+- Funded (2025): “Developing Inquiry-Based, Narrative Modules for Data Driven Courses.” Associated Colleges of the Midwest, Faculty Career Enhancement Program (FaCE). PI. \$16,500.
+- Funded (2025): “Justice, Equity, Diversity & Inclusion: Structured Training and Activities for Resource Sharing.” Institute for Racially Just, Inclusive, and Open STEM Education (RIOS). PI. \$4,000.
+- Funded (2024): “Datasets and activities to support JEDI-informed teaching of statistics and data science.” American Statistical Association’s Section of Statistics and Data Science Education Member Initiative Grant. Award to collaborators Jo Hardin and Jennifer Ward. Co-PI. \$750.
+- Funded (2023): “Course Creation - Origins of Statistics and its Historical and Current Role in Society.” American Statistical Association’s Section of Statistics and Data Science Education Member Initiative Grant. PI. \$500.
+- Funded (2023): “Course Title: Origins of Statistics and its Historical Influence on Society.” Cornell College Office of Academic Affairs - Gaarde-Morton Junior Faculty Award. PI. \$1000.
+- Unfunded (2021, 2022, 2023): “Intrusive Mentoring and Active Learning for STEM Student Success (IMALS).” Phase 2 of the NSF S-STEM program. National Science Foundation. Co-PI. \$2,500,000.
+- Funded (2023): Sherman Fairchild Foundation - Scientific Equipment Program (SEP). Co-PI. \$500,000.
+- Funded (2022): Iowa Private Academic Libraries (IPAL). “Adopting Open Source Software and Materials in Data Science Courses.” Collaborative grant with Dr. Ann Cannon and Dr. Ajit Chavan. \$5000.
+- Unfunded (2022): “CRII: OAC: Investigating Undergraduate Data Science Research and Utilizing Output to Create OERs and Build Cyberinfrastructure”. National Science Foundation. PI. \$165,000.
+
+### Conference and Travel Grants
+
+- Cornell College Office of Academic Affairs
+  - McConnel Travel Fund *(Summer 2023, 2024, 2025)*
+- International Conference on Statistical Distributions and Applications (ICOSDA) - NSA Sponsored
+  - Young Researcher and Student Award *(Fall 2019)*
+- Central Michigan University Office of Research and Graduate Studies
+  - Graduate Assistant Conference Grant *(Fall 2018, Spring and Fall 2016)*
+  - Graduate Presentation Grant *(Fall 2018, Spring 2016)*
+- Central Michigan University College of Science and Engineering
+  - Student Presentation Grant *(Fall 2018, Spring 2016)*
+- Central Michigan University Department of Mathematics
+  - Conference Grant *(Fall 2018)*
+
+## Service
+
+### Committees
+
+**Cornell College**
+
+- Faculty Council, Consultant *(Fall 2025)*
+- Compensation Committee, Chair in 2025-2026 *(Fall 2023 – Present)*
+- Institutional Review Board (IRB), alternate member starting Fall 2025 *(Fall 2022 – Present)*
+- Hiring Committee for Two-Year Mathematician *(Fall 2025)*
+- Hiring Committee for Cornell Chief Financial/Operations Officer (CFO/COO) *(Summer 2025)*
+- Academic Standings Committee *(Fall 2022 – Spring 2023)*
+- Safe Repopulation Task Force *(Fall 2021 – Spring 2023)*
+- Hiring Committee for Tenure Track Mathematician *(Fall 2022)*
+- Hiring Committee for Cornell Chief Financial/Operations Officer (CFO/COO) *(Fall 2022)*
+- Appeals Committee *(Dec 2021)*
+
+### Editor and Reviewer
+
+- Journal of Open Source Education (JOSE) – Coordinating Editor *(Fall 2022 – Present)*
+- Journal of Statistics and Data Science Education (JSDSE) – Reviewer *(Spring 2021 – Present)*
+- Researchers of Statistics Education Network (RoSE) – Conference Submission Reviewer *(Spring 2023)*
+- Invited Panel Reviewer, National Science Foundation (NSF), Directorate for Computer and Information Science and Engineering (CISE) *(Fall 2025)*
+
+### Professional Organizations
+
+**Consortium for the Advancement of Undergraduate Statistics Education (CAUSE)**
+
+- **electronic Conference on Teaching Statistics Planning Committee** *(Fall 2025 – Present and Fall 2023 – Spring 2024)*. Reviewing proposals, moderating sessions, organizing, and implementing speed mentoring event.
+- **CAUSE JEDI Website** *(Summer 2022 – Present)*. Collaborative project to create a new website page of faculty resources for learning about and teaching with justice, equity, diversity, and inclusion concepts. See <https://www.causeweb.org/jedi/>.
+- **CAUSE Research Reading Group** *(Summer 2022 – Spring 2024)*. Bi-weekly virtual reading group of around 10 people to read and discuss literature in statistics and data science education.
+- **United States Conference on Teaching Statistics Planning Committee** *(Fall 2022 – Spring 2023)*. Reviewing conference workshop proposals.
+
+**American Statistical Association, Section on Statistics and Data Science Education**
+
+- **Incoming Program Chair** *(Spring 2025 – Present)*. Organized a mix of 18 in-person and online discussion seminars on teaching statistics for the 2025 Joint Statistical Meetings. Review the section's invited session submissions for the 2026 Joint Statistical Meetings.
+- **Member** *(Fall 2021 – Present)*
+- **Creation of Educational Resource Repository**. Collaboratively created a new online dataset repository for teaching statistics, accessible to all teachers, and still collecting and growing. [See the repository](https://docs.google.com/spreadsheets/d/1tuCXok_y_zQpSDGssaypETf9lnB6nCh9XVoCiMaPCuc/edit?gid=591469695#gid=591469695).
+
+**American Statistical Association, Iowa Chapter**
+
+Collaboratively organized two free student-focused conferences on statistics and data science with poster sessions, statistics talks, and an industry panel. See conference website at <https://stats-tgeorge.quarto.pub/iowaasa_stat_conf/>.
+
+- **President** *(Summer 2025 – Present)*
+- **Secretary** *(Spring 2023 – Summer 2025)*
+
+**Community Engaged Statistics Community of Practice** *(Fall 2024 – Spring 2025)*\
+Co-organized an online community of practice to complete readings and discuss the development and implementation of community-engaged statistics courses.
+
+### Other Activities
+
+**Developing Inquiry-Based, Narrative Modules for Data Driven Courses** *(Spring 2025 – Present)*
+
+- Creating new educational games and R Shiny applications, with associated activities, to teach undergraduate statistics and mathematics courses.
+- Collaborative project between Shonda Kuiper, Grinnell College, Katherine, Beloit College, and Brittney Miller, Coe College.
+- See Roller Coaster game and activities at <https://dataspace.sites.grinnell.edu/coaster1.html>.
+- See the COVID-19 modules at <https://dataspace.sites.grinnell.edu/covid1.html>.
+
+**Isolated Statistician’s Member** *(Fall 2020 – Present)*
+
+**Accountability Hour** *(Fall 2024 – Present)*\
+Co-organized an online community of statisticians that meets weekly to share projects, academic challenges, and spend an hour making progress on something each of us has been procrastinating on.
+
+**Competition Judging**
+
+- Undergraduate Statistics Project Competition (USPROC) & Undergraduate Statistics Class Project Competition (USCLAP) *(Fall 2022 – Present)*
+- MinneMUDAC Data Analytics Competition, Graduate Division *(Spring 2023, 2025)*
+- American Statistical Association Poster Competition *(Summer 2024)*
+- American Statistical Association Two-Year College DataFest *(Spring 2024)*
+
+**Pi Mu Epsilon Honorary Mathematics Society Member** *(Fall 2012 – Present)*
+
+**STEM Book Club** *(Fall 2023 – Spring 2024)*\
+Reading group to discuss books related to racial and social justice issues within STEM fields and education
+
+**Dataspace by DASIL** *(Summer 2022 – Fall 2024)*\
+Collaborative project to create simulation games and corresponding labs for teaching statistics and data science. See <https://dataspace.sites.grinnell.edu/>
+
+**Incorporation of Racial and Social Justice Issues into Mathematical Sciences and Computer Science Curriculum** *(Fall 2022 – Summer 2023)*
+
+- Workshop funded by the Associated Colleges of the Midwest (ACM) Career Faculty Enhancement Program (FaCE). Monthly meetings to discuss readings or have a guest speaker.
+- The workshop ended with a 1.5-day in-person conference at Grinnell College, where ACM colleagues worked to develop new curricular materials.
+
+**Cornell College Dimensions** *(Spring 2022, Spring 2023)*\
+Interviewed Cornell College students for external internship opportunities in medicine, biology, and engineering
+
+## Experience and Skills
+
+### Work Experience
+
+**Cornell College**, Mount Vernon, Iowa
+
+**Assistant Professor of Statistics** *(Aug 2020 – Present)*
+
+- Course load of six, 4-credit-equivalent classes per year. Generally, three sections of introductory statistics and three other distinct, mid to upper-level, undergraduate courses
+- Student advising involves advising four to five new students each year.
+
+**Director of Cornell Summer Research Institute (CSRI)** *(May 2023 – Present)*
+
+- Summer 8-week undergraduate research program with approximately 45-75 Cornell students and 20-25 Cornell College faculty
+- Regularly updating the program, including changes to student stipends, faculty institutional support, student and faculty application processes, student and faculty program information, and communications
+- Set programming schedule and coordinate faculty and staff for weekly events during the program, including professional development seminars, social events, and presentations for students and events open to the local community
+- Liaison between the faculty participating and the Office of Academic Affairs
+- Identifying and exploring sources of funding to support the program
+
+**Paystr**, Bay City, Michigan
+
+**Data Analyst Using R Intern** *(March 2018 – May 2020)*
+
+I developed dashboards of a data analytics centric platform FindEngine that presents Paystr’s clients with an interactive and informative set of visualizations of who their customers are, what they are buying, where they are, what they say about them on social media platforms, and predictions of future actions the Paystr client should take to benefit their own company.
+
+- Chose the appropriate statistical methods and visualizations to match a client’s needs and imagination
+- Chose and retrieved the appropriate data using Microsoft SQL Server Management Studio (SSMS)
+- Cleaned data and conducted the appropriate analysis in R programming
+- Prepared visualizations in Microsoft Power BI
+- Created documentation, including heavily commented code, readme files, and code flow diagrams
+- Teaching introductory R programming to colleagues
+- Creating a geographic customer segmentation scheme with a classification model using relevant statistical techniques such as hierarchical clustering and discriminant analysis
+
+### Statistical Consulting
+
+**Cornell College**
+
+**Office of Academic Affairs, under former Provost Dr. Ilene Crawford** *(Summer 2024)*\
+Details under an NDA. Data visualization, feature importance, and statistical modeling, with a small sample, with an associated written report. Approximately 40 hours.
+
+### Computer Languages and Programs
+
+- R Programming, including the tidyverse, package development, R Shiny, and Quarto
+- Minitab® Statistical Software
+- LaTeX
+- Microsoft Office Suite – Proficient in Word, Excel, and PowerPoint. Familiarity with Publisher
+- Familiarity with Microsoft Power BI, Python and SQL
+- Familiarity with Statistics Analysis System (SAS), SAS Enterprise Miner, SAS SQL, and SAS Macros
+
+### Professional Development
+
+Conferences, workshops and webinars attended as a participant.
+
+- Workshop “Building & Launching Together Workshop” *(Fall 2025 – Present)*. Nine-month AI professional development program building AI tools for teaching and research
+- Workshop “ACM Grants Lab: A Proposal Writing Accelerator for Scholars and Leaders” *(Fall 2025)*
+- Joint Statistical Meetings *(August 2020 – 2025)*
+- Workshop “Scholarship Reimagined: A Scholarship of Teaching and Learning (SoTL) Program for ACM Faculty and Staff” *(Sep 2024 – March 2025)*
+- United States Conference on Teaching Statistics (USCOTS) *(Summer 2021, 2023, 2025)*
+  - Workshop: “Doing data science in Positron”
+  - Workshop: “Less is more: Writing code in an introductory data science course.”
+  - Workshop: “Facilitating team-based data science: agile and scrum for undergraduates”
+  - Workshop: “Creating inclusive and supportive classrooms for every student”
+  - Workshop: “Community-Engaged Learning in Introductory Statistics”
+  - Workshop: “Going Live: Live Coding as an (Incredibly Effective) Tool for Teaching Programming”
+  - Workshop: “Expanding Opportunities for Teaching Multivariable Thinking in Algebra-based First and Second Statistics Courses”
+- Webinar “Mentoring Undergraduate Statistics Students for USPROC and Beyond” *(December 2024)*
+- Workshop “Pedagogy and Text Analysis” *(July 2023)*
+- Ingenuity Foundations Faculty Development Week *(Summer 2023)*
+  - Seminar: “AI Generated Language + Tools/Strategies for Feedback”
+  - Workshop: “Facilitating Difficult Dialogue and Civil Discourse”
+  - Workshop: “Trauma-informed Pedagogies”
+- International Conference on Teaching Statistics (ICOTS), Virtual *(Fall 2022)*
+- Webinar “Math and Statistics Anxiety and Its Impact on Teaching and Learning” *(August 2022)*
+- Webinar “Working Towards Diversity and Inclusion” *(August 2022)*
+- Webinar “Integrating Inclusive Pedagogy into Statistics and Data Science Education” *(August 2022)*
+- useR! Conference *(June 2022)*
+- Electronic Conference on Teaching Statistics (eCOTS) *(May 2022)*
+  - Workshop: “Best practices for teaching an introductory data science course”
+  - Workshop: “Assessing the Modern Student: Using a Modern Measurement Theory Framework When Choosing a Measure for Classroom or Research Use”
+  - Workshop: “Connecting to the World Through Data and Data Science”
+- Webinar “gradetools” *(May 2022)*
+- Cornell College Python Workshop *(April 2022)*
+- Webinar “Building a Multiple Linear Regression Model With LEGO Brick Data” *(April 2022)*
+- Gatekeeper training on Supporting Students' Mental Health *(February 2022)*
+- Webinar “Grant Applications as Applied Statisticians” *(November 2021)*
+- Webinar “Training the next generation of applied statisticians” *(September 2021)*
+- Webinar “Teaching Data Science in an Understaffed Program” *(August 2021)*
+- Webinar “Authentic and Alternative Assessments for the Intro Stats Course” *(August 2021)*
+- CAUSE Research Satellite *(July 2021)*
+- National Workshop on Data Science Education *(June 2021)*
+- Seminar “Enhancing Classroom Interaction Through Dialogue” *(Fall 2018)*
+- International Chinese Statistical Association Applied Statistics Symposium *(June 2016)*
+  - Short Course: Applied Meta-Analysis Using R
+  - Short Course: Statistical Methods and Software for Multivariate Meta-Analysis
+
+## Media
+
+### Articles
+
+- “Technology simulates classroom research experience,” Cornell News Center. <https://news.cornellcollege.edu/2025/03/Tyler-George-Reserach-Stats.html>
+- “Everyday Iowa - The Cornell Summer Research Institute,” KCRG. <https://www.kcrg.com/video/2024/06/25/everyday-iowa-cornell-summer-research-institute/>
+- “Statistics for all, and all for statistics,” Cornell Report, and Cornell News Center. <https://news.cornellcollege.edu/2023/06/statistics-for-all-and-all-for-statistics/>
+- “Cornell Summer Research Institute starts May 22,” Cornell News Center. <https://news.cornellcollege.edu/2023/05/cornell-summer-research-institute-starts-may-22/>
+- “Cornell College receives \$500,000 STEM grant,” Corridor Business Journal. <https://corridorbusiness.com/cornell-college-receives-500000-stem-grant/>
+- “Cornell introduces data science, applied statistics majors,” Corridor Business Journal. <https://corridorbusiness.com/cornell-introduces-data-science-applied-statistics-majors/>
+
+### Current and Former Student News
+
+- “Students use digital tools to analyze 18th-century romance,” Cornell News Center. <https://news.cornellcollege.edu/2025/07/Students-use-digital-tools-to-analyze-18th-century-romance.html>
+- “Data analysis and language join forces for Scottish Gaelic,” Cornell News Center. <https://news.cornellcollege.edu/2025/06/Data-analysis-and-language-join-forces-for-Scottish-Gaelic.html>
+- “Watch student presentations from MinneMUDAC 2025,” Minne Analytics News. <https://minneanalytics.org/watch-student-presentations-from-minnemudac-2025/>
+- “Statistics students make discoveries by analyzing datasets,” Cornell News Center. <https://news.cornellcollege.edu/2022/07/statistics-students-make-discoveries-by-analyzing-datasets/>
+- “Heinzel receives fellowship to study wolves,” Cornell News Center. <https://news.cornellcollege.edu/2022/03/heinzel-receives-fellowship-study-wolves/>
