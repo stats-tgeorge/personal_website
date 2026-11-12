@@ -42,6 +42,7 @@
 - door: 3
   title: "Student Support Center"
   path: course-support.qmd
+  room: support
   description: "Office hours, tutoring, and where to find help on campus."
 
 - door: 4

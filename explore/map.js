@@ -15,10 +15,11 @@ let rows = OUTDOOR_ROWS;
 
 // Tiles the player can walk on. Anything else is solid.
 //   . grass   : path   @ start marker   _ floor   p portal spot   E exit mat
+// (Desk spots "o" and helper spots "n" are handled separately below.)
 const WALKABLE = ".:@_pE";
 
-// Extra solid spots that are not part of the map text. Rooms use this
-// for desks: a desk spot ("o") is only solid when a desk is there.
+// Spots that are only solid when something is standing on them. Rooms
+// use this for desks ("o") and helpers ("n"): an unused spot is just floor.
 let blockedSpots = new Set();
 
 // Switch to a different map. "blocked" is an optional list of
@@ -47,7 +48,7 @@ export function tileAt(col, row) {
 
 export function isSolid(col, row) {
   const tile = tileAt(col, row);
-  if (tile === "o") return blockedSpots.has(`${col},${row}`); // desk spot
+  if (tile === "o" || tile === "n") return blockedSpots.has(`${col},${row}`);
   return !WALKABLE.includes(tile);
 }
 

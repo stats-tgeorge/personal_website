@@ -5,12 +5,14 @@
 // from: a building's door, a desk, a portal, a notice board.
 //
 // Every thing is a plain object with these properties:
-//   kind         "door", "desk", "portal", "board" or "laptop"
+//   kind         "door", "desk", "portal", "board", "laptop" or "person"
 //                (decides how it is drawn)
 //   col, row     the map tile it is on
 //   reach        where the player must stand for the pop-up to show:
 //                  "below"    on the tile directly below it (doors)
 //                  "adjacent" on any of the four tiles touching it
+//                  "near"     on any of the eight tiles around it, corners
+//                             included (people: they speak as you walk by)
 //                  "on"       on the thing's own tile (portals)
 //   label        optional name tag shown above it on the map (labels.js)
 //   title        heading of the pop-up
@@ -37,6 +39,7 @@ export function thingInReach(player, things) {
     const down = Math.abs(thing.row - row);
     if (thing.reach === "on") return across === 0 && down === 0;
     if (thing.reach === "below") return across === 0 && row === thing.row + 1;
+    if (thing.reach === "near") return across <= 1 && down <= 1 && across + down > 0;
     return across + down === 1; // "adjacent": exactly one tile away, not diagonal
   });
 
@@ -65,6 +68,17 @@ export function drawThings(ctx, things, camera) {
       fill(ctx, "#444444", x + 4, y + 1, 8, 6); // screen surround
       fill(ctx, "#56b4e9", x + 5, y + 2, 6, 4); // glowing screen
       fill(ctx, "#999999", x + 3, y + 7, 10, 3); // keyboard
+    }
+
+    if (thing.kind === "person") {
+      // The same simple figure as the player, facing the room, with a
+      // shirt colour of their own (thing.shirt) so they can be told apart.
+      fill(ctx, "rgba(0, 0, 0, 0.25)", x + 3, y + 14, 10, 2); // shadow
+      fill(ctx, thing.shirt || "#0072b2", x + 4, y + 8, 8, 7); // shirt
+      fill(ctx, "#f1c9a5", x + 4, y, 8, 8); // head
+      fill(ctx, "#2b2b2b", x + 4, y, 8, 2); // hair
+      fill(ctx, "#222222", x + 6, y + 4, 1, 2); // eyes
+      fill(ctx, "#222222", x + 9, y + 4, 1, 2);
     }
 
     if (thing.kind === "board") {

@@ -12,11 +12,13 @@
 import { findInRows } from "./map.js";
 import { readPage, shorten } from "./page-reader.js";
 import { CLASSROOM_ROWS } from "./maps/classroom.js";
+import { SUPPORT_ROWS } from "./maps/support.js";
 
 // Every room the game knows about. The names on the left are what
 // "room:" in explore-world.yml refers to.
 const ROOMS = {
   classroom: { rows: CLASSROOM_ROWS, fill: fillClassroom },
+  support: { rows: SUPPORT_ROWS, fill: fillSupportCenter },
 };
 
 export function roomExists(name) {
@@ -31,7 +33,7 @@ const loadedRooms = {};
 // Returns { rows, things, blocked, start }:
 //   rows     the room's map
 //   things   what the player can interact with
-//   blocked  tiles made solid by things (desks)
+//   blocked  tiles made solid by things (desks, people)
 //   start    the tile where the player appears
 export async function loadRoom(place) {
   if (loadedRooms[place.room]) return loadedRooms[place.room];
@@ -52,10 +54,54 @@ export async function loadRoom(place) {
   loadedRooms[place.room] = {
     rows: room.rows,
     things,
-    blocked: things.filter((thing) => thing.kind === "desk"),
+    // Desks and people are solid; the player walks around them.
+    blocked: things.filter((thing) => thing.kind === "desk" || thing.kind === "person"),
     start: { col: exit.col, row: exit.row - 1 },
   };
   return loadedRooms[place.room];
+}
+
+// --- Helpers shared by the rooms ---------------------------------------------
+
+// For sorting map spots so the ones nearest the entrance come first.
+// The entrance is at the bottom of every room, so: the lowest row
+// first, and left to right within a row.
+function frontFirst(a, b) {
+  return b.row - a.row || a.col - b.col;
+}
+
+// Every room has the same two fixtures beside its entrance:
+//   - a chalkboard ("i" in the map) explaining how to use the room.
+//     It has no link; it only explains.
+//   - a laptop on a desk ("L") that opens the room's whole page in the
+//     large reader.
+// "words" supplies the text that differs from room to room.
+function boardAndLaptop(rows, place, page, words) {
+  const things = [];
+  for (const spot of findInRows(rows, "i")) {
+    things.push({
+      kind: "board",
+      ...spot,
+      reach: "adjacent",
+      label: "Read Now",
+      title: `Welcome to the ${place.title}`,
+      description: words.boardText,
+    });
+  }
+  for (const spot of findInRows(rows, "L")) {
+    things.push({
+      kind: "laptop",
+      ...spot,
+      reach: "adjacent",
+      label: words.laptopLabel,
+      title: words.laptopLabel,
+      description: words.laptopText,
+      html: page.html,
+      url: place.url,
+      linkLabel: "Read it all",
+    });
+  }
+  return things;
 }
 
 // --- The Classroom -------------------------------------------------------
@@ -79,7 +125,7 @@ async function fillClassroom(rows, place) {
   const portalSpots = findInRows(rows, "p");
   const spots = deskSpots
     .map((desk, i) => ({ desk, portal: portalSpots[i] }))
-    .sort((a, b) => b.desk.row - a.desk.row || a.desk.col - b.desk.col);
+    .sort((a, b) => frontFirst(a.desk, b.desk));
 
   const things = [];
 
@@ -117,36 +163,14 @@ async function fillClassroom(rows, place) {
     console.warn(`The Teaching page has ${courses.length} courses but the classroom has ${spots.length} desk spots. Add more "o" and "p" spots in maps/classroom.js.`);
   }
 
-  // The chalkboard beside the entrance: how to use the room. It has no
-  // link; it only explains.
-  for (const spot of findInRows(rows, "i")) {
-    things.push({
-      kind: "board",
-      ...spot,
-      reach: "adjacent",
-      label: "Read Now",
-      title: `Welcome to the ${place.title}`,
-      description:
+  things.push(
+    ...boardAndLaptop(rows, place, page, {
+      boardText:
         "Each desk is a course I teach, with the most recent nearest this door. Walk up to a desk and press Enter to read about it. A glowing doorway beside a desk leads to that course's own website. The laptop has every course on one page. Step on the red mat to go back outside.",
-    });
-  }
-
-  // The laptop desk: the whole Teaching page, in the large reader.
-  for (const spot of findInRows(rows, "L")) {
-    things.push({
-      kind: "laptop",
-      ...spot,
-      reach: "adjacent",
-      label: "All Course Details",
-      title: "All Course Details",
-      description:
-        "The whole Teaching page in one place." +
-        (extra > 0 ? ` It includes ${extra} more courses than there are desks.` : ""),
-      html: page.html,
-      url: place.url,
-      linkLabel: "Read it all",
-    });
-  }
+      laptopLabel: "All Course Details",
+      laptopText: "The whole Teaching page in one place." + (extra > 0 ? ` It includes ${extra} more courses than there are desks.` : ""),
+    })
+  );
 
   return things;
 }
@@ -207,4 +231,48 @@ function lastTaught(course) {
 // tags above desks are small, so the course code is left to the pop-up.
 function withoutCourseCode(title) {
   return title.replace(/\s*\([^)]*\)\s*$/, "");
+}
+
+// --- The Student Support Center -------------------------------------------
+// One helper per "##" heading on the Student Support page. Walking
+// past a helper shows the start of what their section says; "Read
+// more" opens the whole section.
+async function fillSupportCenter(rows, place) {
+  const page = await readPage(place.url, 2);
+  const spots = findInRows(rows, "n").sort(frontFirst);
+
+  // Shirt colours, used in turn so neighbours look different. (These
+  // are from the Okabe-Ito palette, chosen to be told apart by people
+  // with colour-blindness.)
+  const shirts = ["#0072b2", "#d55e00", "#009e73", "#cc79a7", "#e69f00", "#56b4e9"];
+
+  const things = page.sections.slice(0, spots.length).map((topic, i) => ({
+    kind: "person",
+    ...spots[i],
+    reach: "near",
+    shirt: shirts[i % shirts.length],
+    label: topic.title,
+    title: topic.title,
+    // Shown in quotation marks, as something the helper says.
+    description: `“${shorten(topic.text, 200)}”`,
+    html: topic.html,
+    url: topic.url,
+    linkLabel: "Read more",
+  }));
+
+  const extra = page.sections.length - spots.length;
+  if (extra > 0) {
+    console.warn(`The Student Support page has ${page.sections.length} "##" headings but the room has ${spots.length} helper spots. Add more "n" spots in maps/support.js.`);
+  }
+
+  things.push(
+    ...boardAndLaptop(rows, place, page, {
+      boardText:
+        "Each person here knows about one kind of help. Walk past someone to hear what they have to say, and press Enter to read more. The laptop has everything on one page. Step on the red mat to go back outside.",
+      laptopLabel: "All Support Details",
+      laptopText: "The whole Student Support page in one place.",
+    })
+  );
+
+  return things;
 }

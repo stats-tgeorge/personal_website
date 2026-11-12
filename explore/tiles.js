@@ -48,9 +48,10 @@ export function drawTile(ctx, char, x, y, col, row) {
   }
 
   // Floor, and everything that sits on floor. Desk spots ("o"), portal
-  // spots ("p"), the board ("i") and the laptop desk ("L") are drawn
-  // as bare floor here; things.js draws the object on top.
-  if ("_opiLE".includes(char)) {
+  // spots ("p"), helper spots ("n"), the board ("i") and the laptop
+  // desk ("L") are drawn as bare floor here; things.js draws the
+  // object or person on top.
+  if ("_opniLE".includes(char)) {
     fill(ctx, COLORS.floor, x, y, TILE, TILE);
     fill(ctx, COLORS.floorLine, x, y + 15, TILE, 1); // floorboard seams
     fill(ctx, COLORS.floorLine, x + (row % 2 === 0 ? 7 : 15), y, 1, TILE);

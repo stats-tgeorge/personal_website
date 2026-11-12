@@ -58,6 +58,13 @@ export async function readPage(pageUrl, level) {
       .map((paragraph) => paragraph.textContent.trim())
       .filter((text) => text.length > 0);
 
+    // Some headings have nothing directly under them, only smaller
+    // headings ("## Academic support" on the Student Support page).
+    // For those, fall back to the text under the smaller headings.
+    const allParagraphs = [...section.querySelectorAll("p")]
+      .map((paragraph) => paragraph.textContent.trim())
+      .filter((text) => text.length > 0);
+
     // The full content for "Read more": the section without its
     // heading (the reader shows the title in its own bar). The copy is
     // made so that removing the heading does not disturb the page.
@@ -67,7 +74,7 @@ export async function readPage(pageUrl, level) {
 
     return {
       title: heading ? heading.textContent.trim() : "(untitled)",
-      text: paragraphs.join(" "),
+      text: (paragraphs.length > 0 ? paragraphs : allParagraphs).join(" "),
       html: copy.innerHTML,
       // The page address plus "#section-name" jumps straight to this heading.
       url: section.id ? `${pageUrl}#${section.id}` : pageUrl,

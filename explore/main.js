@@ -5,7 +5,7 @@
 // and it pulls in the others:
 //
 //   config.js       numbers you can tune (tile size, walking speed, ...)
-//   maps/           the maps, as rows of text (outdoor.js, classroom.js)
+//   maps/           the maps, as rows of text (outdoor.js, one file per room)
 //   map.js          questions about the map in use (what tile is here?)
 //   tiles.js        how each kind of tile is drawn
 //   input.js        which keys are held down
