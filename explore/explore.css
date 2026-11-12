@@ -1,0 +1,29 @@
+/* Styles for the explore-mode page (explore.qmd) only. */
+
+/* The "switch to traditional site" button. It must stay visible at all
+   times, so it is pinned to the bottom-left corner of the window. */
+.to-traditional,
+.to-traditional:visited {
+  position: fixed;
+  left: 1rem;
+  bottom: 1rem;
+  z-index: 1000; /* keep it above the game */
+  background: #523178;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+}
+
+.to-traditional:hover,
+.to-traditional:focus {
+  background: #3b2257;
+  color: #ffffff;
+}
+
+/* The box the game will be drawn in. */
+.game-area {
+  border: 2px dashed #523178;
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  margin-bottom: 4rem; /* room so the pinned button never covers content */
+}

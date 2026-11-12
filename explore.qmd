@@ -1,0 +1,18 @@
+---
+title: "Explore mode"
+toc: false
+css: [styles.css, explore/explore.css]
+---
+
+<!--
+  The explore-mode page. The game itself arrives in milestone 2 and will
+  be drawn inside the "game-area" box below. Everything on this page
+  that matters (the way back, and later the list of places) is ordinary
+  HTML, so it works for screen readers and when JavaScript is off.
+-->
+
+[← Switch to traditional site](about.qmd){.btn .to-traditional}
+
+::: {#game-area .game-area}
+The walkable campus is under construction. For now, please use the traditional site.
+:::
