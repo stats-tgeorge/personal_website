@@ -19,11 +19,50 @@
   color: #ffffff;
 }
 
-/* The box the game will be drawn in. */
+/* The box that holds the game. "position: relative" lets the start
+   hint be placed on top of the canvas. */
 .game-area {
-  border: 2px dashed #523178;
+  position: relative;
+  max-width: 960px; /* 3x the canvas's 320 pixels */
+  margin: 0 auto 4rem; /* bottom room so the pinned button never covers it */
+}
+
+/* The game canvas is only 320 x 224 pixels; stretch it to the width of
+   the box. "pixelated" keeps the enlarged pixels crisp, not blurry. */
+#game-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+  border: 3px solid #523178;
+  border-radius: 6px;
+}
+
+/* A clear outline while the game has keyboard focus, so keyboard users
+   can see that their keys now go to the game. */
+#game-canvas:focus {
+  outline: 4px solid #e69f00;
+  outline-offset: 2px;
+}
+
+/* The start hint: centred over the canvas. */
+#game-start-hint {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 0.8rem 1.2rem;
+  font-size: 1.1rem;
+  color: #ffffff;
+  background: rgba(59, 34, 87, 0.92);
+  border: 2px solid #ffffff;
   border-radius: 8px;
-  padding: 2rem;
-  text-align: center;
-  margin-bottom: 4rem; /* room so the pinned button never covers content */
+  cursor: pointer;
+}
+
+/* main.js shows and hides things with the "hidden" attribute. The
+   rules above set "display", which would otherwise cancel it out. */
+#game-canvas[hidden],
+#game-start-hint[hidden] {
+  display: none;
 }

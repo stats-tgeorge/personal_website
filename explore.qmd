@@ -5,14 +5,37 @@ css: [styles.css, explore/explore.css]
 ---
 
 <!--
-  The explore-mode page. The game itself arrives in milestone 2 and will
-  be drawn inside the "game-area" box below. Everything on this page
-  that matters (the way back, and later the list of places) is ordinary
-  HTML, so it works for screen readers and when JavaScript is off.
+  The explore-mode page. The game is drawn on the <canvas> below by the
+  JavaScript files in the explore/ folder, starting with explore/main.js.
+
+  Everything that matters for getting around (the way back to the
+  traditional site, and later the list of places) is ordinary HTML, so
+  it works for screen readers and when JavaScript is off.
 -->
 
 [← Switch to traditional site](about.qmd){.btn .to-traditional}
 
 ::: {#game-area .game-area}
-The walkable campus is under construction. For now, please use the traditional site.
+```{=html}
+<!-- Shown only if JavaScript is off or broken; main.js hides it. -->
+<p id="game-fallback">
+  The walkable map needs JavaScript. Everything it leads to is also on
+  the <a href="about.html">traditional site</a>.
+</p>
+
+<!-- The game. It starts hidden; main.js reveals it once it is running.
+     width/height must match VIEW_COLS x TILE and VIEW_ROWS x TILE in
+     explore/config.js. tabindex="0" lets keyboard users Tab to it. -->
+<canvas id="game-canvas" width="320" height="224" tabindex="0" hidden
+  aria-label="Walkable pixel-art campus. Use the arrow keys or W, A, S, D to walk. Everything here is also available on the traditional site.">
+</canvas>
+
+<!-- Sits on top of the map until the visitor starts the game. -->
+<button id="game-start-hint" type="button" hidden>
+  Click here to start walking<br>
+  <small>Move with the arrow keys or W A S D</small>
+</button>
+
+<script type="module" src="explore/main.js"></script>
+```
 :::

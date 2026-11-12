@@ -1,5 +1,9 @@
 project:
   type: website
+  # Explore mode: copy the game's files (JavaScript, CSS) into the
+  # rendered site as they are. Quarto does not find them on its own.
+  resources:
+    - "explore/**"
 
 execute:
   freeze: true
