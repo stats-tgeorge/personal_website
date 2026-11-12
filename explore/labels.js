@@ -38,7 +38,8 @@ export function showLabelsFor(things) {
 export function positionLabels(camera) {
   for (const { thing, element } of tags) {
     // Where the thing is on screen, in game pixels...
-    const x = (thing.col + 0.5) * TILE - camera.x; // centre of its tile
+    // (thing.wide is 2 for a thing that fills two tiles side by side.)
+    const x = (thing.col + (thing.wide || 1) / 2) * TILE - camera.x; // its centre
     const y = thing.row * TILE - camera.y; // top of its tile
 
     // ...converted to a percentage of the map's size, so the tag stays

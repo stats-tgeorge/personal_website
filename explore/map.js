@@ -14,12 +14,14 @@ import { OUTDOOR_ROWS } from "./maps/outdoor.js";
 let rows = OUTDOOR_ROWS;
 
 // Tiles the player can walk on. Anything else is solid.
-//   . grass   : path   @ start marker   _ floor   p portal spot   E exit mat
-// (Desk spots "o" and helper spots "n" are handled separately below.)
-const WALKABLE = ".:@_pE";
+//   . grass   : path   @ start marker   _ floor   E exit mat
+//   p portal or bubble spot   o desk spot   n helper spot
+// (An "o" or "n" spot is floor until something is put on it; whatever
+// is put there is listed in blockedSpots below, which makes it solid.)
+const WALKABLE = ".:@_pEon";
 
-// Spots that are only solid when something is standing on them. Rooms
-// use this for desks ("o") and helpers ("n"): an unused spot is just floor.
+// Tiles made solid by something standing on them: a desk, a helper,
+// or something a helper brought along (a whiteboard, a server).
 let blockedSpots = new Set();
 
 // Switch to a different map. "blocked" is an optional list of
@@ -47,9 +49,8 @@ export function tileAt(col, row) {
 }
 
 export function isSolid(col, row) {
-  const tile = tileAt(col, row);
-  if (tile === "o" || tile === "n") return blockedSpots.has(`${col},${row}`);
-  return !WALKABLE.includes(tile);
+  if (blockedSpots.has(`${col},${row}`)) return true;
+  return !WALKABLE.includes(tileAt(col, row));
 }
 
 // Finds every copy of a character in a set of map rows, in reading

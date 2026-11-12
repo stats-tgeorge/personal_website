@@ -90,6 +90,53 @@ export async function readPage(pageUrl, level) {
   return { html: main ? main.innerHTML : "", sections };
 }
 
+// Reads a Quarto LISTING page (the Blog page) and returns its posts in
+// the order the page shows them:
+//   { html,    the whole page's content, for reading in the game
+//     posts }  [{ title, text, date, url, image or null }, ...]
+// It depends on the Blog page using Quarto's default listing layout,
+// where each post is a box with the class "quarto-post".
+export async function readListing(pageUrl) {
+  const response = await fetch(pageUrl);
+  if (!response.ok) throw new Error(`Could not load ${pageUrl} (${response.status})`);
+  const page = new DOMParser().parseFromString(await response.text(), "text/html");
+
+  const posts = [...page.querySelectorAll(".quarto-post")].map((post) => {
+    const link = post.querySelector(".listing-title a, a[href]");
+    const picture = post.querySelector("img");
+    // Quarto sometimes keeps a picture's address in "data-src" so it
+    // can load it late; use whichever is there.
+    const pictureAddress = picture ? picture.getAttribute("src") || picture.getAttribute("data-src") : null;
+    const textOf = (selector) => {
+      const element = post.querySelector(selector);
+      return element ? element.textContent.trim() : "";
+    };
+    return {
+      title: textOf(".listing-title") || (link ? link.textContent.trim() : "(untitled)"),
+      text: textOf(".listing-description"),
+      date: textOf(".listing-date"),
+      url: link ? new URL(link.getAttribute("href"), pageUrl).href : pageUrl,
+      image: pictureAddress ? new URL(pictureAddress, pageUrl).href : null,
+    };
+  });
+
+  // The same tidying as readPage: full addresses, links in a new tab.
+  for (const picture of page.querySelectorAll("img")) {
+    const address = picture.getAttribute("src") || picture.getAttribute("data-src");
+    if (address) picture.setAttribute("src", new URL(address, pageUrl).href);
+  }
+  for (const link of page.querySelectorAll("a[href]")) {
+    link.setAttribute("href", new URL(link.getAttribute("href"), pageUrl).href);
+    link.setAttribute("target", "_blank");
+    link.setAttribute("rel", "noopener");
+  }
+  const main = page.querySelector("main");
+  const titleBlock = main ? main.querySelector("#title-block-header") : null;
+  if (titleBlock) titleBlock.remove();
+
+  return { html: main ? main.innerHTML : "", posts };
+}
+
 // Looks for a picture that links to another website.
 // Returns { url, image } or null if the section has none.
 function findPortal(section) {

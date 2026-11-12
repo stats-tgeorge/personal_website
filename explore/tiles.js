@@ -84,9 +84,34 @@ export function drawTile(ctx, char, x, y, col, row) {
     return;
   }
 
-  if (char === "#") {
+  // Walls, and walls with a statistics poster on them:
+  //   h = histogram (bell-shaped)   s = scatter plot   b = bar chart
+  if ("#hsb".includes(char)) {
     fill(ctx, COLORS.wall, x, y, TILE, TILE);
     fill(ctx, COLORS.wallLine, x, y + 15, TILE, 1);
+    if (char !== "#") {
+      fill(ctx, "#6b4a2b", x + 1, y + 2, 14, 12); // frame
+      fill(ctx, "#ffffff", x + 2, y + 3, 12, 10); // paper
+    }
+    if (char === "h") {
+      // Bar heights rising to a peak and falling again, like a
+      // histogram of roughly normal data.
+      [1, 2, 4, 7, 8, 7, 4, 2, 1].forEach((height, i) => {
+        fill(ctx, "#0072b2", x + 3 + i, y + 12 - height, 1, height);
+      });
+    }
+    if (char === "s") {
+      // Points drifting upward to the right: a positive association.
+      for (const [dx, dy] of [[3, 10], [4, 11], [5, 9], [7, 9], [8, 7], [9, 8], [10, 6], [11, 5], [12, 6], [12, 4]]) {
+        fill(ctx, "#d55e00", x + dx, y + dy, 1, 1);
+      }
+    }
+    if (char === "b") {
+      // Four bars in four colours.
+      [["#0072b2", 5], ["#e69f00", 8], ["#009e73", 3], ["#cc79a7", 6]].forEach(([color, height], i) => {
+        fill(ctx, color, x + 3 + i * 3, y + 12 - height, 2, height);
+      });
+    }
     return;
   }
 

@@ -336,6 +336,13 @@
   text-decoration: underline;
 }
 
+/* A room's instructions, when shown in the reader: larger, to be read
+   at a glance. */
+.welcome-text {
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+
 .reader-foot {
   margin: 0;
   padding: 0.6rem 1.25rem;

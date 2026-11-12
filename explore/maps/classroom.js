@@ -7,6 +7,7 @@
 //
 //   _  floor                      (walkable)
 //   #  wall                       (blocks the player)
+//   h s b  wall with a poster: histogram, scatter plot, bar chart
 //   i  the instruction board      (blocks the player; always present.
 //                                  It is next to where the player comes
 //                                  in, so its pop-up shows straight away)
@@ -31,7 +32,7 @@
 // courses, add more "o" and "p" spots here.
 
 export const CLASSROOM_ROWS = [
-  "####################",
+  "###h######s######b##",
   "#__________________#",
   "#__________________#",
   "#__________________#",

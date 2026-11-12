@@ -54,7 +54,7 @@ export function showThing(thing) {
 
   // The link. Some things only explain (the chalkboard) and have none.
   // Other websites open in a new tab so the game is not lost.
-  link.hidden = !thing.url;
+  link.hidden = !thing.url && !thing.html;
   link.href = thing.url || "#";
   link.target = thing.newTab ? "_blank" : "";
   link.rel = thing.newTab ? "noopener" : "";

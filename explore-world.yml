@@ -53,4 +53,5 @@
 - door: 5
   title: "Newsstand"
   path: Blog.qmd
+  room: newsstand
   description: "Blog posts, including notes from scouting a study-abroad course."

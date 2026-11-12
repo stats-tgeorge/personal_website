@@ -10,15 +10,17 @@
 // web page each time, so the room always matches the page.
 
 import { findInRows } from "./map.js";
-import { readPage, shorten } from "./page-reader.js";
+import { readPage, readListing, shorten } from "./page-reader.js";
 import { CLASSROOM_ROWS } from "./maps/classroom.js";
 import { SUPPORT_ROWS } from "./maps/support.js";
+import { NEWSSTAND_ROWS } from "./maps/newsstand.js";
 
 // Every room the game knows about. The names on the left are what
 // "room:" in explore-world.yml refers to.
 const ROOMS = {
   classroom: { rows: CLASSROOM_ROWS, fill: fillClassroom },
   support: { rows: SUPPORT_ROWS, fill: fillSupportCenter },
+  newsstand: { rows: NEWSSTAND_ROWS, fill: fillNewsstand },
 };
 
 export function roomExists(name) {
@@ -30,11 +32,13 @@ const loadedRooms = {};
 
 // Sets up a room. "place" is the explore-world.yml entry for the
 // building (it supplies the page to read and the title).
-// Returns { rows, things, blocked, start }:
+// Returns { rows, things, blocked, start, welcome }:
 //   rows     the room's map
 //   things   what the player can interact with
-//   blocked  tiles made solid by things (desks, people)
+//   blocked  tiles made solid by things (desks, people and their props)
 //   start    the tile where the player appears
+//   welcome  the chalkboard, whose instructions main.js pops up the
+//            first time the player walks in
 export async function loadRoom(place) {
   if (loadedRooms[place.room]) return loadedRooms[place.room];
 
@@ -54,14 +58,26 @@ export async function loadRoom(place) {
   loadedRooms[place.room] = {
     rows: room.rows,
     things,
-    // Desks and people are solid; the player walks around them.
-    blocked: things.filter((thing) => thing.kind === "desk" || thing.kind === "person"),
+    blocked: tilesBlockedBy(things),
+    welcome: things.find((thing) => thing.kind === "board") || null,
     start: { col: exit.col, row: exit.row - 1 },
   };
   return loadedRooms[place.room];
 }
 
 // --- Helpers shared by the rooms ---------------------------------------------
+
+// Lists the tiles the player cannot walk onto because of the things in
+// a room. Desks and people are solid; so is anything a person brought
+// with them (thing.props: a whiteboard, a server, a second person).
+function tilesBlockedBy(things) {
+  const blocked = [];
+  for (const thing of things) {
+    if (thing.kind === "desk" || thing.kind === "person") blocked.push({ col: thing.col, row: thing.row });
+    for (const prop of thing.props || []) blocked.push(prop);
+  }
+  return blocked;
+}
 
 // For sorting map spots so the ones nearest the entrance come first.
 // The entrance is at the bottom of every room, so: the lowest row
@@ -70,9 +86,10 @@ function frontFirst(a, b) {
   return b.row - a.row || a.col - b.col;
 }
 
-// Every room has the same two fixtures beside its entrance:
+// Every room has the same two fixtures:
 //   - a chalkboard ("i" in the map) explaining how to use the room.
-//     It has no link; it only explains.
+//     main.js pops its instructions up, large, the first time the
+//     player walks in; pressing Enter at the board shows them again.
 //   - a laptop on a desk ("L") that opens the room's whole page in the
 //     large reader.
 // "words" supplies the text that differs from room to room.
@@ -86,6 +103,9 @@ function boardAndLaptop(rows, place, page, words) {
       label: "Read Now",
       title: `Welcome to the ${place.title}`,
       description: words.boardText,
+      // The same words as a paragraph, for the large pop-up.
+      html: `<p class="welcome-text">${words.boardText}</p>`,
+      linkLabel: "Show it large",
     });
   }
   for (const spot of findInRows(rows, "L")) {
@@ -241,24 +261,26 @@ async function fillSupportCenter(rows, place) {
   const page = await readPage(place.url, 2);
   const spots = findInRows(rows, "n").sort(frontFirst);
 
-  // Shirt colours, used in turn so neighbours look different. (These
-  // are from the Okabe-Ito palette, chosen to be told apart by people
-  // with colour-blindness.)
-  const shirts = ["#0072b2", "#d55e00", "#009e73", "#cc79a7", "#e69f00", "#56b4e9"];
-
-  const things = page.sections.slice(0, spots.length).map((topic, i) => ({
-    kind: "person",
-    ...spots[i],
-    reach: "near",
-    shirt: shirts[i % shirts.length],
-    label: topic.title,
-    title: topic.title,
-    // Shown in quotation marks, as something the helper says.
-    description: `“${shorten(topic.text, 200)}”`,
-    html: topic.html,
-    url: topic.url,
-    linkLabel: "Read more",
-  }));
+  const things = page.sections.slice(0, spots.length).map((topic, i) => {
+    const look = lookFor(topic.title);
+    const spot = spots[i];
+    return {
+      kind: "person",
+      ...spot,
+      reach: "near",
+      look,
+      // The tutors are two people, filling this tile and the next.
+      wide: look === "tutors" ? 2 : 1,
+      props: propsFor(look, spot),
+      label: topic.title,
+      title: topic.title,
+      // Shown in quotation marks, as something the helper says.
+      description: `“${shorten(topic.text, 200)}”`,
+      html: topic.html,
+      url: topic.url,
+      linkLabel: "Read more",
+    };
+  });
 
   const extra = page.sections.length - spots.length;
   if (extra > 0) {
@@ -268,9 +290,87 @@ async function fillSupportCenter(rows, place) {
   things.push(
     ...boardAndLaptop(rows, place, page, {
       boardText:
-        "Each person here knows about one kind of help. Walk past someone to hear what they have to say, and press Enter to read more. The laptop has everything on one page. Step on the red mat to go back outside.",
+        "Each person here knows about one kind of help. Walk past someone to hear what they have to say, and press Enter to read more. The laptop at the back of the room has everything on one page. Step on the red mat to go back outside.",
       laptopLabel: "All Support Details",
       laptopText: "The whole Student Support page in one place.",
+    })
+  );
+
+  return things;
+}
+
+// Which helper to draw for a heading on the Student Support page. The
+// first rule whose word appears in the heading wins; a heading that
+// matches none gets an ordinary person. (The "i" after each pattern
+// means capital letters do not matter.)
+//
+// If you rename a heading on the page, check it still contains one of
+// these words, or change the word here.
+const SUPPORT_LOOKS = [
+  { ifHeadingHas: /lecture|lab/i, look: "lecturer" },
+  { ifHeadingHas: /academic|tutor|studio/i, look: "tutors" },
+  { ifHeadingHas: /health|wellbeing|wellness/i, look: "nurse" },
+  { ifHeadingHas: /tech|computer/i, look: "tech" },
+];
+
+function lookFor(heading) {
+  const rule = SUPPORT_LOOKS.find((candidate) => candidate.ifHeadingHas.test(heading));
+  return rule ? rule.look : "plain";
+}
+
+// The extra tiles a helper's belongings stand on (see people.js for
+// what is drawn there). These become solid.
+function propsFor(look, spot) {
+  const toTheRight = { col: spot.col + 1, row: spot.row };
+  const behind = { col: spot.col, row: spot.row - 1 };
+  if (look === "lecturer") return [toTheRight]; // whiteboard
+  if (look === "tutors") return [toTheRight]; // the second tutor
+  if (look === "nurse") return [toTheRight]; // first-aid cabinet
+  if (look === "tech") return [behind]; // server
+  return [];
+}
+
+// --- The Newsstand ----------------------------------------------------------
+// One bubble per post on the Blog page, newest first. Standing in a
+// bubble shows the post's title and summary; Enter opens the post in a
+// new tab (posts can be long, with plots and photos, so they get a
+// whole tab instead of the reader).
+async function fillNewsstand(rows, place) {
+  const blog = await readListing(place.url);
+
+  // Put the bubble spots in order round the ring: start at the bottom
+  // left (just inside the door) and go clockwise. Math.atan2 gives the
+  // direction of each spot from the middle of the room as an angle;
+  // sorting by angle walks round the circle.
+  const middle = { col: (rows[0].length - 1) / 2, row: (rows.length - 1) / 2 };
+  const angle = (spot) => {
+    // Measured from "straight down", increasing clockwise on screen,
+    // from 0 up to a full turn (2 x pi).
+    const turn = Math.atan2(-(spot.col - middle.col), spot.row - middle.row);
+    return (turn + 2 * Math.PI) % (2 * Math.PI);
+  };
+  const spots = findInRows(rows, "p").sort((a, b) => angle(a) - angle(b));
+
+  const things = blog.posts.slice(0, spots.length).map((post, i) => ({
+    kind: "bubble",
+    ...spots[i],
+    reach: "on",
+    label: post.title,
+    title: post.title,
+    description: [post.date, shorten(post.text, 180)].filter(Boolean).join(" · "),
+    image: post.image,
+    url: post.url,
+    linkLabel: "Read this post",
+    newTab: true,
+  }));
+
+  const extra = blog.posts.length - spots.length;
+  things.push(
+    ...boardAndLaptop(rows, place, blog, {
+      boardText:
+        "Each bubble is a blog post, newest first, starting on your left and going clockwise round the room. Step into a bubble to see what the post is about, and press Enter to read it in a new tab. The kiosk in the middle lists every post. Step on the red mat to go back outside.",
+      laptopLabel: "All Blog Posts",
+      laptopText: "The whole list of blog posts." + (extra > 0 ? ` There are ${extra} older posts that do not have a bubble.` : ""),
     })
   );
 

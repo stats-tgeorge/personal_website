@@ -5,9 +5,12 @@
 // from: a building's door, a desk, a portal, a notice board.
 //
 // Every thing is a plain object with these properties:
-//   kind         "door", "desk", "portal", "board", "laptop" or "person"
-//                (decides how it is drawn)
+//   kind         "door", "desk", "portal", "bubble", "board", "laptop" or
+//                "person" (decides how it is drawn)
 //   col, row     the map tile it is on
+//   wide         optional: 2 if it fills this tile and the one to its
+//                right (the pair of tutors)
+//   look         optional, for people: which helper to draw (people.js)
 //   reach        where the player must stand for the pop-up to show:
 //                  "below"    on the tile directly below it (doors)
 //                  "adjacent" on any of the four tiles touching it
@@ -27,6 +30,7 @@
 //   room         optional name of a room this thing leads into (doors)
 
 import { TILE, PLAYER_WIDTH, PLAYER_HEIGHT } from "./config.js";
+import { drawPerson } from "./people.js";
 
 // Which thing (if any) can the player reach from where they stand?
 export function thingInReach(player, things) {
@@ -35,7 +39,10 @@ export function thingInReach(player, things) {
   const row = Math.floor((player.y + PLAYER_HEIGHT / 2) / TILE);
 
   const reachable = things.filter((thing) => {
-    const across = Math.abs(thing.col - col);
+    // How many tiles sideways the player is from the thing. A thing
+    // two tiles wide counts from whichever of its tiles is nearer.
+    const rightEdge = thing.col + (thing.wide || 1) - 1;
+    const across = Math.max(thing.col - col, col - rightEdge, 0);
     const down = Math.abs(thing.row - row);
     if (thing.reach === "on") return across === 0 && down === 0;
     if (thing.reach === "below") return across === 0 && row === thing.row + 1;
@@ -51,7 +58,8 @@ export function thingInReach(player, things) {
 
 // Draws the things that are objects in a room. (Doors are part of the
 // map and are drawn by tiles.js.) PLACEHOLDER art, like the tiles.
-export function drawThings(ctx, things, camera) {
+// "now" is the current time in milliseconds, for things that animate.
+export function drawThings(ctx, things, camera, now) {
   for (const thing of things) {
     const x = thing.col * TILE - camera.x;
     const y = thing.row * TILE - camera.y;
@@ -70,15 +78,16 @@ export function drawThings(ctx, things, camera) {
       fill(ctx, "#999999", x + 3, y + 7, 10, 3); // keyboard
     }
 
-    if (thing.kind === "person") {
-      // The same simple figure as the player, facing the room, with a
-      // shirt colour of their own (thing.shirt) so they can be told apart.
-      fill(ctx, "rgba(0, 0, 0, 0.25)", x + 3, y + 14, 10, 2); // shadow
-      fill(ctx, thing.shirt || "#0072b2", x + 4, y + 8, 8, 7); // shirt
-      fill(ctx, "#f1c9a5", x + 4, y, 8, 8); // head
-      fill(ctx, "#2b2b2b", x + 4, y, 8, 2); // hair
-      fill(ctx, "#222222", x + 6, y + 4, 1, 2); // eyes
-      fill(ctx, "#222222", x + 9, y + 4, 1, 2);
+    if (thing.kind === "person") drawPerson(ctx, thing, x, y, now); // see people.js
+
+    if (thing.kind === "bubble") {
+      // A round soap-bubble shape: rows of different widths make a circle.
+      fill(ctx, "#56b4e9", x + 4, y + 1, 8, 14);
+      fill(ctx, "#56b4e9", x + 2, y + 3, 12, 10);
+      fill(ctx, "#56b4e9", x + 1, y + 5, 14, 6);
+      fill(ctx, "#cfeaf9", x + 4, y + 3, 8, 10); // lighter inside
+      fill(ctx, "#cfeaf9", x + 3, y + 5, 10, 6);
+      fill(ctx, "#ffffff", x + 5, y + 4, 3, 2); // shine
     }
 
     if (thing.kind === "board") {
