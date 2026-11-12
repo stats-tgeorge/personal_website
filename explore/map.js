@@ -1,86 +1,81 @@
 // map.js
-// The world map, written as text so it can be edited without any tools.
-// Each character is one tile. Every row must be the same length.
+// Written by Claude (an AI model made by Anthropic) at Tyler George's direction.
 //
-//   .  grass            (walkable)
-//   :  path             (walkable)
-//   @  where the player starts (drawn as path; use exactly one)
-//   T  tree             (blocks the player)
-//   ~  water            (blocks the player)
-//   ^  roof             (blocks the player)
-//   #  building wall    (blocks the player)
-//   1-9  a building's door (blocks the player; the player stands in
-//        front of it). The digit is how a building will be matched to
-//        its entry in the content file in the next milestone.
+// Questions about "the map the player is on right now": what tile is
+// here, and can it be walked on? The maps themselves are in the maps/
+// folder (outdoor.js for the campus, one file per room).
+//
+// Only one map is in use at a time. main.js calls useMap() to switch
+// when the player goes through a door.
 
-export const MAP_ROWS = [
-  "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
-  "T....T...............T...............T.T",
-  "T.T.T...T......^^^^^^^^^T..............T",
-  "T..T......T..T.^^^^^^^^^T..............T",
-  "T...........T..#########.............T.T",
-  "T.....^^^^^^^..####4####...^^^^^^^.....T",
-  "T.....^^^^^^^...T..::.T....^^^^^^^.....T",
-  "T.....#######....T.::......#######..T..T",
-  "T...T.###1###......::......###2###.....T",
-  "T........:.....T...::...T.....:..~~~...T",
-  "TT...TT..:.T...TT..::...T.....:.~~~~~..T",
-  "T........:.T.......::.........:.~~~~~.TT",
-  "T........:.........::.........:........T",
-  "T..::::::::::::::::::::::::::::::::::..T",
-  "T..::::::::::::::::::::::::::::::::::..T",
-  "T..................::..................T",
-  "T...............T..@:.....T............T",
-  "T.....^^^^^^^......::....T.^^^^^^^.....T",
-  "T..T..^^^^^^^......::.....T^^^^^^^T....T",
-  "T.....#######......::......#######.....T",
-  "T.....###3###......::......###5###....TT",
-  "T.T......:.........::.........:....T...T",
-  "T........::::::::::::::::::::::........T",
-  "T...T..............::................T.T",
-  "T......T...........::.......T..........T",
-  "T......................................T",
-  "T................T.T....T..............T",
-  "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
-];
+import { OUTDOOR_ROWS } from "./maps/outdoor.js";
 
-export const MAP_COLS = MAP_ROWS[0].length;
-export const MAP_HEIGHT = MAP_ROWS.length; // number of rows
+// The rows of the map currently in use.
+let rows = OUTDOOR_ROWS;
 
-// The only tiles the player can walk on. Anything else is solid.
-const WALKABLE = ".:@";
+// Tiles the player can walk on. Anything else is solid.
+//   . grass   : path   @ start marker   _ floor   p portal spot   E exit mat
+const WALKABLE = ".:@_pE";
 
-// Returns the character at a map position. Anything off the edge of the
-// map counts as a tree, so the player can never leave the world even if
-// the border has a gap in it.
+// Extra solid spots that are not part of the map text. Rooms use this
+// for desks: a desk spot ("o") is only solid when a desk is there.
+let blockedSpots = new Set();
+
+// Switch to a different map. "blocked" is an optional list of
+// { col, row } positions to treat as solid on top of the map's own tiles.
+export function useMap(newRows, blocked = []) {
+  rows = newRows;
+  blockedSpots = new Set(blocked.map((spot) => `${spot.col},${spot.row}`));
+  warnAboutUnevenRows(rows);
+}
+
+export function mapCols() {
+  return rows[0].length;
+}
+
+export function mapRows() {
+  return rows.length;
+}
+
+// Returns the character at a map position. Anything off the edge of
+// the map is " " (empty space), which is solid, so the player can never
+// leave the map even if its border has a gap in it.
 export function tileAt(col, row) {
-  if (row < 0 || row >= MAP_HEIGHT || col < 0 || col >= MAP_COLS) return "T";
-  return MAP_ROWS[row][col];
+  if (row < 0 || row >= rows.length || col < 0 || col >= rows[0].length) return " ";
+  return rows[row][col];
 }
 
 export function isSolid(col, row) {
-  return !WALKABLE.includes(tileAt(col, row));
+  const tile = tileAt(col, row);
+  if (tile === "o") return blockedSpots.has(`${col},${row}`); // desk spot
+  return !WALKABLE.includes(tile);
 }
 
-// Finds the "@" in the map. Returns { col, row }.
-export function findPlayerStart() {
-  for (let row = 0; row < MAP_HEIGHT; row++) {
-    const col = MAP_ROWS[row].indexOf("@");
-    if (col !== -1) return { col, row };
-  }
-  // No "@" in the map: fall back to the top-left corner and say so.
-  console.warn("map.js: no '@' start marker found in MAP_ROWS.");
-  return { col: 1, row: 1 };
+// Finds every copy of a character in a set of map rows, in reading
+// order (left to right, top to bottom). Returns a list of { col, row }.
+// Unlike the functions above, this takes the rows as an argument, so
+// it can inspect a map that is not the one currently in use.
+export function findInRows(mapRowsToSearch, char) {
+  const found = [];
+  mapRowsToSearch.forEach((rowText, row) => {
+    for (let col = 0; col < rowText.length; col++) {
+      if (rowText[col] === char) found.push({ col, row });
+    }
+  });
+  return found;
 }
 
-// A typo check for whoever edits the map: uneven rows are the most
+// A typo check for whoever edits a map: uneven rows are the most
 // likely mistake, and they cause confusing behaviour, so report them.
 // Open the browser console (F12) to see these messages.
-MAP_ROWS.forEach((rowText, row) => {
-  if (rowText.length !== MAP_COLS) {
-    console.warn(
-      `map.js: row ${row + 1} has ${rowText.length} characters, ` +
-        `but row 1 has ${MAP_COLS}. All rows must be the same length.`
-    );
-  }
-});
+function warnAboutUnevenRows(rowsToCheck) {
+  rowsToCheck.forEach((rowText, row) => {
+    if (rowText.length !== rowsToCheck[0].length) {
+      console.warn(
+        `Map row ${row + 1} has ${rowText.length} characters, but row 1 has ` +
+          `${rowsToCheck[0].length}. All rows must be the same length.`
+      );
+    }
+  });
+}
+warnAboutUnevenRows(rows);

@@ -18,6 +18,8 @@ listing:
 ---
 
 <!--
+  Written by Claude (an AI model made by Anthropic) at Tyler George's direction.
+
   The explore-mode page. The game is drawn on the <canvas> below by the
   JavaScript files in the explore/ folder, starting with explore/main.js.
 
@@ -48,14 +50,34 @@ listing:
   <small>Move with the arrow keys or W A S D</small>
 </button>
 
-<!-- The pop-up shown when the player stands at a door. panel.js fills
+<!-- The pop-up shown when the player can reach something. panel.js fills
      in the text. aria-live makes screen readers read it out when it
      appears. -->
 <div id="place-panel" aria-live="polite" hidden>
+  <img id="place-image" alt="Preview of the website this leads to" hidden>
   <strong id="place-title"></strong>
   <span id="place-description"></span>
-  <a id="place-link" class="btn" href="#">Open page <small>(Enter)</small></a>
+  <button id="place-enter" class="btn" type="button" hidden>Go inside (Enter)</button>
+  <a id="place-link" class="btn" href="#">Open page</a>
 </div>
+
+<!-- The large pop-up for reading part of the regular site without
+     leaving the game. reader.js fills it in. <dialog> is the browser's
+     built-in pop-up: Esc closes it and the page behind is dimmed. -->
+<dialog id="reader" aria-labelledby="reader-title">
+  <div class="reader-bar">
+    <strong id="reader-title"></strong>
+    <button id="reader-close" class="btn" type="button">Close (Esc)</button>
+  </div>
+  <div id="reader-content"></div>
+  <p class="reader-foot">
+    <a id="reader-source" href="#" target="_blank" rel="noopener">Open this on the regular site (new tab)</a>
+  </p>
+</dialog>
+
+<!-- Says where the player is ("Outside", "Classroom"). main.js changes
+     it when the player goes through a door; screen readers read it out. -->
+<div id="scene-label" aria-live="polite">Outside</div>
 
 <script type="module" src="explore/main.js"></script>
 ```
@@ -66,4 +88,8 @@ listing:
 Walk up to a building's door to visit it, or use these links.
 
 ::: {#places-list}
+:::
+
+::: explore-credit
+Explore mode was designed by Tyler George and written by Claude, an AI model made by Anthropic. The art is placeholder art, also made by Claude.
 :::

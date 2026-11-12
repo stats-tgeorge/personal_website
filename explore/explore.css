@@ -1,4 +1,5 @@
-/* Styles for the explore-mode page (explore.qmd) only. */
+/* Styles for the explore-mode page (explore.qmd) only.
+   Written by Claude (an AI model made by Anthropic) at Tyler George's direction. */
 
 /* The "switch to traditional site" button. It must stay visible at all
    times, so it is pinned to the bottom-left corner of the window. */
@@ -67,14 +68,17 @@
   display: none;
 }
 
-/* The pop-up shown at a door. It sits along the bottom edge of the map. */
+/* The pop-up shown when something is in reach. It sits along the
+   bottom edge of the map. */
 #place-panel {
   position: absolute;
   left: 0.75rem;
   right: 0.75rem;
   bottom: 0.75rem;
+  max-height: 60%; /* never cover the whole map... */
+  overflow-y: auto; /* ...scroll inside the pop-up instead */
   display: flex;
-  flex-wrap: wrap; /* on narrow screens the button drops to its own line */
+  flex-wrap: wrap; /* on narrow screens the buttons drop to their own line */
   align-items: center;
   gap: 0.4rem 0.8rem;
   padding: 0.6rem 0.9rem;
@@ -84,10 +88,28 @@
   border-radius: 8px;
 }
 
-#place-description {
-  flex: 1 1 14rem; /* take up the spare room between title and button */
+/* When the player is in the bottom half of the map, the pop-up moves
+   to the top (below the "where you are" label) so it never hides them. */
+#place-panel.at-top {
+  bottom: auto;
+  top: 3rem;
 }
 
+#place-description {
+  flex: 1 1 14rem; /* take up the spare room between title and buttons */
+}
+
+/* The preview picture for a "door to another world". */
+#place-image {
+  height: 5rem;
+  width: auto;
+  border: 2px solid #ffffff;
+  border-radius: 4px;
+  background: #ffffff;
+}
+
+/* The pop-up's main button ("Go inside") and its link. */
+#place-enter,
 #place-link,
 #place-link:visited {
   background: #ffffff;
@@ -95,7 +117,105 @@
   font-weight: 600;
 }
 
-#place-panel[hidden] {
+/* When there is a "Go inside" button, the page link is the second
+   choice, so it is shown more quietly. */
+#place-enter:not([hidden]) + #place-link {
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+  font-weight: 400;
+}
+
+/* The name of where you are, shown top-left. */
+#scene-label {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  padding: 0.15rem 0.6rem;
+  color: #ffffff;
+  background: rgba(59, 34, 87, 0.9);
+  border-radius: 6px;
+}
+
+#scene-label:empty {
+  display: none;
+}
+
+/* --- The large reader pop-up ------------------------------------------- */
+#reader {
+  width: min(52rem, 92vw);
+  max-height: 88vh;
+  padding: 0;
+  border: 3px solid #523178;
+  border-radius: 10px;
+}
+
+/* Only lay the reader out when it is open; a closed <dialog> must stay
+   hidden, and setting "display" on it all the time would show it. */
+#reader[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+/* The dimmed page behind the reader. */
+#reader::backdrop {
+  background: rgba(27, 20, 36, 0.7);
+}
+
+/* Title and Close button: always visible at the top. */
+.reader-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.6rem 1rem;
+  color: #ffffff;
+  background: #523178;
+  font-size: 1.15rem;
+}
+
+#reader-close {
+  flex: none; /* never squash the button */
+  background: #ffffff;
+  color: #3b2257;
+  font-weight: 600;
+}
+
+/* The content scrolls; the bar above and the link below stay put. */
+#reader-content {
+  overflow-y: auto;
+  padding: 1rem 1.25rem 0;
+}
+
+#reader-content img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* The site makes links black with no underline, which is hard to spot
+   in a block of text, so links in the reader are underlined. */
+#reader-content a,
+.reader-foot a {
+  text-decoration: underline;
+}
+
+.reader-foot {
+  margin: 0;
+  padding: 0.6rem 1.25rem;
+  border-top: 1px solid #dddddd;
+  font-size: 0.9rem;
+}
+
+/* A small credit line under the list of places. */
+.explore-credit {
+  margin-top: 2rem;
+  font-size: 0.85rem;
+  color: #666666;
+}
+
+#place-panel[hidden],
+#place-image[hidden],
+#place-enter[hidden] {
   display: none;
 }
 

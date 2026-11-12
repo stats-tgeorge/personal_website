@@ -1,4 +1,6 @@
 // player.js
+// Written by Claude (an AI model made by Anthropic) at Tyler George's direction.
+//
 // The player character: where they are, how they move, how they are drawn.
 //
 // The player's position (x, y) is the top-left corner of their
@@ -18,6 +20,14 @@ export function createPlayer(col, row) {
     moving: false,
     walkTime: 0, // seconds spent walking; drives the little step bounce
   };
+}
+
+// Puts the player in the middle of a map tile, facing a direction.
+// Used when going through a door into a room.
+export function movePlayerToTile(player, col, row, facing) {
+  player.x = col * TILE + (TILE - PLAYER_WIDTH) / 2;
+  player.y = row * TILE + (TILE - PLAYER_HEIGHT) / 2;
+  player.facing = facing;
 }
 
 // Moves the player for one frame.

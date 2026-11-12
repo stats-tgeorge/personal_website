@@ -7,6 +7,8 @@ css: [styles.css, explore/chooser.css]
 ---
 
 <!--
+  Written by Claude (an AI model made by Anthropic) at Tyler George's direction.
+
   This is the landing page ("chooser"). It is an ordinary Quarto page.
   Before this file existed, Quarto made an index.html that redirected
   straight to about.html. Now visitors pick a route here instead.

@@ -25,6 +25,10 @@ format-links: false
 ---
 
 <!--
+  The CV's content is Tyler George's. It was converted from his 2025
+  PDF into this Quarto file, and reorganised into categories, by
+  Claude (an AI model made by Anthropic).
+
   HOW THIS FILE IS LAID OUT (please keep to it)
 
   ##   a main category          (in explore mode: one wing of the Hall)

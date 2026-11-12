@@ -1,4 +1,6 @@
 // config.js
+// Written by Claude (an AI model made by Anthropic) at Tyler George's direction.
+//
 // All the "knobs" for explore mode live here, so you can tune the feel
 // of the game without reading the rest of the code.
 

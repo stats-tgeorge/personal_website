@@ -1,4 +1,7 @@
 # explore-world.yml
+# Written by Claude (an AI model made by Anthropic) at Tyler George's direction.
+# The titles and descriptions are drafts by Claude; edit them freely.
+#
 # The places a visitor can go in explore mode. This is the ONLY file you
 # need to edit to change a building's name, blurb or destination.
 #
@@ -9,6 +12,11 @@
 #                you would in a Quarto link. A full web address
 #                (https://...) also works.
 #   description: one or two sentences shown in the pop-up
+#
+# One optional line:
+#   room:        the name of a room to walk into (see explore/rooms.js).
+#                With it, the door offers "Go inside". Without it, the
+#                door simply opens the page.
 #
 # This file sits in the main site folder (next to the .qmd pages) so
 # that the paths above are written the same way as anywhere else in
@@ -28,6 +36,7 @@
 - door: 2
   title: "Classroom"
   path: teaching.qmd
+  room: classroom
   description: "The statistics and data science courses I teach, and how I teach them."
 
 - door: 3

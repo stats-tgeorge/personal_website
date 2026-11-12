@@ -1,4 +1,6 @@
 // tiles.js
+// Written by Claude (an AI model made by Anthropic) at Tyler George's direction.
+//
 // Draws one map tile. For now every tile is a PLACEHOLDER made of
 // coloured rectangles, so the game works before any real art exists.
 // When real pixel art is added (a later milestone), only this file
@@ -15,6 +17,10 @@ const COLORS = {
   waterShine: "#8fbdea",
   treeLeaves: "#2f6b3a",
   treeTrunk: "#6b4a2b",
+  floor: "#c9a36b",
+  floorLine: "#b58f58",
+  mat: "#a8323a",
+  nothing: "#1b1424", // the darkness beyond a room's walls
   roof: "#523178", // the site's navbar purple
   roofLine: "#3b2257",
   wall: "#e8dcc0",
@@ -24,7 +30,7 @@ const COLORS = {
 };
 
 // ctx  = the canvas drawing context
-// char = the map character for this tile (see the key in map.js)
+// char = the map character for this tile (see the keys in the maps/ files)
 // x, y = where the tile's top-left corner goes on the canvas
 // col, row = the tile's position in the map; only used to vary the
 //            speckles so the grass does not look like wallpaper
@@ -34,6 +40,30 @@ export function drawTile(ctx, char, x, y, col, row) {
   // flickering, because each tile gets the same answer every frame.
   const variety = (col * 7 + row * 13) % 5;
 
+  // --- Indoor tiles ---
+  // Empty space outside a room.
+  if (char === " ") {
+    fill(ctx, COLORS.nothing, x, y, TILE, TILE);
+    return;
+  }
+
+  // Floor, and everything that sits on floor. Desk spots ("o"), portal
+  // spots ("p") and the board ("i") are drawn as bare floor here;
+  // things.js draws the desk, portal or board on top.
+  if ("_opiE".includes(char)) {
+    fill(ctx, COLORS.floor, x, y, TILE, TILE);
+    fill(ctx, COLORS.floorLine, x, y + 15, TILE, 1); // floorboard seams
+    fill(ctx, COLORS.floorLine, x + (row % 2 === 0 ? 7 : 15), y, 1, TILE);
+
+    if (char === "E") {
+      fill(ctx, COLORS.mat, x + 1, y + 4, 14, 10); // exit mat
+      fill(ctx, COLORS.doorKnob, x + 3, y + 6, 10, 1);
+      fill(ctx, COLORS.doorKnob, x + 3, y + 11, 10, 1);
+    }
+    return;
+  }
+
+  // --- Outdoor tiles ---
   if (char === ":" || char === "@") {
     fill(ctx, COLORS.path, x, y, TILE, TILE);
     fill(ctx, COLORS.pathSpeck, x + 3 + variety * 2, y + 4 + variety, 2, 1);

@@ -1,4 +1,6 @@
 // input.js
+// Written by Claude (an AI model made by Anthropic) at Tyler George's direction.
+//
 // Keeps track of which movement keys are currently held down.
 //
 // Keys are only listened for while the game canvas has keyboard focus.
