@@ -18,11 +18,14 @@ const closeButton = document.getElementById("reader-close");
 // Opens the reader.
 //   thing.title  shown in the bar at the top
 //   thing.html   the content, copied from the regular page (see page-reader.js)
-//   thing.url    where this content lives on the regular site
+//   thing.url    where this content lives on the regular site (optional)
 export function openReader(thing) {
   title.textContent = thing.title;
   content.innerHTML = thing.html;
-  source.href = thing.url;
+  // The "open on the regular site" line is only shown when there is
+  // a page to point to.
+  source.parentElement.hidden = !thing.url;
+  if (thing.url) source.href = thing.url;
   content.scrollTop = 0; // start at the top, not where the last one was left
   reader.showModal();
 }

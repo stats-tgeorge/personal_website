@@ -15,8 +15,10 @@
 //   rooms.js        sets up the inside of a building
 //   page-reader.js  reads a room's content from its ordinary web page
 //   things.js       what the player can interact with, and reaching it
-//   panel.js        the small pop-up shown when something is in reach
+//   panel.js        the description shown when something is in reach
+//   labels.js       name tags above things in a room
 //   reader.js       the large pop-up for reading part of the regular site
+//   layout.js       makes the game fill the browser window
 //
 // The game repeats three steps many times a second: read the keys,
 // move the player, redraw the screen.
@@ -31,8 +33,10 @@ import { cameraFor } from "./camera.js";
 import { loadPlaces, drawSigns } from "./places.js";
 import { loadRoom } from "./rooms.js";
 import { thingInReach, drawThings } from "./things.js";
-import { showThing, activateShownThing, onGoInside, keepPanelClearOf } from "./panel.js";
+import { showThing, activateShownThing, onGoInside } from "./panel.js";
+import { showLabelsFor, positionLabels } from "./labels.js";
 import { onReaderClosed } from "./reader.js";
+import { fillTheWindow } from "./layout.js";
 
 const canvas = document.getElementById("game-canvas");
 const startHint = document.getElementById("game-start-hint");
@@ -72,6 +76,7 @@ async function goInside(place) {
   insidePlace = place;
   useMap(room.rows, room.blocked);
   things = room.things;
+  showLabelsFor(things);
   movePlayerToTile(player, room.start.col, room.start.row, "up");
   sceneLabel.textContent = place.title; // screen readers announce this
   canvas.focus(); // clicking "Go inside" moved focus to that button
@@ -84,6 +89,7 @@ function goOutside() {
   insidePlace = null;
   useMap(OUTDOOR_ROWS);
   things = outdoorPlaces;
+  showLabelsFor(things); // buildings have signs on their roofs, not tags
   player.x = spotOutside.x;
   player.y = spotOutside.y;
   player.facing = "down";
@@ -96,6 +102,7 @@ function goOutside() {
 canvas.hidden = false;
 startHint.hidden = false;
 fallbackNote.hidden = true;
+fillTheWindow();
 
 // --- Drawing ---------------------------------------------------------
 function draw() {
@@ -117,9 +124,7 @@ function draw() {
     drawSigns(ctx, things, camera);
   }
   drawPlayer(ctx, player, player.x - camera.x, player.y - camera.y);
-
-  // Keep the pop-up from covering the player.
-  keepPanelClearOf(player.y - camera.y > (VIEW_ROWS * TILE) / 2);
+  positionLabels(camera); // keep the name tags above their things
 }
 
 // --- The game loop -----------------------------------------------------
@@ -165,7 +170,7 @@ canvas.addEventListener("focus", () => {
 
 canvas.addEventListener("blur", (event) => {
   running = false;
-  // If focus moved into the small pop-up (the visitor is about to
+  // If focus moved into the description strip (the visitor is about to
   // click its button or link) or into the large reader, do not put the
   // "click to start" hint on top of things.
   const panel = document.getElementById("place-panel");

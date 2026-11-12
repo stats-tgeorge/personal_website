@@ -48,11 +48,13 @@ export async function readPage(pageUrl, level) {
   const sections = [...page.querySelectorAll(`section.level${level}`)].map((section) => {
     const heading = section.querySelector(`h${level}`);
 
-    // The short description: the paragraphs directly under this
-    // heading (not ones under smaller headings inside it), skipping
-    // any paragraph that is only a picture.
-    const paragraphs = [...section.children]
-      .filter((element) => element.tagName === "P")
+    // The short description: the paragraphs under this heading,
+    // skipping any paragraph that is only a picture. Paragraphs under
+    // a smaller heading inside this one are left out: "closest" finds
+    // the nearest section a paragraph sits in, which must be this one.
+    // (Paragraphs inside a column layout still count.)
+    const paragraphs = [...section.querySelectorAll("p")]
+      .filter((paragraph) => paragraph.closest("section") === section)
       .map((paragraph) => paragraph.textContent.trim())
       .filter((text) => text.length > 0);
 

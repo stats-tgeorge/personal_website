@@ -23,15 +23,53 @@ listing:
   The explore-mode page. The game is drawn on the <canvas> below by the
   JavaScript files in the explore/ folder, starting with explore/main.js.
 
+  When JavaScript is working, the game fills the whole browser window
+  (see explore/layout.js). Without JavaScript this is an ordinary page
+  with a list of links.
+
   Everything that matters for getting around (the way back to the
   traditional site, and the list of places under the map) is ordinary
   HTML, so it works for screen readers and when JavaScript is off.
 -->
 
-[← Switch to traditional site](about.qmd){.btn .to-traditional}
-
 ::: {#game-area .game-area}
 ```{=html}
+<!-- The bar across the top of the game. The link back to the
+     traditional site lives here so that it is ALWAYS on screen. -->
+<div class="game-bar">
+  <span id="scene-label" aria-live="polite">Outside</span>
+  <span class="game-bar-buttons">
+    <!-- Hidden until the game fills the window (see layout.js); before
+         that, the list of places is simply further down the page. -->
+    <button id="all-places-button" class="btn" type="button" hidden>All places</button>
+    <!-- Two wordings: the long one on wide screens, the short one on
+         phones, where the bar has less room (see explore.css). -->
+    <a class="btn to-traditional" href="about.html"><span class="wide-only">Switch to traditional site</span><span class="narrow-only">Traditional site</span></a>
+  </span>
+</div>
+
+<!-- The strip between the bar and the map. Whatever the player walks
+     up to is described HERE, always in the same place, so nothing ever
+     covers the map. panel.js fills it in. aria-live makes screen
+     readers read it out when it changes. -->
+<div class="game-talk">
+  <p id="talk-idle">Walk up to something to find out about it.</p>
+  <div id="place-panel" aria-live="polite" hidden>
+    <img id="place-image" alt="Preview of the website this leads to" hidden>
+    <div class="place-text">
+      <strong id="place-title"></strong>
+      <span id="place-description"></span>
+    </div>
+    <div class="place-buttons">
+      <button id="place-enter" class="btn" type="button" hidden>Go inside (Enter)</button>
+      <a id="place-link" class="btn" href="#">Open page</a>
+    </div>
+  </div>
+</div>
+
+<!-- The "stage": the map, with the start hint and name tags laid over it. -->
+<div class="game-stage">
+
 <!-- Shown only if JavaScript is off or broken; main.js hides it. -->
 <p id="game-fallback">
   The walkable map needs JavaScript. Every place on it is listed below.
@@ -50,16 +88,12 @@ listing:
   <small>Move with the arrow keys or W A S D</small>
 </button>
 
-<!-- The pop-up shown when the player can reach something. panel.js fills
-     in the text. aria-live makes screen readers read it out when it
-     appears. -->
-<div id="place-panel" aria-live="polite" hidden>
-  <img id="place-image" alt="Preview of the website this leads to" hidden>
-  <strong id="place-title"></strong>
-  <span id="place-description"></span>
-  <button id="place-enter" class="btn" type="button" hidden>Go inside (Enter)</button>
-  <a id="place-link" class="btn" href="#">Open page</a>
-</div>
+<!-- Name tags that float above things in a room. labels.js fills
+     this in. aria-hidden: screen readers get the same names from the
+     pop-up instead, so they are not read twice. -->
+<div id="thing-labels" aria-hidden="true"></div>
+
+</div><!-- end of game-stage -->
 
 <!-- The large pop-up for reading part of the regular site without
      leaving the game. reader.js fills it in. <dialog> is the browser's
@@ -75,16 +109,15 @@ listing:
   </p>
 </dialog>
 
-<!-- Says where the player is ("Outside", "Classroom"). main.js changes
-     it when the player goes through a door; screen readers read it out. -->
-<div id="scene-label" aria-live="polite">Outside</div>
-
 <script type="module" src="explore/main.js"></script>
 ```
 :::
 
 ## All places
 
+<!-- Everything in this "places-info" box is also shown inside the game
+     when the visitor presses the "All places" button. -->
+::::: {#places-info}
 Walk up to a building's door to visit it, or use these links.
 
 ::: {#places-list}
@@ -93,3 +126,4 @@ Walk up to a building's door to visit it, or use these links.
 ::: explore-credit
 Explore mode was designed by Tyler George and written by Claude, an AI model made by Anthropic. The art is placeholder art, also made by Claude.
 :::
+:::::

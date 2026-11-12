@@ -1,10 +1,12 @@
 // panel.js
 // Written by Claude (an AI model made by Anthropic) at Tyler George's direction.
 //
-// The pop-up shown when the player can reach a thing (a door, a desk,
-// a portal...): its name, its text, sometimes a picture, and its link.
+// The description shown when the player can reach a thing (a door, a
+// desk, a portal...): its name, its text, sometimes a picture, and its
+// link. It always appears in the same place: the strip between the top
+// bar and the map.
 //
-// The pop-up is ordinary HTML (it lives in explore.qmd and is styled in
+// It is ordinary HTML (it lives in explore.qmd and is styled in
 // explore.css), not something drawn on the canvas. That means the link
 // is a real link: it can be clicked, tapped, and read by screen readers.
 
@@ -16,6 +18,7 @@ const description = document.getElementById("place-description");
 const image = document.getElementById("place-image");
 const link = document.getElementById("place-link");
 const enterButton = document.getElementById("place-enter");
+const idleNote = document.getElementById("talk-idle");
 
 // The thing currently shown, or null when the pop-up is hidden.
 let shownThing = null;
@@ -35,6 +38,8 @@ export function showThing(thing) {
   if (thing === shownThing) return;
   shownThing = thing;
 
+  // With nothing in reach, the strip shows its "walk up to something" note.
+  idleNote.hidden = Boolean(thing);
   if (!thing) {
     panel.hidden = true;
     return;
@@ -47,8 +52,10 @@ export function showThing(thing) {
   image.hidden = !thing.image;
   if (thing.image) image.src = thing.image;
 
-  // The link. Other websites open in a new tab so the game is not lost.
-  link.href = thing.url;
+  // The link. Some things only explain (the chalkboard) and have none.
+  // Other websites open in a new tab so the game is not lost.
+  link.hidden = !thing.url;
+  link.href = thing.url || "#";
   link.target = thing.newTab ? "_blank" : "";
   link.rel = thing.newTab ? "noopener" : "";
 
@@ -58,14 +65,6 @@ export function showThing(thing) {
   link.textContent = thing.room ? `${thing.linkLabel} instead` : `${thing.linkLabel} (Enter)`;
 
   panel.hidden = false;
-}
-
-// Moves the pop-up out of the player's way: it sits along the bottom
-// of the map, unless the player is in the bottom half, in which case
-// it moves to the top so it never covers them. (The "at-top" class is
-// styled in explore.css.)
-export function keepPanelClearOf(playerIsInBottomHalf) {
-  panel.classList.toggle("at-top", playerIsInBottomHalf);
 }
 
 // Does the main action for the thing being shown. Used for the Enter
@@ -78,9 +77,10 @@ export function activateShownThing() {
     openReader(shownThing); // read it here, without leaving the game
   } else if (shownThing.newTab) {
     window.open(shownThing.url, "_blank", "noopener");
-  } else {
+  } else if (shownThing.url) {
     window.location.href = shownThing.url;
   }
+  // A thing with no link (the chalkboard) has nothing to do.
 }
 
 // Clicking "Go inside" does the same as pressing Enter.

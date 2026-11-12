@@ -5,15 +5,17 @@
 // from: a building's door, a desk, a portal, a notice board.
 //
 // Every thing is a plain object with these properties:
-//   kind         "door", "desk", "portal" or "board" (decides how it is drawn)
+//   kind         "door", "desk", "portal", "board" or "laptop"
+//                (decides how it is drawn)
 //   col, row     the map tile it is on
 //   reach        where the player must stand for the pop-up to show:
 //                  "below"    on the tile directly below it (doors)
 //                  "adjacent" on any of the four tiles touching it
 //                  "on"       on the thing's own tile (portals)
+//   label        optional name tag shown above it on the map (labels.js)
 //   title        heading of the pop-up
 //   description  text of the pop-up
-//   url          where its link goes
+//   url          where its link goes (optional: without it there is no link)
 //   html         optional content from the regular site. When present,
 //                the link opens it in the large reader (reader.js)
 //                and the visitor stays in the game
@@ -51,15 +53,22 @@ export function drawThings(ctx, things, camera) {
     const x = thing.col * TILE - camera.x;
     const y = thing.row * TILE - camera.y;
 
-    if (thing.kind === "desk") {
+    if (thing.kind === "desk" || thing.kind === "laptop") {
       fill(ctx, "#8a5a2b", x + 1, y + 4, 14, 8); // table top
       fill(ctx, "#6b4420", x + 2, y + 12, 2, 4); // legs
       fill(ctx, "#6b4420", x + 12, y + 12, 2, 4);
+    }
+    if (thing.kind === "desk") {
       fill(ctx, "#ffffff", x + 5, y + 5, 6, 5); // a sheet of paper
+    }
+    if (thing.kind === "laptop") {
+      fill(ctx, "#444444", x + 4, y + 1, 8, 6); // screen surround
+      fill(ctx, "#56b4e9", x + 5, y + 2, 6, 4); // glowing screen
+      fill(ctx, "#999999", x + 3, y + 7, 10, 3); // keyboard
     }
 
     if (thing.kind === "board") {
-      // A chalkboard on wheels...
+      // A chalkboard on wheels.
       fill(ctx, "#6b4a2b", x + 1, y + 1, 14, 11); // wooden frame
       fill(ctx, "#2f5d50", x + 2, y + 2, 12, 9); // green board
       fill(ctx, "#ffffff", x + 4, y + 4, 6, 1); // chalk lines
@@ -68,17 +77,6 @@ export function drawThings(ctx, things, camera) {
       fill(ctx, "#6b4a2b", x + 12, y + 12, 1, 2);
       fill(ctx, "#222222", x + 2, y + 14, 3, 2); // wheels
       fill(ctx, "#222222", x + 11, y + 14, 3, 2);
-
-      // ...with a "Read Now" label floating above it, so new arrivals
-      // know to look at it first.
-      const labelWidth = 46;
-      const labelX = Math.round(x + TILE / 2 - labelWidth / 2);
-      fill(ctx, "#3b2257", labelX, y - 12, labelWidth, 11);
-      ctx.font = "8px monospace";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillStyle = "#ffffff";
-      ctx.fillText("Read Now", Math.round(x + TILE / 2), y - 6);
     }
 
     if (thing.kind === "portal") {

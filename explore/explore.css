@@ -1,31 +1,100 @@
 /* Styles for the explore-mode page (explore.qmd) only.
    Written by Claude (an AI model made by Anthropic) at Tyler George's direction. */
 
-/* The "switch to traditional site" button. It must stay visible at all
-   times, so it is pinned to the bottom-left corner of the window. */
-.to-traditional,
-.to-traditional:visited {
-  position: fixed;
-  left: 1rem;
-  bottom: 1rem;
-  z-index: 1000; /* keep it above the game */
-  background: #523178;
-  color: #ffffff;
-  border: 2px solid #ffffff;
-}
+/* --- Layout ------------------------------------------------------------
+   The page has two looks:
+   1. Ordinary page (JavaScript off): the box below is just part of the page.
+   2. Full window (JavaScript on): layout.js adds the class "explore-full"
+      to the page, and the rules marked "full window" take over. */
 
-.to-traditional:hover,
-.to-traditional:focus {
-  background: #3b2257;
-  color: #ffffff;
-}
-
-/* The box that holds the game. "position: relative" lets the start
-   hint be placed on top of the canvas. */
+/* The box that holds the bar and the game. */
 .game-area {
-  position: relative;
   max-width: 960px; /* 3x the canvas's 320 pixels */
-  margin: 0 auto 4rem; /* bottom room so the pinned button never covers it */
+  margin: 0 auto 2rem;
+}
+
+/* The bar across the top: where you are, and the buttons. */
+.game-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  height: 3rem; /* the map's size further down is worked out from this */
+  flex: none; /* never squashed or stretched */
+  padding: 0 0.6rem;
+  color: #ffffff;
+  background: #523178;
+}
+
+.game-bar-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* The buttons in the bar, including "switch to traditional site". */
+.game-bar .btn,
+.game-bar .btn:visited {
+  padding: 0.25rem 0.7rem;
+  background: #ffffff;
+  color: #3b2257;
+  font-weight: 600;
+}
+
+.game-bar .btn:hover,
+.game-bar .btn:focus {
+  background: #f0e442;
+  color: #3b2257;
+}
+
+/* Wording that only shows on wide or on narrow screens. */
+.narrow-only {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .wide-only {
+    display: none;
+  }
+  .narrow-only {
+    display: inline;
+  }
+  .game-bar .btn {
+    font-size: 0.9rem;
+    white-space: nowrap; /* keep each button on one line */
+  }
+}
+
+/* The stage holds the map. "position: relative" lets the pop-ups be
+   placed on top of the canvas. */
+.game-stage {
+  position: relative;
+}
+
+/* Full window: the box covers the whole browser window, on top of the
+   site's navigation bar, with the map centred on a dark background. */
+.explore-full,
+.explore-full body {
+  overflow: hidden; /* the page behind must not scroll */
+}
+
+.explore-full .game-area {
+  position: fixed;
+  inset: 0; /* touch all four edges of the window */
+  z-index: 2000; /* above Quarto's navigation bar */
+  max-width: none;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  background: #1b1424;
+}
+
+/* Full window: make the map as big as fits. The map is 320 wide by 224
+   tall, so its width is the smaller of "the whole window width" and
+   "the width that goes with the full available height" (the window
+   height minus the 3rem bar and the talk strip). "dvh" is the height of the visible window. */
+.explore-full .game-stage {
+  width: min(100vw, calc((100dvh - 3rem - var(--talk-height)) * 320 / 224));
+  margin: 0 auto;
 }
 
 /* The game canvas is only 320 x 224 pixels; stretch it to the width of
@@ -36,14 +105,18 @@
   height: auto;
   image-rendering: pixelated;
   border: 3px solid #523178;
-  border-radius: 6px;
+}
+
+/* Full window: the border would push the map past the window's edge. */
+.explore-full #game-canvas {
+  border: none;
 }
 
 /* A clear outline while the game has keyboard focus, so keyboard users
    can see that their keys now go to the game. */
 #game-canvas:focus {
   outline: 4px solid #e69f00;
-  outline-offset: 2px;
+  outline-offset: -4px; /* drawn just inside the edge, so it is never cut off */
 }
 
 /* The start hint: centred over the canvas. */
@@ -68,53 +141,81 @@
   display: none;
 }
 
-/* The pop-up shown when something is in reach. It sits along the
-   bottom edge of the map. */
-#place-panel {
-  position: absolute;
-  left: 0.75rem;
-  right: 0.75rem;
-  bottom: 0.75rem;
-  max-height: 60%; /* never cover the whole map... */
-  overflow-y: auto; /* ...scroll inside the pop-up instead */
+/* --- The talk strip -----------------------------------------------------
+   The strip between the bar and the map where things are described.
+   It only exists in the full-window look, and it always has the same
+   height, so the map never jumps when text appears. The height is kept
+   in one place (--talk-height) because the map's size depends on it. */
+.game-area {
+  --talk-height: 6.5rem;
+}
+
+.game-talk {
+  display: none; /* not shown on the ordinary (no JavaScript) page */
+}
+
+.explore-full .game-talk {
   display: flex;
-  flex-wrap: wrap; /* on narrow screens the buttons drop to their own line */
   align-items: center;
-  gap: 0.4rem 0.8rem;
-  padding: 0.6rem 0.9rem;
+  flex: none; /* never squashed or stretched */
+  box-sizing: border-box; /* the height includes the padding and border */
+  height: var(--talk-height);
+  padding: 0.4rem 0.75rem;
   color: #ffffff;
-  background: rgba(59, 34, 87, 0.94);
-  border: 2px solid #ffffff;
-  border-radius: 8px;
+  background: #3b2257;
+  border-bottom: 2px solid #ffffff;
 }
 
-/* When the player is in the bottom half of the map, the pop-up moves
-   to the top (below the "where you are" label) so it never hides them. */
-#place-panel.at-top {
-  bottom: auto;
-  top: 3rem;
+/* Shown in the strip while nothing is in reach. */
+#talk-idle {
+  margin: 0;
+  opacity: 0.75;
+  font-style: italic;
 }
 
-#place-description {
-  flex: 1 1 14rem; /* take up the spare room between title and buttons */
+/* The description of the thing in reach: picture, text, buttons, in a row. */
+#place-panel {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  width: 100%;
+  height: 100%;
+}
+
+/* Title above description. Long text scrolls inside the strip. */
+.place-text {
+  flex: 1; /* take up the room between the picture and the buttons */
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  overflow-y: auto;
+  line-height: 1.3;
 }
 
 /* The preview picture for a "door to another world". */
 #place-image {
-  height: 5rem;
+  height: 100%;
   width: auto;
   border: 2px solid #ffffff;
   border-radius: 4px;
   background: #ffffff;
 }
 
-/* The pop-up's main button ("Go inside") and its link. */
+.place-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+/* The main button ("Go inside") and the link. */
 #place-enter,
 #place-link,
 #place-link:visited {
+  padding: 0.25rem 0.7rem;
   background: #ffffff;
   color: #3b2257;
   font-weight: 600;
+  white-space: nowrap;
 }
 
 /* When there is a "Go inside" button, the page link is the second
@@ -126,19 +227,55 @@
   font-weight: 400;
 }
 
-/* The name of where you are, shown top-left. */
-#scene-label {
-  position: absolute;
-  top: 0.75rem;
-  left: 0.75rem;
-  padding: 0.15rem 0.6rem;
-  color: #ffffff;
-  background: rgba(59, 34, 87, 0.9);
-  border-radius: 6px;
+/* --- Name tags above things ----------------------------------------- */
+/* "cqw" below means "1% of the stage's width", so the tags grow and
+   shrink with the map. This line is what makes that unit work. */
+.game-stage {
+  container-type: inline-size;
 }
 
-#scene-label:empty {
-  display: none;
+.thing-label {
+  position: absolute; /* left and top are set by labels.js */
+  transform: translate(-50%, -100%); /* centred above the thing */
+  max-width: 18cqw; /* a little under the gap between two desks */
+  padding: 0.1em 0.4em;
+  font-size: clamp(0.6rem, 1.2cqw, 1rem);
+  line-height: 1.15;
+  text-align: center;
+  color: #ffffff;
+  background: rgba(59, 34, 87, 0.88);
+  border-radius: 0.3em;
+  pointer-events: none; /* clicks go through to the map */
+}
+
+/* The name of where you are, at the left of the bar. */
+#scene-label {
+  font-weight: 600;
+}
+
+/* Narrow screens (phones held upright): there is less room across, so
+   the strip is taller and its buttons go under the text. */
+@media (max-width: 600px) {
+  .game-area {
+    --talk-height: 10rem;
+  }
+  #place-panel {
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 0.3rem 0.6rem;
+    overflow-y: auto;
+  }
+  .place-text {
+    flex-basis: 60%;
+    max-height: none;
+    overflow: visible;
+  }
+  .place-buttons {
+    flex-direction: row;
+  }
+  #place-image {
+    height: 3.5rem;
+  }
 }
 
 /* --- The large reader pop-up ------------------------------------------- */
@@ -215,12 +352,11 @@
 
 #place-panel[hidden],
 #place-image[hidden],
-#place-enter[hidden] {
+#place-enter[hidden],
+#place-link[hidden],
+#talk-idle[hidden],
+.thing-label[hidden],
+.reader-foot[hidden],
+.game-bar .btn[hidden] {
   display: none;
-}
-
-/* Leave room at the bottom of the page so the pinned "switch to
-   traditional site" button never sits on top of the last line. */
-main.content {
-  padding-bottom: 4rem;
 }
