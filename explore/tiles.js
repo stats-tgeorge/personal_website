@@ -47,11 +47,11 @@ export function drawTile(ctx, char, x, y, col, row) {
     return;
   }
 
-  // Floor, and everything that sits on floor. Desk spots ("o"), portal
-  // spots ("p"), helper spots ("n"), the board ("i") and the laptop
-  // desk ("L") are drawn as bare floor here; things.js draws the
-  // object or person on top.
-  if ("_opniLE".includes(char)) {
+  // Floor, and everything that sits on floor. The spots for things
+  // (desks "o", portals "p", helpers "n", pets "d", signs "*", the
+  // fairy "i", laptop desks "L" and "l") are drawn as bare floor here;
+  // things.js draws whatever stands there on top.
+  if ("_opnd*liLE".includes(char)) {
     fill(ctx, COLORS.floor, x, y, TILE, TILE);
     fill(ctx, COLORS.floorLine, x, y + 15, TILE, 1); // floorboard seams
     fill(ctx, COLORS.floorLine, x + (row % 2 === 0 ? 7 : 15), y, 1, TILE);
@@ -84,12 +84,31 @@ export function drawTile(ctx, char, x, y, col, row) {
     return;
   }
 
+  // A bookshelf: shelves of books in mixed colours.
+  if (char === "B") {
+    fill(ctx, "#6b4a2b", x, y, TILE, TILE);
+    const books = ["#0072b2", "#d55e00", "#009e73", "#cc79a7", "#e69f00", "#56b4e9"];
+    for (let shelf = 0; shelf < 2; shelf++) {
+      for (let book = 0; book < 7; book++) {
+        // Which colour: a pattern that differs from shelf to shelf and tile to tile.
+        const color = books[(book + shelf * 2 + col) % books.length];
+        fill(ctx, color, x + 1 + book * 2, y + 2 + shelf * 7, 2, 5);
+      }
+    }
+    return;
+  }
+
   // Walls, and walls with a statistics poster on them:
-  //   h = histogram (bell-shaped)   s = scatter plot   b = bar chart
-  if ("#hsb".includes(char)) {
+  //   h = histogram (bell-shaped)      s = scatter plot
+  //   b = bar chart                    x = side-by-side box plots
+  //   t = time series (a wiggly line)  q = normal curve with a shaded tail
+  //   c = correlation heat map         k = two overlapping density curves
+  // ("f" is a picture-frame spot: plain wall here; things.js draws a
+  // frame on it when there is a photo to show.)
+  if ("#hsbxtqckf".includes(char)) {
     fill(ctx, COLORS.wall, x, y, TILE, TILE);
     fill(ctx, COLORS.wallLine, x, y + 15, TILE, 1);
-    if (char !== "#") {
+    if (char !== "#" && char !== "f") {
       fill(ctx, "#6b4a2b", x + 1, y + 2, 14, 12); // frame
       fill(ctx, "#ffffff", x + 2, y + 3, 12, 10); // paper
     }
@@ -111,6 +130,48 @@ export function drawTile(ctx, char, x, y, col, row) {
       [["#0072b2", 5], ["#e69f00", 8], ["#009e73", 3], ["#cc79a7", 6]].forEach(([color, height], i) => {
         fill(ctx, color, x + 3 + i * 3, y + 12 - height, 2, height);
       });
+    }
+    if (char === "x") {
+      // Three box plots side by side: whisker, box, and a median line.
+      [["#0072b2", 5, 4], ["#e69f00", 4, 5], ["#009e73", 6, 3]].forEach(([color, top, boxHeight], i) => {
+        const bx = x + 3 + i * 4;
+        fill(ctx, "#333333", bx + 1, y + 4, 1, 8); // whisker
+        fill(ctx, color, bx, y + top, 3, boxHeight); // box
+        fill(ctx, "#333333", bx, y + top + 2, 3, 1); // median
+      });
+    }
+    if (char === "t") {
+      // A time series: one value per column, wandering up and down.
+      [8, 7, 9, 6, 7, 4, 6, 5, 3, 5, 2, 4].forEach((height, i) => {
+        fill(ctx, "#0072b2", x + 2 + i, y + 3 + height, 1, 1);
+      });
+      fill(ctx, "#333333", x + 2, y + 12, 12, 1); // time axis
+    }
+    if (char === "q") {
+      // A normal curve with its right tail shaded: a p-value.
+      [1, 1, 2, 4, 6, 8, 8, 6, 4, 2, 1, 1].forEach((height, i) => {
+        fill(ctx, i >= 9 ? "#d55e00" : "#cfd8e3", x + 2 + i, y + 12 - height, 1, height);
+        fill(ctx, "#333333", x + 2 + i, y + 12 - height, 1, 1); // the curve itself
+      });
+    }
+    if (char === "c") {
+      // A correlation heat map: a 4 by 4 grid, darkest on the diagonal.
+      const shades = ["#0072b2", "#56b4e9", "#a9d6f5", "#e8f3fb"];
+      for (let i = 0; i < 4; i++) {
+        for (let j = 0; j < 4; j++) {
+          fill(ctx, shades[Math.abs(i - j)], x + 3 + i * 3, y + 4 + j * 2, 2, 2);
+        }
+      }
+    }
+    if (char === "k") {
+      // Two overlapping density curves, as when comparing two groups.
+      [1, 2, 4, 6, 7, 6, 4, 2, 1, 0, 0, 0].forEach((height, i) => {
+        if (height > 0) fill(ctx, "#0072b2", x + 2 + i, y + 12 - height, 1, 1);
+      });
+      [0, 0, 0, 1, 2, 3, 5, 6, 5, 3, 2, 1].forEach((height, i) => {
+        if (height > 0) fill(ctx, "#d55e00", x + 2 + i, y + 12 - height, 1, 1);
+      });
+      fill(ctx, "#333333", x + 2, y + 12, 12, 1); // baseline
     }
     return;
   }

@@ -8,8 +8,8 @@
 //   (space)  nothing: the darkness outside the round wall
 //   _  floor                      (walkable)
 //   #  wall                       (blocks the player)
-//   h s b  wall with a poster: histogram, scatter plot, bar chart
-//   i  the instruction board      (blocks the player; always present)
+//   t c k  wall with a poster (see tiles.js for which is which)
+//   i  the helper fairy           (blocks the player; always present)
 //   L  the kiosk in the middle    (blocks the player; always present.
 //                                  It opens the whole Blog page)
 //   p  a bubble SPOT              (walkable; stand in a bubble to see its post)
@@ -25,7 +25,7 @@
 // get bubbles and the kiosk still lists them all.
 
 export const NEWSSTAND_ROWS = [
-  "     ##h##s##b#     ",
+  "     ##t##c##k#     ",
   "   ###________###   ",
   " ###____________### ",
   "##____p______p____##",

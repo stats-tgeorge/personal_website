@@ -59,10 +59,17 @@ export function showThing(thing) {
   link.target = thing.newTab ? "_blank" : "";
   link.rel = thing.newTab ? "noopener" : "";
 
-  // A building with a room gets a "Go inside" button, and Enter goes
-  // inside. Everything else: Enter does what the link does.
-  enterButton.hidden = !thing.room;
-  link.textContent = thing.room ? `${thing.linkLabel} instead` : `${thing.linkLabel} (Enter)`;
+  // Some things have a button as their main action: a building with a
+  // room ("Go inside") or a pet ("Pet"). For those, Enter presses the
+  // button and the link is the second choice. For everything else,
+  // Enter does what the link does.
+  const hasButton = Boolean(thing.room || thing.press);
+  enterButton.hidden = !hasButton;
+  if (thing.room) enterButton.textContent = "Go inside (Enter)";
+  if (thing.press) enterButton.textContent = `${thing.buttonLabel} (Enter)`;
+  if (thing.room) link.textContent = `${thing.linkLabel} instead`;
+  else if (thing.press) link.textContent = thing.linkLabel;
+  else link.textContent = `${thing.linkLabel} (Enter)`;
 
   panel.hidden = false;
 }
@@ -73,6 +80,8 @@ export function activateShownThing() {
   if (!shownThing) return;
   if (shownThing.room) {
     goInside(shownThing);
+  } else if (shownThing.press) {
+    shownThing.press();
   } else if (shownThing.html) {
     openReader(shownThing); // read it here, without leaving the game
   } else if (shownThing.newTab) {
@@ -83,8 +92,14 @@ export function activateShownThing() {
   // A thing with no link (the chalkboard) has nothing to do.
 }
 
-// Clicking "Go inside" does the same as pressing Enter.
-enterButton.addEventListener("click", activateShownThing);
+// Clicking the button does the same as pressing Enter. Clicking moves
+// the keyboard to the button, which pauses the game (see main.js), so
+// hand the keyboard straight back to the map: otherwise a petted dog
+// would not be seen reacting.
+enterButton.addEventListener("click", () => {
+  activateShownThing();
+  document.getElementById("game-canvas").focus();
+});
 
 // Clicking the link normally goes to its page. For a thing that has
 // content to read in the game, open the reader instead.

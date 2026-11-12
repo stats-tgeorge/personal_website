@@ -19,8 +19,11 @@
 // level   = heading level to collect: 2 for "##", 3 for "###"
 // Returns:
 //   { html,       the whole page's content, for reading in the game
-//     sections }  a list like
-//                 [{ title, text, html, url, portal: { url, image } or null }, ...]
+//     sections,   a list like
+//                 [{ title, text, html, url, portal, children }, ...]
+//                 where portal is { url, image } or null, and children
+//                 is the same kind of list for the next heading level
+//     pictures }  the page's captioned pictures: [{ caption, image }, ...]
 export async function readPage(pageUrl, level) {
   const response = await fetch(pageUrl);
   if (!response.ok) throw new Error(`Could not load ${pageUrl} (${response.status})`);
@@ -45,49 +48,79 @@ export async function readPage(pageUrl, level) {
 
   // Quarto wraps each heading and its content in
   // <section class="level3"> (the number is the heading level).
-  const sections = [...page.querySelectorAll(`section.level${level}`)].map((section) => {
-    const heading = section.querySelector(`h${level}`);
+  const sections = [...page.querySelectorAll(`section.level${level}`)].map((section) =>
+    describeSection(section, level, pageUrl)
+  );
 
-    // The short description: the paragraphs under this heading,
-    // skipping any paragraph that is only a picture. Paragraphs under
-    // a smaller heading inside this one are left out: "closest" finds
-    // the nearest section a paragraph sits in, which must be this one.
-    // (Paragraphs inside a column layout still count.)
-    const paragraphs = [...section.querySelectorAll("p")]
-      .filter((paragraph) => paragraph.closest("section") === section)
-      .map((paragraph) => paragraph.textContent.trim())
-      .filter((text) => text.length > 0);
-
-    // Some headings have nothing directly under them, only smaller
-    // headings ("## Academic support" on the Student Support page).
-    // For those, fall back to the text under the smaller headings.
-    const allParagraphs = [...section.querySelectorAll("p")]
-      .map((paragraph) => paragraph.textContent.trim())
-      .filter((text) => text.length > 0);
-
-    // The full content for "Read more": the section without its
-    // heading (the reader shows the title in its own bar). The copy is
-    // made so that removing the heading does not disturb the page.
-    const copy = section.cloneNode(true);
-    const copiedHeading = copy.querySelector(`h${level}`);
-    if (copiedHeading) copiedHeading.remove();
-
-    return {
-      title: heading ? heading.textContent.trim() : "(untitled)",
-      text: (paragraphs.length > 0 ? paragraphs : allParagraphs).join(" "),
-      html: copy.innerHTML,
-      // The page address plus "#section-name" jumps straight to this heading.
-      url: section.id ? `${pageUrl}#${section.id}` : pageUrl,
-      portal: findPortal(section),
-    };
-  });
+  // Pictures that have a caption, anywhere on the page (the family
+  // photos on the About page). Quarto wraps each in a <figure>.
+  const pictures = [...page.querySelectorAll("figure")]
+    .map((figure) => {
+      const picture = figure.querySelector("img");
+      const caption = figure.querySelector("figcaption");
+      return {
+        caption: caption ? caption.textContent.trim() : "",
+        image: picture ? picture.getAttribute("src") : null,
+      };
+    })
+    .filter((picture) => picture.caption && picture.image);
 
   // The page's own content, without the navigation bar, title and footer.
   const main = page.querySelector("main");
   const titleBlock = main ? main.querySelector("#title-block-header") : null;
   if (titleBlock) titleBlock.remove();
 
-  return { html: main ? main.innerHTML : "", sections };
+  return { html: main ? main.innerHTML : "", sections, pictures };
+}
+
+// Describes one heading and what is under it. Also describes the
+// next-smaller headings inside it, as "children" (the Hall uses this:
+// each "##" category of the CV has "###" sections inside).
+function describeSection(section, level, pageUrl) {
+  const heading = section.querySelector(`h${level}`);
+
+  // Does this piece of text sit directly under THIS heading, and not
+  // under a smaller heading inside it? "closest" finds the nearest
+  // section an element is in, which must be this one.
+  const isOwn = (element) => element.closest("section") === section;
+
+  // The short description comes from paragraphs and list items. A
+  // list item inside another list item is skipped, because its text is
+  // already part of the outer one; so is a paragraph inside a list item.
+  const readText = (elements) =>
+    elements
+      .filter((element) => !element.parentElement.closest("li"))
+      .map((element) => element.textContent.trim().replace(/\s+/g, " "))
+      .filter((text) => text.length > 0);
+
+  const everything = [...section.querySelectorAll("p, li")];
+  const ownText = readText(everything.filter(isOwn));
+  // Some headings have nothing directly under them, only smaller
+  // headings ("## Academic support" on the Student Support page).
+  // For those, fall back to the text under the smaller headings.
+  const text = (ownText.length > 0 ? ownText : readText(everything)).join(" ");
+
+  // The full content for "Read more": the section without its heading
+  // (the reader shows the title in its own bar). The copy is made so
+  // that removing the heading does not disturb the page.
+  const copy = section.cloneNode(true);
+  const copiedHeading = copy.querySelector(`h${level}`);
+  if (copiedHeading) copiedHeading.remove();
+
+  // The next-smaller headings directly inside this one.
+  const children = [...section.children]
+    .filter((child) => child.matches(`section.level${level + 1}`))
+    .map((child) => describeSection(child, level + 1, pageUrl));
+
+  return {
+    title: heading ? heading.textContent.trim() : "(untitled)",
+    text,
+    html: copy.innerHTML,
+    // The page address plus "#section-name" jumps straight to this heading.
+    url: section.id ? `${pageUrl}#${section.id}` : pageUrl,
+    portal: findPortal(section),
+    children,
+  };
 }
 
 // Reads a Quarto LISTING page (the Blog page) and returns its posts in

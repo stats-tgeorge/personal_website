@@ -1,12 +1,13 @@
 // things.js
 // Written by Claude (an AI model made by Anthropic) at Tyler George's direction.
 //
-// A "thing" is anything the player can walk up to and get a pop-up
-// from: a building's door, a desk, a portal, a notice board.
+// A "thing" is anything the player can walk up to and have described:
+// a building's door, a desk, a portal, a person, a museum pedestal.
 //
 // Every thing is a plain object with these properties:
-//   kind         "door", "desk", "portal", "bubble", "board", "laptop" or
-//                "person" (decides how it is drawn)
+//   kind         decides how it is drawn: "door", "desk", "portal",
+//                "bubble", "fairy", "laptop", "person", "pedestal",
+//                "sign", "frame" or "pet"
 //   col, row     the map tile it is on
 //   wide         optional: 2 if it fills this tile and the one to its
 //                right (the pair of tutors)
@@ -18,6 +19,8 @@
 //                             included (people: they speak as you walk by)
 //                  "on"       on the thing's own tile (portals)
 //   label        optional name tag shown above it on the map (labels.js)
+//   labelBelow   optional: true to hang the name tag below it instead
+//   narrowLabel  optional: true for a narrower name tag
 //   title        heading of the pop-up
 //   description  text of the pop-up
 //   url          where its link goes (optional: without it there is no link)
@@ -28,9 +31,17 @@
 //   newTab       true to open the link in a new browser tab (other websites)
 //   image        optional picture shown in the pop-up (portal previews)
 //   room         optional name of a room this thing leads into (doors)
+//   press        optional: something to do when its button is pressed
+//                (a function; pets use it for being petted), with
+//   buttonLabel  the words on that button, e.g. "Pet"
 
 import { TILE, PLAYER_WIDTH, PLAYER_HEIGHT } from "./config.js";
 import { drawPerson } from "./people.js";
+import { drawPet, drawFrame } from "./pets.js";
+
+// Visitors who have asked their computer to reduce motion get no
+// bobbing or wagging.
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 // Which thing (if any) can the player reach from where they stand?
 export function thingInReach(player, things) {
@@ -90,17 +101,39 @@ export function drawThings(ctx, things, camera, now) {
       fill(ctx, "#ffffff", x + 5, y + 4, 3, 2); // shine
     }
 
-    if (thing.kind === "board") {
-      // A chalkboard on wheels.
-      fill(ctx, "#6b4a2b", x + 1, y + 1, 14, 11); // wooden frame
-      fill(ctx, "#2f5d50", x + 2, y + 2, 12, 9); // green board
-      fill(ctx, "#ffffff", x + 4, y + 4, 6, 1); // chalk lines
-      fill(ctx, "#ffffff", x + 4, y + 7, 8, 1);
-      fill(ctx, "#6b4a2b", x + 3, y + 12, 1, 2); // legs
-      fill(ctx, "#6b4a2b", x + 12, y + 12, 1, 2);
-      fill(ctx, "#222222", x + 2, y + 14, 3, 2); // wheels
-      fill(ctx, "#222222", x + 11, y + 14, 3, 2);
+    if (thing.kind === "fairy") {
+      // The helper fairy hovers, bobbing gently up and down. Math.sin
+      // swings smoothly between -1 and 1; dividing the time by 350
+      // sets the speed. (No bobbing for visitors who asked their
+      // computer to reduce motion.)
+      const bob = reduceMotion ? 0 : Math.round(Math.sin(now / 350) * 2);
+      const fy = y + 2 + bob;
+      fill(ctx, "rgba(0, 0, 0, 0.2)", x + 5, y + 14, 6, 2); // shadow on the floor
+      fill(ctx, "rgba(255, 255, 255, 0.85)", x + 1, fy + 3, 5, 6); // wings
+      fill(ctx, "rgba(255, 255, 255, 0.85)", x + 10, fy + 3, 5, 6);
+      fill(ctx, "#f1c9a5", x + 6, fy, 4, 4); // head
+      fill(ctx, "#e69f00", x + 6, fy - 1, 4, 2); // hair
+      fill(ctx, "#523178", x + 5, fy + 4, 6, 6); // dress, in the site's purple
+      fill(ctx, "#523178", x + 4, fy + 8, 8, 2);
+      fill(ctx, "#f0e442", x + 12, fy - 1, 2, 2); // a star on a wand
+      fill(ctx, "#f0e442", x + 12, fy + 1, 1, 4);
     }
+
+    if (thing.kind === "pedestal") {
+      fill(ctx, "#b9b2a3", x + 3, y + 8, 10, 8); // stone plinth
+      fill(ctx, "#d9d3c5", x + 2, y + 6, 12, 3); // its top
+      drawExhibit(ctx, thing.exhibit || 0, x + 3, y - 3); // what is on show
+    }
+
+    if (thing.kind === "sign") {
+      fill(ctx, "#6b4a2b", x + 7, y + 8, 2, 8); // post
+      fill(ctx, "#523178", x + 1, y + 1, 14, 8); // board
+      fill(ctx, "#ffffff", x + 3, y + 3, 10, 1); // lines of writing
+      fill(ctx, "#ffffff", x + 3, y + 6, 7, 1);
+    }
+
+    if (thing.kind === "frame") drawFrame(ctx, x, y); // see pets.js
+    if (thing.kind === "pet") drawPet(ctx, thing, x, y, now); // see pets.js
 
     if (thing.kind === "portal") {
       // Rings of colour, like a doorway of light on the floor.
@@ -108,6 +141,35 @@ export function drawThings(ctx, things, camera, now) {
       fill(ctx, "#523178", x + 4, y + 3, 8, 10);
       fill(ctx, "#f0e442", x + 6, y + 5, 4, 6);
     }
+  }
+}
+
+// What stands on a museum pedestal: a small statistics picture. There
+// are five; each pedestal is given a number and shows that one, so a
+// row of pedestals shows a variety.
+function drawExhibit(ctx, number, x, y) {
+  const which = number % 5;
+  if (which === 0) {
+    // Bar chart.
+    [["#0072b2", 4], ["#e69f00", 8], ["#009e73", 6]].forEach(([color, height], i) => {
+      fill(ctx, color, x + 1 + i * 3, y + 9 - height, 2, height);
+    });
+  } else if (which === 1) {
+    // Bell curve, built from columns of different heights.
+    [1, 2, 4, 7, 8, 8, 7, 4, 2, 1].forEach((height, i) => fill(ctx, "#cc79a7", x + i, y + 9 - height, 1, height));
+  } else if (which === 2) {
+    // Scatter plot with its axes.
+    fill(ctx, "#333333", x, y + 1, 1, 8);
+    fill(ctx, "#333333", x, y + 8, 10, 1);
+    for (const [dx, dy] of [[2, 6], [3, 5], [5, 5], [6, 3], [8, 2]]) fill(ctx, "#d55e00", x + dx, y + dy, 1, 1);
+  } else if (which === 3) {
+    // Box plot: whiskers, box and median line.
+    fill(ctx, "#333333", x, y + 5, 10, 1);
+    fill(ctx, "#56b4e9", x + 3, y + 2, 5, 7);
+    fill(ctx, "#333333", x + 5, y + 2, 1, 7);
+  } else {
+    // Line chart climbing to the right.
+    for (let i = 0; i < 10; i++) fill(ctx, "#009e73", x + i, y + 8 - Math.round(i * 0.5 + Math.sin(i) * 1.2), 1, 2);
   }
 }
 

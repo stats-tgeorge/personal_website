@@ -7,12 +7,13 @@
 //
 //   _  floor                      (walkable)
 //   #  wall                       (blocks the player)
-//   h s b  wall with a poster: histogram, scatter plot, bar chart
-//   i  the instruction board      (blocks the player; always present.
-//                                  It is next to where the player comes
-//                                  in, so its pop-up shows straight away)
+//   h s b  wall with a poster (see tiles.js for which is which)
+//   i  the helper fairy           (blocks the player; always present.
+//                                  She hovers by the door and explains
+//                                  the room to anyone who talks to her)
 //   L  the laptop desk            (blocks the player; always present.
-//                                  It opens the whole Teaching page)
+//                                  It opens the whole Teaching page. It
+//                                  is at the back of the room)
 //   o  a desk SPOT                (blocks the player when a desk is there)
 //   p  a portal SPOT              (walkable)
 //   E  the exit mat               (walking onto it leaves the room;
@@ -33,17 +34,17 @@
 
 export const CLASSROOM_ROWS = [
   "###h######s######b##",
+  "#________L_________#",
+  "#__________________#",
+  "#__________________#",
+  "#__op__op__op__op__#",
   "#__________________#",
   "#__________________#",
   "#__________________#",
   "#__op__op__op__op__#",
   "#__________________#",
   "#__________________#",
-  "#__________________#",
-  "#__op__op__op__op__#",
-  "#__________________#",
-  "#__________________#",
-  "#______L___i_______#",
+  "#__________i_______#",
   "#_________E________#",
   "####################",
 ];

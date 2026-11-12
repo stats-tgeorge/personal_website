@@ -7,8 +7,8 @@
 //
 //   _  floor                      (walkable)
 //   #  wall                       (blocks the player)
-//   h s b  wall with a poster: histogram, scatter plot, bar chart
-//   i  the instruction board      (blocks the player; always present)
+//   x t q  wall with a poster (see tiles.js for which is which)
+//   i  the helper fairy           (blocks the player; always present)
 //   L  the laptop desk            (blocks the player; always present.
 //                                  It opens the whole Student Support
 //                                  page. It is at the back of the room,
@@ -30,7 +30,7 @@
 // add more "n" spots here.
 
 export const SUPPORT_ROWS = [
-  "####h#####s####b####",
+  "####x#####t####q####",
   "#________L_________#",
   "#__________________#",
   "#________n_________#",

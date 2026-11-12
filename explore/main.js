@@ -35,7 +35,7 @@ import { loadRoom } from "./rooms.js";
 import { thingInReach, drawThings } from "./things.js";
 import { showThing, activateShownThing, onGoInside } from "./panel.js";
 import { showLabelsFor, positionLabels } from "./labels.js";
-import { openReader, onReaderClosed } from "./reader.js";
+import { onReaderClosed } from "./reader.js";
 import { fillTheWindow } from "./layout.js";
 
 const canvas = document.getElementById("game-canvas");
@@ -56,7 +56,6 @@ let things = [];
 let outdoorPlaces = []; // the doors, kept so we can come back to them
 let insidePlace = null; // the building we are inside, or null when outdoors
 let spotOutside = null; // where the player stood before going in
-const roomsSeen = new Set(); // rooms whose instructions have been shown
 let reached = null; // the thing currently in reach (null = nothing)
 
 // The places from explore-world.yml. The list starts empty and is
@@ -83,15 +82,6 @@ async function goInside(place) {
   sceneLabel.textContent = place.title; // screen readers announce this
   canvas.focus(); // clicking "Go inside" moved focus to that button
   draw();
-
-  // The first time in each room, show its instructions large, so they
-  // cannot be missed. After that they are on the chalkboard by the door.
-  if (room.welcome && !roomsSeen.has(place.room)) {
-    roomsSeen.add(place.room);
-    reached = null;
-    showThing(null); // clear the door's description from the strip behind
-    openReader(room.welcome);
-  }
 }
 onGoInside(goInside);
 

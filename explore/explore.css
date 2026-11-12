@@ -248,6 +248,16 @@
   pointer-events: none; /* clicks go through to the map */
 }
 
+/* A narrower tag, for things that stand close together. */
+.thing-label.narrow {
+  max-width: 14cqw;
+}
+
+/* A tag that hangs below its thing instead of sitting above it. */
+.thing-label.below {
+  transform: translate(-50%, 0);
+}
+
 /* The name of where you are, at the left of the bar. */
 #scene-label {
   font-weight: 600;

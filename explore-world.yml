@@ -29,8 +29,9 @@
 # building in map.js with that digit as its door.
 
 - door: 1
-  title: "Tyler's Office"
+  title: "Professor George's Office"
   path: about.qmd
+  room: office
   description: "Who I am, how to reach me, and the dogs who run the household."
 
 - door: 2
@@ -46,8 +47,9 @@
   description: "Office hours, tutoring, and where to find help on campus."
 
 - door: 4
-  title: "Hall of Tyler's Achievements"
+  title: "Dr. George Achievements and Activities (CV)"
   path: cv.qmd
+  room: hall
   description: "My curriculum vitae: education, publications, talks and service."
 
 - door: 5

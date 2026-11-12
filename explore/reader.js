@@ -16,11 +16,12 @@ const source = document.getElementById("reader-source");
 const closeButton = document.getElementById("reader-close");
 
 // Opens the reader.
-//   thing.title  shown in the bar at the top
+//   thing.title  shown in the bar at the top (or thing.readerTitle,
+//                when the large pop-up needs a different heading)
 //   thing.html   the content, copied from the regular page (see page-reader.js)
 //   thing.url    where this content lives on the regular site (optional)
 export function openReader(thing) {
-  title.textContent = thing.title;
+  title.textContent = thing.readerTitle || thing.title;
   content.innerHTML = thing.html;
   // The "open on the regular site" line is only shown when there is
   // a page to point to.

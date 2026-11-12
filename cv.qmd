@@ -31,8 +31,12 @@ format-links: false
 
   HOW THIS FILE IS LAID OUT (please keep to it)
 
-  ##   a main category          (in explore mode: one wing of the Hall)
-  ###  a section in a category  (in explore mode: one exhibit in that wing)
+  ##   a main category          (in explore mode: one wing of the museum)
+  ###  a section in a category  (in explore mode: one pedestal in that wing)
+
+  The museum has room for 8 categories with up to 6 sections each. A
+  ninth category, or a seventh section, needs more spots drawn in
+  explore/maps/hall.js.
 
   Under a ### heading, write anything: paragraphs, bullet lists, links.
   Entries are written as   **Name** *(dates)*   so they look the same
@@ -52,7 +56,7 @@ format-links: false
 A **[previous PDF version of this CV (2025)](Tyler_George_CV_25.pdf)** is also available.
 :::
 
-## Education
+## Education and Appointments
 
 ### Degrees
 
@@ -62,7 +66,45 @@ Central Michigan University (Mt. Pleasant, MI)
 **Bachelor of Science in Applied Mathematics**\
 Ferris State University (Big Rapids, MI)
 
-## Research and Publications
+### Academic Appointments
+
+**Cornell College**, Mount Vernon, Iowa
+
+**Assistant Professor of Statistics** *(Aug 2020 – Present)*
+
+- Course load of six, 4-credit-equivalent classes per year. Generally, three sections of introductory statistics and three other distinct, mid to upper-level, undergraduate courses
+- Student advising involves advising four to five new students each year.
+
+**Director of Cornell Summer Research Institute (CSRI)** *(May 2023 – Present)*
+
+- Summer 8-week undergraduate research program with approximately 45-75 Cornell students and 20-25 Cornell College faculty
+- Regularly updating the program, including changes to student stipends, faculty institutional support, student and faculty application processes, student and faculty program information, and communications
+- Set programming schedule and coordinate faculty and staff for weekly events during the program, including professional development seminars, social events, and presentations for students and events open to the local community
+- Liaison between the faculty participating and the Office of Academic Affairs
+- Identifying and exploring sources of funding to support the program
+
+### Industry and Consulting
+
+**Paystr**, Bay City, Michigan
+
+**Data Analyst Using R Intern** *(March 2018 – May 2020)*
+
+I developed dashboards of a data analytics centric platform FindEngine that presents Paystr’s clients with an interactive and informative set of visualizations of who their customers are, what they are buying, where they are, what they say about them on social media platforms, and predictions of future actions the Paystr client should take to benefit their own company.
+
+- Chose the appropriate statistical methods and visualizations to match a client’s needs and imagination
+- Chose and retrieved the appropriate data using Microsoft SQL Server Management Studio (SSMS)
+- Cleaned data and conducted the appropriate analysis in R programming
+- Prepared visualizations in Microsoft Power BI
+- Created documentation, including heavily commented code, readme files, and code flow diagrams
+- Teaching introductory R programming to colleagues
+- Creating a geographic customer segmentation scheme with a classification model using relevant statistical techniques such as hierarchical clustering and discriminant analysis
+
+**Cornell College**
+
+**Office of Academic Affairs, under former Provost Dr. Ilene Crawford** *(Summer 2024)*\
+Details under an NDA. Data visualization, feature importance, and statistical modeling, with a small sample, with an associated written report. Approximately 40 hours.
+
+## Research and Scholarship
 
 ### Publications
 
@@ -77,7 +119,7 @@ Ferris State University (Big Rapids, MI)
 
 George, T. (2025). lof: Lack of fit functions for linear regression. GitHub repository. Available at <https://github.com/stats-tgeorge/lof>.
 
-### Research
+### Research Projects
 
 **Cornell College**
 
@@ -107,7 +149,21 @@ George, T. (2025). lof: Lack of fit functions for linear regression. GitHub repo
 - Programmed linear regression lack of fit tests into R to make them accessible to more statisticians and simulated new and past results
 - Hypothesized application of recommended alterations for sinusoidal data structures
 
-### Presentations and Workshops
+### Curriculum Development Projects
+
+**Developing Inquiry-Based, Narrative Modules for Data Driven Courses** *(Spring 2025 – Present)*
+
+- Creating new educational games and R Shiny applications, with associated activities, to teach undergraduate statistics and mathematics courses.
+- Collaborative project between Shonda Kuiper, Grinnell College, Katherine, Beloit College, and Brittney Miller, Coe College.
+- See Roller Coaster game and activities at <https://dataspace.sites.grinnell.edu/coaster1.html>.
+- See the COVID-19 modules at <https://dataspace.sites.grinnell.edu/covid1.html>.
+
+**Dataspace by DASIL** *(Summer 2022 – Fall 2024)*\
+Collaborative project to create simulation games and corresponding labs for teaching statistics and data science. See <https://dataspace.sites.grinnell.edu/>
+
+## Presentations
+
+### Talks, Posters and Workshops
 
 - **“Teaching Abroad: The History of Statistics in the UK and Ireland”**
   - Talk, Joint Statistical Meetings *(Summer 2025)*
@@ -167,7 +223,7 @@ George, T. (2025). lof: Lack of fit functions for linear regression. GitHub repo
 - **“Methods for Linear Regression Lack of Fit Tests”**
   - Presentation, International Chinese Statistical Assoc. Applied Statistics Symposium *(June 2016)*
 
-### Session Organizer or Chair
+### Sessions Organized or Chaired
 
 **Joint Statistical Meetings**
 
@@ -186,7 +242,7 @@ George, T. (2025). lof: Lack of fit functions for linear regression. GitHub repo
 
 - “TX Family: Extensions and Inference” *(Fall 2019)*
 
-## Teaching
+## Teaching and Mentoring
 
 ### Programs Developed at Cornell College
 
@@ -363,9 +419,9 @@ In 2025, students received a second-place finish in the undergraduate division.
 - Central Michigan University Department of Mathematics
   - Conference Grant *(Fall 2018)*
 
-## Service
+## Service and Leadership
 
-### Committees
+### College Committees
 
 **Cornell College**
 
@@ -380,7 +436,7 @@ In 2025, students received a second-place finish in the undergraduate division.
 - Hiring Committee for Cornell Chief Financial/Operations Officer (CFO/COO) *(Fall 2022)*
 - Appeals Committee *(Dec 2021)*
 
-### Editor and Reviewer
+### Editing and Reviewing
 
 - Journal of Open Source Education (JOSE) – Coordinating Editor *(Fall 2022 – Present)*
 - Journal of Statistics and Data Science Education (JSDSE) – Reviewer *(Spring 2021 – Present)*
@@ -412,93 +468,28 @@ Collaboratively organized two free student-focused conferences on statistics and
 **Community Engaged Statistics Community of Practice** *(Fall 2024 – Spring 2025)*\
 Co-organized an online community of practice to complete readings and discuss the development and implementation of community-engaged statistics courses.
 
-### Other Activities
-
-**Developing Inquiry-Based, Narrative Modules for Data Driven Courses** *(Spring 2025 – Present)*
-
-- Creating new educational games and R Shiny applications, with associated activities, to teach undergraduate statistics and mathematics courses.
-- Collaborative project between Shonda Kuiper, Grinnell College, Katherine, Beloit College, and Brittney Miller, Coe College.
-- See Roller Coaster game and activities at <https://dataspace.sites.grinnell.edu/coaster1.html>.
-- See the COVID-19 modules at <https://dataspace.sites.grinnell.edu/covid1.html>.
-
-**Isolated Statistician’s Member** *(Fall 2020 – Present)*
-
-**Accountability Hour** *(Fall 2024 – Present)*\
-Co-organized an online community of statisticians that meets weekly to share projects, academic challenges, and spend an hour making progress on something each of us has been procrastinating on.
-
-**Competition Judging**
+### Competition Judging
 
 - Undergraduate Statistics Project Competition (USPROC) & Undergraduate Statistics Class Project Competition (USCLAP) *(Fall 2022 – Present)*
 - MinneMUDAC Data Analytics Competition, Graduate Division *(Spring 2023, 2025)*
 - American Statistical Association Poster Competition *(Summer 2024)*
 - American Statistical Association Two-Year College DataFest *(Spring 2024)*
 
-**Pi Mu Epsilon Honorary Mathematics Society Member** *(Fall 2012 – Present)*
-
-**STEM Book Club** *(Fall 2023 – Spring 2024)*\
-Reading group to discuss books related to racial and social justice issues within STEM fields and education
-
-**Dataspace by DASIL** *(Summer 2022 – Fall 2024)*\
-Collaborative project to create simulation games and corresponding labs for teaching statistics and data science. See <https://dataspace.sites.grinnell.edu/>
-
-**Incorporation of Racial and Social Justice Issues into Mathematical Sciences and Computer Science Curriculum** *(Fall 2022 – Summer 2023)*
-
-- Workshop funded by the Associated Colleges of the Midwest (ACM) Career Faculty Enhancement Program (FaCE). Monthly meetings to discuss readings or have a guest speaker.
-- The workshop ended with a 1.5-day in-person conference at Grinnell College, where ACM colleagues worked to develop new curricular materials.
+### Other Service and Memberships
 
 **Cornell College Dimensions** *(Spring 2022, Spring 2023)*\
 Interviewed Cornell College students for external internship opportunities in medicine, biology, and engineering
 
-## Experience and Skills
+**Accountability Hour** *(Fall 2024 – Present)*\
+Co-organized an online community of statisticians that meets weekly to share projects, academic challenges, and spend an hour making progress on something each of us has been procrastinating on.
 
-### Work Experience
+**Isolated Statistician’s Member** *(Fall 2020 – Present)*
 
-**Cornell College**, Mount Vernon, Iowa
+**Pi Mu Epsilon Honorary Mathematics Society Member** *(Fall 2012 – Present)*
 
-**Assistant Professor of Statistics** *(Aug 2020 – Present)*
+## Professional Development and Skills
 
-- Course load of six, 4-credit-equivalent classes per year. Generally, three sections of introductory statistics and three other distinct, mid to upper-level, undergraduate courses
-- Student advising involves advising four to five new students each year.
-
-**Director of Cornell Summer Research Institute (CSRI)** *(May 2023 – Present)*
-
-- Summer 8-week undergraduate research program with approximately 45-75 Cornell students and 20-25 Cornell College faculty
-- Regularly updating the program, including changes to student stipends, faculty institutional support, student and faculty application processes, student and faculty program information, and communications
-- Set programming schedule and coordinate faculty and staff for weekly events during the program, including professional development seminars, social events, and presentations for students and events open to the local community
-- Liaison between the faculty participating and the Office of Academic Affairs
-- Identifying and exploring sources of funding to support the program
-
-**Paystr**, Bay City, Michigan
-
-**Data Analyst Using R Intern** *(March 2018 – May 2020)*
-
-I developed dashboards of a data analytics centric platform FindEngine that presents Paystr’s clients with an interactive and informative set of visualizations of who their customers are, what they are buying, where they are, what they say about them on social media platforms, and predictions of future actions the Paystr client should take to benefit their own company.
-
-- Chose the appropriate statistical methods and visualizations to match a client’s needs and imagination
-- Chose and retrieved the appropriate data using Microsoft SQL Server Management Studio (SSMS)
-- Cleaned data and conducted the appropriate analysis in R programming
-- Prepared visualizations in Microsoft Power BI
-- Created documentation, including heavily commented code, readme files, and code flow diagrams
-- Teaching introductory R programming to colleagues
-- Creating a geographic customer segmentation scheme with a classification model using relevant statistical techniques such as hierarchical clustering and discriminant analysis
-
-### Statistical Consulting
-
-**Cornell College**
-
-**Office of Academic Affairs, under former Provost Dr. Ilene Crawford** *(Summer 2024)*\
-Details under an NDA. Data visualization, feature importance, and statistical modeling, with a small sample, with an associated written report. Approximately 40 hours.
-
-### Computer Languages and Programs
-
-- R Programming, including the tidyverse, package development, R Shiny, and Quarto
-- Minitab® Statistical Software
-- LaTeX
-- Microsoft Office Suite – Proficient in Word, Excel, and PowerPoint. Familiarity with Publisher
-- Familiarity with Microsoft Power BI, Python and SQL
-- Familiarity with Statistics Analysis System (SAS), SAS Enterprise Miner, SAS SQL, and SAS Macros
-
-### Professional Development
+### Conferences, Workshops and Webinars Attended
 
 Conferences, workshops and webinars attended as a participant.
 
@@ -544,7 +535,26 @@ Conferences, workshops and webinars attended as a participant.
   - Short Course: Applied Meta-Analysis Using R
   - Short Course: Statistical Methods and Software for Multivariate Meta-Analysis
 
-## Media
+### Workshop Series and Reading Groups
+
+**Incorporation of Racial and Social Justice Issues into Mathematical Sciences and Computer Science Curriculum** *(Fall 2022 – Summer 2023)*
+
+- Workshop funded by the Associated Colleges of the Midwest (ACM) Career Faculty Enhancement Program (FaCE). Monthly meetings to discuss readings or have a guest speaker.
+- The workshop ended with a 1.5-day in-person conference at Grinnell College, where ACM colleagues worked to develop new curricular materials.
+
+**STEM Book Club** *(Fall 2023 – Spring 2024)*\
+Reading group to discuss books related to racial and social justice issues within STEM fields and education
+
+### Computer Languages and Programs
+
+- R Programming, including the tidyverse, package development, R Shiny, and Quarto
+- Minitab® Statistical Software
+- LaTeX
+- Microsoft Office Suite – Proficient in Word, Excel, and PowerPoint. Familiarity with Publisher
+- Familiarity with Microsoft Power BI, Python and SQL
+- Familiarity with Statistics Analysis System (SAS), SAS Enterprise Miner, SAS SQL, and SAS Macros
+
+## In the News
 
 ### Articles
 
