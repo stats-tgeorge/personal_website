@@ -18,10 +18,14 @@ const KEY_TO_DIRECTION = {
   d: "right",
 };
 
-// element = the thing that must have focus for keys to count (the canvas).
+// Keys that mean "do the thing in front of me" (open the door).
+const ACTION_KEYS = ["Enter", " "]; // " " is the space bar
+
+// element  = the thing that must have focus for keys to count (the canvas).
+// onAction = a function to call when Enter or Space is pressed.
 // Returns an object the game asks each frame: "which way is the player
 // trying to go?"
-export function createInput(element) {
+export function createInput(element, onAction) {
   // The set of directions currently held, e.g. {"up", "left"}.
   const held = new Set();
 
@@ -32,6 +36,15 @@ export function createInput(element) {
     // walking down with "s" no longer opens search. Tab still works,
     // because moving focus is done by the browser itself.
     event.stopPropagation();
+
+    if (ACTION_KEYS.includes(event.key)) {
+      event.preventDefault(); // stop the space bar from scrolling the page
+      // "repeat" is true while a key is held down; only act on the
+      // first press.
+      if (!event.repeat) onAction();
+      return;
+    }
+
     const direction = KEY_TO_DIRECTION[normalise(event.key)];
     if (!direction) return; // not a movement key: leave it alone (Tab etc.)
     held.add(direction);

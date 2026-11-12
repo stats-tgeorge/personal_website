@@ -8,6 +8,8 @@
 //   input.js   which keys are held down
 //   player.js  moving and drawing the player
 //   camera.js  which part of the map is on screen
+//   places.js  joins the buildings on the map to the entries in explore-world.yml
+//   panel.js   the pop-up shown at a door
 //
 // The game repeats three steps many times a second: read the keys,
 // move the player, redraw the screen.
@@ -18,15 +20,30 @@ import { drawTile } from "./tiles.js";
 import { createInput } from "./input.js";
 import { createPlayer, updatePlayer, drawPlayer } from "./player.js";
 import { cameraFor } from "./camera.js";
+import { loadPlaces, placeInFrontOf, drawSigns } from "./places.js";
+import { showPlace, openShownPlace } from "./panel.js";
 
 const canvas = document.getElementById("game-canvas");
 const startHint = document.getElementById("game-start-hint");
 const fallbackNote = document.getElementById("game-fallback");
 const ctx = canvas.getContext("2d");
 
-const input = createInput(canvas);
+// Pressing Enter or Space opens the place whose pop-up is showing.
+const input = createInput(canvas, openShownPlace);
 const start = findPlayerStart();
 const player = createPlayer(start.col, start.row);
+
+// The places from explore-world.yml. The list starts empty and is filled in a
+// moment later, once the file has been fetched. If the file cannot be
+// loaded, the map still works; it just has no signs or pop-ups, and
+// the plain list of links under the map is still there.
+let places = [];
+loadPlaces()
+  .then((loaded) => {
+    places = loaded;
+    draw(); // redraw so the signs appear straight away
+  })
+  .catch((error) => console.warn("Explore mode: places not loaded.", error));
 
 // --- Show the game -------------------------------------------------
 // In explore.qmd the canvas starts hidden and a "needs JavaScript" note
@@ -49,6 +66,7 @@ function draw() {
     }
   }
 
+  drawSigns(ctx, places, camera);
   drawPlayer(ctx, player, player.x - camera.x, player.y - camera.y);
 }
 
@@ -70,6 +88,7 @@ function frame(now) {
   lastTime = now;
 
   updatePlayer(player, input, seconds);
+  showPlace(placeInFrontOf(player, places)); // pop-up appears at a door
   draw();
   requestAnimationFrame(frame); // ask the browser to call frame() again
 }

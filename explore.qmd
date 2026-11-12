@@ -2,6 +2,19 @@
 title: "Explore mode"
 toc: false
 css: [styles.css, explore/explore.css]
+# The plain list of links under the map. Quarto builds it from the same
+# explore-world.yml file the game reads, so the two can never disagree.
+listing:
+  id: places-list
+  contents: explore-world.yml
+  type: table
+  fields: [title, description]
+  field-display-names:
+    title: "Place"
+    description: "What is there"
+  sort: false          # keep the order used in explore-world.yml
+  sort-ui: false
+  filter-ui: false
 ---
 
 <!--
@@ -9,8 +22,8 @@ css: [styles.css, explore/explore.css]
   JavaScript files in the explore/ folder, starting with explore/main.js.
 
   Everything that matters for getting around (the way back to the
-  traditional site, and later the list of places) is ordinary HTML, so
-  it works for screen readers and when JavaScript is off.
+  traditional site, and the list of places under the map) is ordinary
+  HTML, so it works for screen readers and when JavaScript is off.
 -->
 
 [← Switch to traditional site](about.qmd){.btn .to-traditional}
@@ -19,8 +32,7 @@ css: [styles.css, explore/explore.css]
 ```{=html}
 <!-- Shown only if JavaScript is off or broken; main.js hides it. -->
 <p id="game-fallback">
-  The walkable map needs JavaScript. Everything it leads to is also on
-  the <a href="about.html">traditional site</a>.
+  The walkable map needs JavaScript. Every place on it is listed below.
 </p>
 
 <!-- The game. It starts hidden; main.js reveals it once it is running.
@@ -36,6 +48,22 @@ css: [styles.css, explore/explore.css]
   <small>Move with the arrow keys or W A S D</small>
 </button>
 
+<!-- The pop-up shown when the player stands at a door. panel.js fills
+     in the text. aria-live makes screen readers read it out when it
+     appears. -->
+<div id="place-panel" aria-live="polite" hidden>
+  <strong id="place-title"></strong>
+  <span id="place-description"></span>
+  <a id="place-link" class="btn" href="#">Open page <small>(Enter)</small></a>
+</div>
+
 <script type="module" src="explore/main.js"></script>
 ```
+:::
+
+## All places
+
+Walk up to a building's door to visit it, or use these links.
+
+::: {#places-list}
 :::
