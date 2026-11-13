@@ -48,7 +48,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-002371a7b3919cab8cb88a887b22ee4e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-e41ec6b4b60828f621f696ee40e0b652.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -287,7 +287,67 @@ window.Quarto = {
      pop-up instead, so they are not read twice. -->
 <div id="thing-labels" aria-hidden="true"></div>
 
+<!-- The conversation box (talking to the fairy). dialogue.js fills it
+     in. aria-live makes screen readers read each line as it appears. -->
+<div id="dialogue" aria-live="polite" hidden="">
+  <strong id="dialogue-speaker"></strong>
+  <p id="dialogue-text"></p>
+  <button id="dialogue-next" class="btn" type="button">Next</button>
+</div>
+
+<!-- The player's initials, floating above their character. labels.js
+     moves it. aria-hidden: it is decoration. -->
+<div id="player-tag" class="thing-label" aria-hidden="true" hidden=""></div>
+
+<!-- Asks for three letters after a high score in Sheet Breaker
+     (see minigame/stall.js). -->
+<form id="score-entry" hidden="">
+  <strong>New high score: <span id="score-entry-score"></span>!</strong>
+  <label for="score-code">Enter 3 letters or numbers for the leaderboard:</label>
+  <input id="score-code" type="text" maxlength="3" size="3" autocomplete="off" autocapitalize="characters">
+  <button class="btn" type="submit">Save</button>
+</form>
+
+<!-- A white cover that fades in over the map when the player steps
+     through a portal (see warp.js). It never takes clicks. -->
+<div id="warp-flash"></div>
+
 </div><!-- end of game-stage -->
+
+<!-- "Choose your character", shown when explore mode opens. creator.js
+     fills each row with picture buttons. The rows have no words on
+     purpose: people choose by picture. (Each button still has a name
+     for screen readers, set in creator.js.) -->
+<dialog id="creator" aria-labelledby="creator-title">
+  <form id="creator-form">
+    <h2 id="creator-title" class="anchored">Who is exploring today?</h2>
+    <p>Choose a character. Pick whatever looks right to you.</p>
+    <div class="creator-layout">
+      <canvas id="creator-preview" width="16" height="22" aria-hidden="true"></canvas>
+      <div class="creator-rows">
+        <div id="creator-skin" class="creator-row" role="group" aria-label="Skin tone"></div>
+        <div id="creator-hair" class="creator-row" role="group" aria-label="Hair style"></div>
+        <div id="creator-hair-color" class="creator-row" role="group" aria-label="Hair colour"></div>
+        <div id="creator-figure" class="creator-row" role="group" aria-label="Figure"></div>
+      </div>
+    </div>
+    <label for="creator-initials">Your initials (optional)</label>
+    <input id="creator-initials" type="text" maxlength="3" size="3" autocomplete="off" autocapitalize="characters">
+    <p class="creator-note">Shown above your character. Your initials are not saved or sent anywhere.</p>
+    <button class="btn" type="submit">Start exploring</button>
+  </form>
+</dialog>
+
+<!-- Sheet Breaker: asks who is playing (see minigame/stall.js). -->
+<dialog id="mode-choice" aria-labelledby="mode-title">
+  <h2 id="mode-title" class="anchored">Who is playing?</h2>
+  <p>The goals of each level depend on your answer.</p>
+  <div class="mode-buttons">
+    <button class="btn" type="button" data-mode="student" autofocus="">A student</button>
+    <button class="btn" type="button" data-mode="instructor">An instructor or other professional</button>
+  </div>
+  <p class="creator-note">Arrow keys or Tab to choose, Enter to start, Esc to cancel.</p>
+</dialog>
 
 <!-- The large pop-up for reading part of the regular site without
      leaving the game. reader.js fills it in. <dialog> is the browser's
@@ -328,7 +388,7 @@ What is there
 </thead>
 <tbody class="list">
 
-<tr data-index="0" data-listing-file-modified-sort="1794542485995" data-listing-reading-time-sort="1" data-listing-word-count-sort="120" data-listing-title-sort="Professor George's Office" data-listing-filename-sort="about.qmd">
+<tr data-index="0" data-listing-file-modified-sort="1794608055035" data-listing-reading-time-sort="1" data-listing-word-count-sort="120" data-listing-title-sort="Professor George's Office" data-listing-filename-sort="about.qmd">
 <td>
 <a href="./about.html" class="title listing-title">Professor George’s Office</a>
 </td>
@@ -338,7 +398,7 @@ What is there
 
 </tr>
 
-<tr data-index="1" data-listing-file-modified-sort="1794542486117" data-listing-reading-time-sort="5" data-listing-word-count-sort="939" data-listing-title-sort="Classroom" data-listing-filename-sort="teaching.qmd">
+<tr data-index="1" data-listing-file-modified-sort="1794608055191" data-listing-reading-time-sort="5" data-listing-word-count-sort="939" data-listing-title-sort="Classroom" data-listing-filename-sort="teaching.qmd">
 <td>
 <a href="./teaching.html" class="title listing-title">Classroom</a>
 </td>
@@ -348,7 +408,7 @@ What is there
 
 </tr>
 
-<tr data-index="2" data-listing-file-modified-sort="1794542486040" data-listing-reading-time-sort="5" data-listing-word-count-sort="813" data-listing-title-sort="Student Support Center" data-listing-filename-sort="course-support.qmd">
+<tr data-index="2" data-listing-file-modified-sort="1794608055089" data-listing-reading-time-sort="5" data-listing-word-count-sort="813" data-listing-title-sort="Student Support Center" data-listing-filename-sort="course-support.qmd">
 <td>
 <a href="./course-support.html" class="title listing-title">Student Support Center</a>
 </td>
@@ -358,7 +418,7 @@ What is there
 
 </tr>
 
-<tr data-index="3" data-listing-date-sort="1794542486000" data-listing-file-modified-sort="1794542486040" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="25" data-listing-word-count-sort="4942" data-listing-title-sort="Dr. George Achievements and Activities (CV)" data-listing-filename-sort="cv.qmd">
+<tr data-index="3" data-listing-date-sort="1794608055000" data-listing-file-modified-sort="1794608055089" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="25" data-listing-word-count-sort="4942" data-listing-title-sort="Dr. George Achievements and Activities (CV)" data-listing-filename-sort="cv.qmd">
 <td>
 <a href="./cv.html" class="title listing-title">Dr.&nbsp;George Achievements and Activities (CV)</a>
 </td>
@@ -368,7 +428,7 @@ What is there
 
 </tr>
 
-<tr data-index="4" data-listing-file-modified-sort="1794542485989" data-listing-reading-time-sort="1" data-listing-word-count-sort="1" data-listing-title-sort="Newsstand" data-listing-filename-sort="Blog.qmd">
+<tr data-index="4" data-listing-file-modified-sort="1794608055028" data-listing-reading-time-sort="1" data-listing-word-count-sort="1" data-listing-title-sort="Newsstand" data-listing-filename-sort="Blog.qmd">
 <td>
 <a href="./Blog.html" class="title listing-title">Newsstand</a>
 </td>

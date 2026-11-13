@@ -10,6 +10,7 @@
 
 import { TILE, PLAYER_SPEED, PLAYER_WIDTH, PLAYER_HEIGHT } from "./config.js";
 import { isSolid } from "./map.js";
+import { drawCharacter, DEFAULT_LOOK } from "./character.js";
 
 // Creates a player standing in the middle of the given map tile.
 export function createPlayer(col, row) {
@@ -19,6 +20,8 @@ export function createPlayer(col, row) {
     facing: "down", // "up", "down", "left" or "right"
     moving: false,
     walkTime: 0, // seconds spent walking; drives the little step bounce
+    look: { ...DEFAULT_LOOK }, // replaced by the visitor's choices (creator.js)
+    initials: "", // shown on a tag above the player, if they gave any
   };
 }
 
@@ -85,39 +88,14 @@ function footprintHitsSomething(x, y) {
   );
 }
 
-// Draws the placeholder character: a head, a body, and a dot showing
-// which way they face. Replace with real art later.
+// Draws the player.
 // screenX / screenY = where the footprint's top-left is on the canvas.
 export function drawPlayer(ctx, player, screenX, screenY) {
   // Bounce one pixel up on every other "step" while walking.
-  const bounce = player.moving && Math.floor(player.walkTime * 8) % 2 === 1 ? 1 : 0;
+  const step = player.moving && Math.floor(player.walkTime * 8) % 2 === 1 ? 1 : 0;
 
   // The body is drawn above the footprint so the feet line up with it.
-  const bodyX = Math.round(screenX);
-  const bodyY = Math.round(screenY) + PLAYER_HEIGHT - 16 - bounce;
-
-  // Shadow on the ground (does not bounce).
-  ctx.fillStyle = "rgba(0, 0, 0, 0.25)";
-  ctx.fillRect(Math.round(screenX), Math.round(screenY) + PLAYER_HEIGHT - 2, PLAYER_WIDTH, 2);
-
-  ctx.fillStyle = "#c0392b"; // shirt
-  ctx.fillRect(bodyX + 1, bodyY + 8, 8, 7);
-  ctx.fillStyle = "#f1c9a5"; // head
-  ctx.fillRect(bodyX + 1, bodyY, 8, 8);
-  ctx.fillStyle = "#4a3222"; // hair
-  ctx.fillRect(bodyX + 1, bodyY, 8, 2);
-
-  // Eyes show the facing direction; no eyes when facing away (up).
-  ctx.fillStyle = "#222222";
-  if (player.facing === "down") {
-    ctx.fillRect(bodyX + 3, bodyY + 4, 1, 2);
-    ctx.fillRect(bodyX + 6, bodyY + 4, 1, 2);
-  } else if (player.facing === "left") {
-    ctx.fillRect(bodyX + 2, bodyY + 4, 1, 2);
-  } else if (player.facing === "right") {
-    ctx.fillRect(bodyX + 7, bodyY + 4, 1, 2);
-  } else {
-    ctx.fillStyle = "#4a3222"; // back of the head is all hair
-    ctx.fillRect(bodyX + 1, bodyY, 8, 6);
-  }
+  // What the player looks like (player.look) was chosen by the visitor;
+  // character.js does the drawing.
+  drawCharacter(ctx, player.look, screenX, screenY + PLAYER_HEIGHT - 16, player.facing, step);
 }

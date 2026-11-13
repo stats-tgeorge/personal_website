@@ -16,11 +16,11 @@ let rows = OUTDOOR_ROWS;
 // Tiles the player can walk on. Anything else is solid.
 //   . grass   : path   @ start marker   _ floor   E exit mat
 //   p portal or bubble spot   o desk or pedestal spot   n helper spot
-//   d pet spot   * sign spot   l wing-laptop spot
-// (An "o", "n", "d", "*" or "l" spot is floor until something is put on
-// it; whatever is put there is listed in blockedSpots below, which
-// makes it solid.)
-const WALKABLE = ".:@_pEond*l";
+//   d pet spot   * and X sign spots   l wing-laptop spot
+// (An "o", "n", "d", "*", "X" or "l" spot is floor until something is
+// put on it; whatever is put there is listed in blockedSpots below,
+// which makes it solid.)
+const WALKABLE = ".:@_pEond*lX";
 
 // Tiles made solid by something standing on them: a desk, a helper,
 // or something a helper brought along (a whiteboard, a server).

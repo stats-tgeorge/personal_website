@@ -14,6 +14,19 @@
 //               who jump and high-five when the player comes up to them
 
 import { TILE } from "./config.js";
+import { drawCharacter } from "./character.js";
+
+// The helpers do not all look alike. Each "look" below is used by one
+// of them (see character.js for what the numbers mean). The ordinary
+// helper uses a wheelchair.
+const LOOKS = {
+  plain: { skin: 3, hair: 0, hairColor: 0, figure: 1, shirt: "#d55e00" },
+  lecturer: { skin: 0, hair: 3, hairColor: 4, figure: 0, shirt: "#0072b2" },
+  nurse: { skin: 2, hair: 4, hairColor: 0, figure: 0, shirt: "#ffffff" },
+  tech: { skin: 4, hair: 2, hairColor: 0, figure: 0, shirt: "#e69f00" },
+  tutorOne: { skin: 1, hair: 1, hairColor: 2, figure: 0, shirt: "#0072b2" },
+  tutorTwo: { skin: 3, hair: 0, hairColor: 0, figure: 0, shirt: "#d55e00" },
+};
 
 // Visitors who have asked their computer to reduce motion do not get
 // the jumping animation.
@@ -32,7 +45,8 @@ export function drawPerson(ctx, person, x, y, now) {
   }
 
   if (person.look === "nurse") {
-    drawFigure(ctx, x, y, { shirt: "#ffffff", hair: "#d62828" }); // red cap
+    drawFigure(ctx, x, y, LOOKS.nurse);
+    fill(ctx, "#d62828", x + 4, y - 1, 8, 2); // red cap
     fill(ctx, "#d62828", x + 7, y + 9, 2, 5); // plus sign on the shirt:
     fill(ctx, "#d62828", x + 5, y + 11, 6, 2); // upright, then crossbar
     // First-aid cabinet to the right.
@@ -44,7 +58,7 @@ export function drawPerson(ctx, person, x, y, now) {
   }
 
   if (person.look === "lecturer") {
-    drawFigure(ctx, x, y, { shirt: "#0072b2" });
+    drawFigure(ctx, x, y, LOOKS.lecturer);
     drawLaptopInHands(ctx, x, y);
     // Whiteboard on wheels to the right, showing a scatter plot with a
     // trend line through it.
@@ -72,8 +86,8 @@ export function drawPerson(ctx, person, x, y, now) {
       fill(ctx, "#555555", x + 3, sy + 2 + shelf * 3.5, 10, 2);
       fill(ctx, shelf % 2 === 0 ? "#3ddc84" : "#f0e442", x + 11, sy + 2 + shelf * 3.5, 1, 1); // lights
     }
-    drawFigure(ctx, x, y, { shirt: "#e69f00" });
-    fill(ctx, "#222222", x + 4, y, 8, 1); // headphone band
+    drawFigure(ctx, x, y, LOOKS.tech);
+    fill(ctx, "#222222", x + 4, y - 3, 8, 1); // headphone band, over the hair
     fill(ctx, "#222222", x + 3, y + 3, 2, 3); // ear cups
     fill(ctx, "#222222", x + 11, y + 3, 2, 3);
     drawLaptopInHands(ctx, x, y);
@@ -81,7 +95,7 @@ export function drawPerson(ctx, person, x, y, now) {
   }
 
   // "plain", and any look this file does not know.
-  drawFigure(ctx, x, y, { shirt: person.shirt || "#d55e00" });
+  drawFigure(ctx, x, y, LOOKS.plain);
 }
 
 // The two tutors stand on this tile and the one to its right.
@@ -98,8 +112,8 @@ function drawTutors(ctx, person, x, y, now) {
   const leftX = x + 3; // stand a little closer together than the tile centres
   const rightX = x + TILE - 3;
 
-  drawFigure(ctx, leftX, y - jump, { shirt: "#0072b2", shadowY: y });
-  drawFigure(ctx, rightX, y - jump, { shirt: "#d55e00", shadowY: y });
+  drawFigure(ctx, leftX, y - jump, LOOKS.tutorOne);
+  drawFigure(ctx, rightX, y - jump, LOOKS.tutorTwo);
 
   // "S" for stats and "W" for writing, as tiny dot patterns
   // (1 = a white pixel). There is no room for whole words at this size.
@@ -119,18 +133,10 @@ function drawTutors(ctx, person, x, y, now) {
   }
 }
 
-// The basic person: shadow, shirt, head, hair, eyes. Facing the room.
-// options.shirt   shirt colour
-// options.hair    hair (or cap) colour
-// options.shadowY where the ground is, if the person is in the air
-function drawFigure(ctx, x, y, options) {
-  const groundY = options.shadowY === undefined ? y : options.shadowY;
-  fill(ctx, "rgba(0, 0, 0, 0.25)", x + 3, groundY + 14, 10, 2); // shadow
-  fill(ctx, options.shirt, x + 4, y + 8, 8, 7); // shirt
-  fill(ctx, "#f1c9a5", x + 4, y, 8, 8); // head
-  fill(ctx, options.hair || "#2b2b2b", x + 4, y, 8, 2); // hair
-  fill(ctx, "#222222", x + 6, y + 4, 1, 2); // eyes
-  fill(ctx, "#222222", x + 9, y + 4, 1, 2);
+// One helper, facing the room, standing in the middle of the tile
+// whose corner is (x, y).
+function drawFigure(ctx, x, y, look) {
+  drawCharacter(ctx, look, x + 3, y, "down", 0);
 }
 
 // A small open laptop held in front of the body.

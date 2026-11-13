@@ -1,11 +1,5 @@
 [
   {
-    "listing": "/Blog.html",
-    "items": [
-      "/blogs/Post1AbroadScouting.html"
-    ]
-  },
-  {
     "listing": "/explore.html",
     "items": [
       "/about.html",
@@ -13,6 +7,12 @@
       "/course-support.html",
       "/cv.html",
       "/Blog.html"
+    ]
+  },
+  {
+    "listing": "/Blog.html",
+    "items": [
+      "/blogs/Post1AbroadScouting.html"
     ]
   }
 ]
