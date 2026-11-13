@@ -16,6 +16,8 @@ import { SUPPORT_ROWS } from "./maps/support.js";
 import { NEWSSTAND_ROWS } from "./maps/newsstand.js";
 import { OFFICE_ROWS } from "./maps/office.js";
 import { HALL_ROWS } from "./maps/hall.js";
+import { openDialogue } from "./dialogue.js";
+import { POSTERS, POSTER_LETTERS } from "./posters.js";
 
 // Every room the game knows about. The names on the left are what
 // "room:" in explore-world.yml refers to.
@@ -53,6 +55,22 @@ export async function loadRoom(place) {
     // If the page cannot be read, the room still opens; it is just
     // empty. The link list under the map still works.
     console.warn(`Explore mode: could not fill the ${place.room}.`, error);
+  }
+
+  // Every poster on the walls can be looked at: standing below one
+  // shows what it is and the real data behind it (see posters.js).
+  // These go last in the list so that anything else in reach is
+  // described in preference to a poster.
+  for (const letter of POSTER_LETTERS) {
+    for (const spot of findInRows(room.rows, letter)) {
+      things.push({
+        kind: "poster",
+        ...spot,
+        reach: "below",
+        title: `Poster: ${POSTERS[letter].title}`,
+        description: POSTERS[letter].caption,
+      });
+    }
   }
 
   // The player appears on the tile just above the exit mat.
@@ -98,38 +116,29 @@ function frontFirst(a, b) {
 
 // Every room has the same two fixtures:
 //   - a helper fairy ("i" in the map) hovering by the door, who calls
-//     "Hey, listen!" and explains how to use the room. She speaks one
-//     line at a time: each press of her "Next" button (or Enter, or
-//     Space) moves to the next line. Nothing pops up unasked.
+//     "Hey, listen!". Talking to her (her "Talk" button, or Enter)
+//     opens a conversation box in which she explains the room one line
+//     at a time (see dialogue.js). Nothing pops up unasked.
 //   - a laptop on a desk ("L") that opens the room's whole page in the
 //     large reader.
 // "words" supplies the text that differs from room to room:
-//   words.fairyLines   what the fairy says, one entry per press. The
-//                      first is the welcome.
+//   words.fairyLines   what the fairy says, one entry per line of the
+//                      conversation. The first is the welcome.
 //   words.laptopLabel  the laptop's name tag
 //   words.laptopText   the laptop's description
 function fairyAndLaptop(rows, place, page, words) {
   const things = [];
   for (const spot of findInRows(rows, "i")) {
-    const lines = words.fairyLines;
-    const fairy = { kind: "fairy", ...spot, reach: "near", label: "Hey, listen!" };
-
-    // Puts line number "index" (counting from 0) into the fairy's
-    // title, description and button.
-    const say = (index) => {
-      fairy.line = index;
-      fairy.title = `Hey, listen! (${index + 1} of ${lines.length})`;
-      fairy.description = lines[index];
-      fairy.buttonLabel = index < lines.length - 1 ? "Next" : "Start again";
-    };
-    say(0);
-    // Pressing her button moves on a line; after the last line it
-    // goes round to the first. (% is "remainder after dividing".)
-    fairy.press = () => say((fairy.line + 1) % lines.length);
-    // Walking away and coming back starts her from the welcome again.
-    fairy.onReach = () => say(0);
-
-    things.push(fairy);
+    things.push({
+      kind: "fairy",
+      ...spot,
+      reach: "near",
+      label: "Hey, listen!",
+      title: "Hey, listen!",
+      description: "I can tell you how this room works.",
+      buttonLabel: "Talk",
+      press: () => openDialogue("Fairy", words.fairyLines),
+    });
   }
   for (const spot of findInRows(rows, "L")) {
     things.push({
@@ -333,6 +342,43 @@ async function fillSupportCenter(rows, place) {
   return things;
 }
 
+// Counts the steps needed to walk from one tile to every tile that can
+// be reached from it, going up, down, left or right and never through
+// a wall. Returns an object like { "12,5": 3, ... } ("col,row": steps).
+// (It spreads outward one step at a time, like ripples on a pond: the
+// tiles next to the start are 1 step away, their neighbours 2, and so on.)
+function walkingDistances(rows, start) {
+  // Everything in a room except walls, posters and the empty outside
+  // counts as walkable here, including the spots things stand on.
+  const blocksTheWay = (col, row) => {
+    const tile = (rows[row] || "")[col];
+    return tile === undefined || tile === "#" || tile === " " || POSTER_LETTERS.includes(tile);
+  };
+
+  const steps = { [`${start.col},${start.row}`]: 0 };
+  let edge = [start]; // the tiles reached on the latest step
+  while (edge.length > 0) {
+    const nextEdge = [];
+    for (const tile of edge) {
+      const here = steps[`${tile.col},${tile.row}`];
+      const neighbours = [
+        { col: tile.col + 1, row: tile.row },
+        { col: tile.col - 1, row: tile.row },
+        { col: tile.col, row: tile.row + 1 },
+        { col: tile.col, row: tile.row - 1 },
+      ];
+      for (const next of neighbours) {
+        const key = `${next.col},${next.row}`;
+        if (key in steps || blocksTheWay(next.col, next.row)) continue;
+        steps[key] = here + 1;
+        nextEdge.push(next);
+      }
+    }
+    edge = nextEdge;
+  }
+  return steps;
+}
+
 // Which helper to draw for a heading on the Student Support page. The
 // first rule whose word appears in the heading wins; a heading that
 // matches none gets an ordinary person. (The "i" after each pattern
@@ -459,7 +505,7 @@ async function fillOffice(rows, place) {
         label: picture.caption,
         labelBelow: true, // above the dog is the wall with the photos
         title: picture.caption,
-        description: "Woof! That is my photo on the wall beside me. I like being petted.",
+        description: "", // the name, photo and buttons say enough
         image: picture.image,
         html: photo,
         linkLabel: "See the photo",
@@ -527,14 +573,19 @@ async function fillHall(rows, place) {
   const distance = (a, b) => Math.hypot(a.col - b.col, a.row - b.row);
 
   // Which wing (as a number, counting from 0) a sign or wing laptop
-  // belongs to: the wing whose pedestal spots are nearest to it.
+  // belongs to: the wing whose pedestal spots are the SHORTEST WALK
+  // away. Walking distance matters because wings sit back to back: a
+  // laptop can be close to the next wing's pedestals in a straight
+  // line and still be on the other side of a wall from them.
   const wingNearest = (position) => {
+    const steps = walkingDistances(rows, position);
     let best = null;
-    let bestDistance = Infinity;
+    let fewest = Infinity;
     for (const [digit, spots] of Object.entries(spotsByWing)) {
       for (const spot of spots) {
-        if (distance(spot, position) < bestDistance) {
-          bestDistance = distance(spot, position);
+        const walk = steps[`${spot.col},${spot.row}`];
+        if (walk !== undefined && walk < fewest) {
+          fewest = walk;
           best = Number(digit) - 1;
         }
       }

@@ -11,6 +11,8 @@
 //   ~  water            (blocks the player)
 //   ^  roof             (blocks the player)
 //   #  building wall    (blocks the player)
+//   F  fence            (blocks the player)
+//   G  the mini-game cabinet (blocks the player; stand beside it)
 //   1-9  a building's door (blocks the player; the player stands in
 //        front of it). The digit matches the "door:" line of a place
 //        in explore-world.yml.
@@ -41,7 +43,22 @@ export const OUTDOOR_ROWS = [
   "T........::::::::::::::::::::::........T",
   "T...T..............::................T.T",
   "T......T...........::.......T..........T",
+  "T..................::..................T",
+  "T................T.::...T..............T",
+  "T..................::..................T",
+  "T.................G::..................T",
+  "T.......FFFFFFFFFFF::FFFFFFFFFFF.......T",
+  "T.......F..........::..........F.......T",
+  "T.......F......................F.......T",
+  "T.......F......................F.......T",
+  "T.......F......................F.......T",
+  "T.......F......................F.......T",
+  "T.......F......................F.......T",
+  "T.......FFFFFFFFFFFFFFFFFFFFFFFF.......T",
   "T......................................T",
-  "T................T.T....T..............T",
   "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
 ];
+
+// The fenced field at the bottom of the map is set aside for a
+// mini-game: 22 tiles wide and 6 tall inside the fence, entered by the
+// gap in the top fence where the path arrives.

@@ -18,6 +18,9 @@
 //   panel.js        the description shown when something is in reach
 //   labels.js       name tags above things in a room
 //   reader.js       the large pop-up for reading part of the regular site
+//   dialogue.js     the conversation box (talking to the fairy)
+//   warp.js         the zoom when stepping through a portal
+//   posters.js      the wall posters and the real data behind them
 //   layout.js       makes the game fill the browser window
 //
 // The game repeats three steps many times a second: read the keys,
@@ -33,10 +36,12 @@ import { cameraFor } from "./camera.js";
 import { loadPlaces, drawSigns } from "./places.js";
 import { loadRoom } from "./rooms.js";
 import { thingInReach, drawThings } from "./things.js";
-import { showThing, activateShownThing, onGoInside } from "./panel.js";
+import { showThing, activateShownThing, onGoInside, onStepThrough, refreshPanel } from "./panel.js";
+import { playWarp } from "./warp.js";
 import { showLabelsFor, positionLabels } from "./labels.js";
 import { onReaderClosed } from "./reader.js";
 import { fillTheWindow } from "./layout.js";
+import { dialogueIsOpen, advanceDialogue, closeDialogue } from "./dialogue.js";
 
 const canvas = document.getElementById("game-canvas");
 const startHint = document.getElementById("game-start-hint");
@@ -44,8 +49,13 @@ const fallbackNote = document.getElementById("game-fallback");
 const sceneLabel = document.getElementById("scene-label");
 const ctx = canvas.getContext("2d");
 
-// Pressing Enter or Space does the main action of the pop-up on show.
-const input = createInput(canvas, activateShownThing);
+// Enter or Space: during a conversation, move it on a line; otherwise
+// do the main action of whatever is in reach. Escape ends a conversation.
+const input = createInput(
+  canvas,
+  () => (dialogueIsOpen() ? advanceDialogue() : activateShownThing()),
+  closeDialogue
+);
 const start = findInRows(OUTDOOR_ROWS, "@")[0] || { col: 1, row: 1 };
 const player = createPlayer(start.col, start.row);
 
@@ -65,7 +75,10 @@ let reached = null; // the thing currently in reach (null = nothing)
 loadPlaces()
   .then((loaded) => {
     outdoorPlaces = loaded;
-    if (!insidePlace) things = outdoorPlaces;
+    if (!insidePlace) {
+      things = outdoorPlaces;
+      showLabelsFor(things); // the mini-game cabinet has a name tag
+    }
     draw(); // redraw so the signs appear straight away
   })
   .catch((error) => console.warn("Explore mode: places not loaded.", error));
@@ -85,12 +98,35 @@ async function goInside(place) {
 }
 onGoInside(goInside);
 
+// Stepping through a portal (or a blog bubble) to another website:
+// zoom in on it, then open the site in a new tab.
+onStepThrough((thing) => {
+  // Where the portal is on screen, as a percentage of the map's size.
+  const camera = cameraFor(player);
+  const xPercent = (((thing.col + 0.5) * TILE - camera.x) / (VIEW_COLS * TILE)) * 100;
+  const yPercent = (((thing.row + 0.5) * TILE - camera.y) / (VIEW_ROWS * TILE)) * 100;
+
+  playWarp(xPercent, yPercent, () => {
+    const newTab = window.open(thing.url, "_blank");
+    if (newTab) {
+      newTab.opener = null; // the other site gets no handle on this page
+    } else {
+      // Some browsers refuse to open a tab a moment after the key
+      // press. Say so, and let the button work as an ordinary link.
+      thing.plainLink = true;
+      thing.description += " (Your browser stopped the new tab from opening. Click the button to open it.)";
+      refreshPanel();
+    }
+  });
+});
+
 // Coming back out: the player returns to where they stood at the door.
 function goOutside() {
   insidePlace = null;
+  closeDialogue();
   useMap(OUTDOOR_ROWS);
   things = outdoorPlaces;
-  showLabelsFor(things); // buildings have signs on their roofs, not tags
+  showLabelsFor(things); // (buildings have signs on their roofs, not tags)
   player.x = spotOutside.x;
   player.y = spotOutside.y;
   player.facing = "down";
@@ -122,7 +158,7 @@ function draw() {
   if (insidePlace) {
     drawThings(ctx, things, camera, performance.now());
   } else {
-    drawSigns(ctx, things, camera);
+    drawSigns(ctx, things.filter((thing) => thing.kind === "door"), camera);
   }
   drawPlayer(ctx, player, player.x - camera.x, player.y - camera.y);
   positionLabels(camera); // keep the name tags above their things
@@ -145,7 +181,8 @@ function frame(now) {
   const seconds = Math.min((now - lastTime) / 1000, 0.05);
   lastTime = now;
 
-  updatePlayer(player, input, seconds);
+  // The player stands still while someone is talking to them.
+  if (!dialogueIsOpen()) updatePlayer(player, input, seconds);
 
   // Stepping onto a room's exit mat ("E") takes the player back outside.
   if (insidePlace && tileUnderPlayer() === "E") goOutside();
@@ -183,11 +220,12 @@ canvas.addEventListener("focus", () => {
 canvas.addEventListener("blur", (event) => {
   running = false;
   // If focus moved into the description strip (the visitor is about to
-  // click its button or link) or into the large reader, do not put the
-  // "click to start" hint on top of things.
-  const panel = document.getElementById("place-panel");
-  const reader = document.getElementById("reader");
-  startHint.hidden = panel.contains(event.relatedTarget) || reader.contains(event.relatedTarget);
+  // click its button or link), the conversation box or the large
+  // reader, do not put the "click to start" hint on top of things.
+  const stillInGame = ["place-panel", "reader", "dialogue"].some((id) =>
+    document.getElementById(id).contains(event.relatedTarget)
+  );
+  startHint.hidden = stillInGame;
 });
 
 // When the large reader is closed, hand the keyboard back to the game

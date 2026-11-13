@@ -7,7 +7,9 @@
 // Every thing is a plain object with these properties:
 //   kind         decides how it is drawn: "door", "desk", "portal",
 //                "bubble", "fairy", "laptop", "person", "pedestal",
-//                "sign", "frame" or "pet"
+//                "sign", "frame" or "pet". Two kinds are part of the
+//                map and need no drawing here: "poster" (a wall
+//                poster) and "arcade" (the mini-game cabinet outdoors)
 //   col, row     the map tile it is on
 //   wide         optional: 2 if it fills this tile and the one to its
 //                right (the pair of tutors)
@@ -95,13 +97,18 @@ export function drawThings(ctx, things, camera, now) {
     if (thing.kind === "person") drawPerson(ctx, thing, x, y, now); // see people.js
 
     if (thing.kind === "bubble") {
-      // A round soap-bubble shape: rows of different widths make a circle.
-      fill(ctx, "#56b4e9", x + 4, y + 1, 8, 14);
-      fill(ctx, "#56b4e9", x + 2, y + 3, 12, 10);
-      fill(ctx, "#56b4e9", x + 1, y + 5, 14, 6);
-      fill(ctx, "#cfeaf9", x + 4, y + 3, 8, 10); // lighter inside
-      fill(ctx, "#cfeaf9", x + 3, y + 5, 10, 6);
-      fill(ctx, "#ffffff", x + 5, y + 4, 3, 2); // shine
+      // A round soap-bubble shape that bobs gently up and down. Each
+      // bubble starts at a different point in the bob (thing.col is
+      // added to the time) so they do not all move as one.
+      const bob = reduceMotion ? 0 : Math.round(Math.sin(now / 450 + thing.col) * 2);
+      const by = y + bob;
+      drawGlow(ctx, x, by, now, "#56b4e9");
+      fill(ctx, "#56b4e9", x + 4, by + 1, 8, 14); // rows of different widths make a circle
+      fill(ctx, "#56b4e9", x + 2, by + 3, 12, 10);
+      fill(ctx, "#56b4e9", x + 1, by + 5, 14, 6);
+      fill(ctx, "#cfeaf9", x + 4, by + 3, 8, 10); // lighter inside
+      fill(ctx, "#cfeaf9", x + 3, by + 5, 10, 6);
+      fill(ctx, "#ffffff", x + 5, by + 4, 3, 2); // shine
     }
 
     if (thing.kind === "fairy") {
@@ -139,12 +146,27 @@ export function drawThings(ctx, things, camera, now) {
     if (thing.kind === "pet") drawPet(ctx, thing, x, y, now); // see pets.js
 
     if (thing.kind === "portal") {
-      // Rings of colour, like a doorway of light on the floor.
+      // Rings of colour, like a doorway of light on the floor, with a
+      // glow around it that slowly brightens and fades.
+      drawGlow(ctx, x, y, now, "#f0e442");
       fill(ctx, "#56b4e9", x + 2, y + 1, 12, 14);
       fill(ctx, "#523178", x + 4, y + 3, 8, 10);
       fill(ctx, "#f0e442", x + 6, y + 5, 4, 6);
     }
   }
+}
+
+// A soft glow around a tile, for portals and bubbles: two see-through
+// layers, the outer one fainter, whose strength pulses over time.
+// (With reduced motion the glow is steady.)
+function drawGlow(ctx, x, y, now, color) {
+  // Math.sin swings between -1 and 1; this turns it into 0.5 to 1.
+  const pulse = reduceMotion ? 0.75 : 0.75 + Math.sin(now / 400) * 0.25;
+  ctx.globalAlpha = 0.18 * pulse; // globalAlpha is how solid the paint is (1 = fully)
+  fill(ctx, color, x - 4, y - 4, 24, 24);
+  ctx.globalAlpha = 0.3 * pulse;
+  fill(ctx, color, x - 2, y - 2, 20, 20);
+  ctx.globalAlpha = 1; // back to normal for everything drawn after
 }
 
 // What stands on a museum pedestal: a small statistics picture. There

@@ -7,6 +7,7 @@
 // needs to change: the rest of the game just calls drawTile().
 
 import { TILE } from "./config.js";
+import { POSTERS, POSTER_LETTERS } from "./posters.js";
 
 const COLORS = {
   grass: "#6aaa5a",
@@ -98,80 +99,30 @@ export function drawTile(ctx, char, x, y, col, row) {
     return;
   }
 
-  // Walls, and walls with a statistics poster on them:
-  //   h = histogram (bell-shaped)      s = scatter plot
-  //   b = bar chart                    x = side-by-side box plots
-  //   t = time series (a wiggly line)  q = normal curve with a shaded tail
-  //   c = correlation heat map         k = two overlapping density curves
-  // ("f" is a picture-frame spot: plain wall here; things.js draws a
-  // frame on it when there is a photo to show.)
-  if ("#hsbxtqckf".includes(char)) {
+  // Walls, and walls with a statistics poster on them. The posters,
+  // and the real data behind each, are in posters.js. ("f" is a
+  // picture-frame spot: plain wall here; things.js draws a frame on it
+  // when there is a photo to show.)
+  if (char === "#" || char === "f" || POSTER_LETTERS.includes(char)) {
     fill(ctx, COLORS.wall, x, y, TILE, TILE);
     fill(ctx, COLORS.wallLine, x, y + 15, TILE, 1);
-    if (char !== "#" && char !== "f") {
-      fill(ctx, "#6b4a2b", x + 1, y + 2, 14, 12); // frame
-      fill(ctx, "#ffffff", x + 2, y + 3, 12, 10); // paper
-    }
-    if (char === "h") {
-      // Bar heights rising to a peak and falling again, like a
-      // histogram of roughly normal data.
-      [1, 2, 4, 7, 8, 7, 4, 2, 1].forEach((height, i) => {
-        fill(ctx, "#0072b2", x + 3 + i, y + 12 - height, 1, height);
-      });
-    }
-    if (char === "s") {
-      // Points drifting upward to the right: a positive association.
-      for (const [dx, dy] of [[3, 10], [4, 11], [5, 9], [7, 9], [8, 7], [9, 8], [10, 6], [11, 5], [12, 6], [12, 4]]) {
-        fill(ctx, "#d55e00", x + dx, y + dy, 1, 1);
-      }
-    }
-    if (char === "b") {
-      // Four bars in four colours.
-      [["#0072b2", 5], ["#e69f00", 8], ["#009e73", 3], ["#cc79a7", 6]].forEach(([color, height], i) => {
-        fill(ctx, color, x + 3 + i * 3, y + 12 - height, 2, height);
-      });
-    }
-    if (char === "x") {
-      // Three box plots side by side: whisker, box, and a median line.
-      [["#0072b2", 5, 4], ["#e69f00", 4, 5], ["#009e73", 6, 3]].forEach(([color, top, boxHeight], i) => {
-        const bx = x + 3 + i * 4;
-        fill(ctx, "#333333", bx + 1, y + 4, 1, 8); // whisker
-        fill(ctx, color, bx, y + top, 3, boxHeight); // box
-        fill(ctx, "#333333", bx, y + top + 2, 3, 1); // median
-      });
-    }
-    if (char === "t") {
-      // A time series: one value per column, wandering up and down.
-      [8, 7, 9, 6, 7, 4, 6, 5, 3, 5, 2, 4].forEach((height, i) => {
-        fill(ctx, "#0072b2", x + 2 + i, y + 3 + height, 1, 1);
-      });
-      fill(ctx, "#333333", x + 2, y + 12, 12, 1); // time axis
-    }
-    if (char === "q") {
-      // A normal curve with its right tail shaded: a p-value.
-      [1, 1, 2, 4, 6, 8, 8, 6, 4, 2, 1, 1].forEach((height, i) => {
-        fill(ctx, i >= 9 ? "#d55e00" : "#cfd8e3", x + 2 + i, y + 12 - height, 1, height);
-        fill(ctx, "#333333", x + 2 + i, y + 12 - height, 1, 1); // the curve itself
-      });
-    }
-    if (char === "c") {
-      // A correlation heat map: a 4 by 4 grid, darkest on the diagonal.
-      const shades = ["#0072b2", "#56b4e9", "#a9d6f5", "#e8f3fb"];
-      for (let i = 0; i < 4; i++) {
-        for (let j = 0; j < 4; j++) {
-          fill(ctx, shades[Math.abs(i - j)], x + 3 + i * 3, y + 4 + j * 2, 2, 2);
-        }
-      }
-    }
-    if (char === "k") {
-      // Two overlapping density curves, as when comparing two groups.
-      [1, 2, 4, 6, 7, 6, 4, 2, 1, 0, 0, 0].forEach((height, i) => {
-        if (height > 0) fill(ctx, "#0072b2", x + 2 + i, y + 12 - height, 1, 1);
-      });
-      [0, 0, 0, 1, 2, 3, 5, 6, 5, 3, 2, 1].forEach((height, i) => {
-        if (height > 0) fill(ctx, "#d55e00", x + 2 + i, y + 12 - height, 1, 1);
-      });
-      fill(ctx, "#333333", x + 2, y + 12, 12, 1); // baseline
+    if (POSTER_LETTERS.includes(char)) drawPoster(ctx, POSTERS[char], x, y);
+    return;
+  }
+
+  // The mini-game field outdoors: fence and arcade cabinet, on grass.
+  if (char === "F" || char === "G") {
+    fill(ctx, COLORS.grass, x, y, TILE, TILE);
+    if (char === "F") {
+      fill(ctx, "#8a5a2b", x + 2, y + 3, 2, 12); // two posts
+      fill(ctx, "#8a5a2b", x + 12, y + 3, 2, 12);
+      fill(ctx, "#a8733d", x, y + 5, TILE, 2); // two rails
+      fill(ctx, "#a8733d", x, y + 10, TILE, 2);
+    } else {
+      fill(ctx, "#3b2257", x + 3, y + 1, 10, 14); // arcade cabinet
+      fill(ctx, "#56b4e9", x + 5, y + 3, 6, 5); // its screen
+      fill(ctx, "#f0e442", x + 6, y + 10, 2, 2); // buttons
+      fill(ctx, "#d55e00", x + 9, y + 10, 2, 2);
     }
     return;
   }
@@ -193,6 +144,67 @@ export function drawTile(ctx, char, x, y, col, row) {
     fill(ctx, COLORS.treeTrunk, x + 6, y + 10, 4, 6);
     fill(ctx, COLORS.treeLeaves, x + 2, y + 2, 12, 9);
     fill(ctx, COLORS.treeLeaves, x + 4, y, 8, 2);
+  }
+}
+
+// Draws one poster (see posters.js) in a frame on a wall tile.
+// The paper is 12 pixels wide and 10 tall; "left" and "bottom" below
+// are its bottom-left corner, and every height is measured up from there.
+function drawPoster(ctx, poster, x, y) {
+  fill(ctx, "#6b4a2b", x + 1, y + 2, 14, 12); // frame
+  fill(ctx, "#ffffff", x + 2, y + 3, 12, 10); // paper
+  const left = x + 2;
+  const bottom = y + 13;
+
+  if (poster.type === "histogram") {
+    // One column per bin.
+    poster.heights.forEach((height, i) => fill(ctx, poster.color, left + i, bottom - height, 1, height));
+  }
+
+  if (poster.type === "scatter") {
+    for (const [across, up] of poster.points) fill(ctx, poster.color, left + across, bottom - 1 - up, 1, 1);
+  }
+
+  if (poster.type === "bars") {
+    // Four bars, two pixels wide, with a pixel between.
+    poster.heights.forEach((height, i) => fill(ctx, poster.colors[i], left + 1 + i * 3, bottom - height, 2, height));
+  }
+
+  if (poster.type === "boxes") {
+    poster.boxes.forEach(([minimum, lowerQuartile, median, upperQuartile, maximum], i) => {
+      const boxLeft = left + i * 4;
+      fill(ctx, "#333333", boxLeft + 1, bottom - 1 - maximum, 1, maximum - minimum + 1); // whisker
+      fill(ctx, poster.colors[i], boxLeft, bottom - 1 - upperQuartile, 3, upperQuartile - lowerQuartile + 1); // box
+      fill(ctx, "#333333", boxLeft, bottom - 1 - median, 3, 1); // median line
+    });
+  }
+
+  if (poster.type === "line") {
+    // One point per year, with a time axis along the bottom.
+    fill(ctx, "#333333", left, bottom - 1, 12, 1);
+    poster.heights.forEach((height, i) => fill(ctx, poster.color, left + i, bottom - 2 - height, 1, 2));
+  }
+
+  if (poster.type === "heatmap") {
+    // A 4 by 4 grid. Blue for positive, orange for negative; the
+    // stronger the correlation, the less see-through the square.
+    poster.correlations.forEach((row, i) => {
+      row.forEach((correlation, j) => {
+        ctx.globalAlpha = Math.max(0.15, Math.abs(correlation));
+        fill(ctx, correlation >= 0 ? "#0072b2" : "#d55e00", left + j * 3, y + 4 + i * 2, 3, 2);
+        ctx.globalAlpha = 1; // back to normal for everything drawn after
+      });
+    });
+  }
+
+  if (poster.type === "curves") {
+    // Two outlines sharing a baseline.
+    fill(ctx, "#333333", left, bottom - 1, 12, 1);
+    poster.curves.forEach((curve, which) => {
+      curve.forEach((height, i) => {
+        if (height > 0) fill(ctx, poster.colors[which], left + i, bottom - 1 - height, 1, 1);
+      });
+    });
   }
 }
 

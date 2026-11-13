@@ -288,6 +288,98 @@
   }
 }
 
+/* --- The conversation box ------------------------------------------------
+   In the style of a classic adventure game: a framed box across the
+   bottom of the map, with the speaker's name on a tab above it. */
+#dialogue {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  bottom: 4%;
+  padding: 1.1rem 1.2rem 0.8rem;
+  color: #ffffff;
+  background: rgba(27, 20, 36, 0.95);
+  border: 3px solid #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 0 3px #523178; /* a second, purple outline */
+  font-size: clamp(0.95rem, 1.9cqw, 1.35rem); /* grows with the map */
+}
+
+/* The speaker's name, on a tab that overlaps the box's top edge. */
+#dialogue-speaker {
+  position: absolute;
+  top: -1.1em;
+  left: 1rem;
+  padding: 0.05em 0.7em;
+  color: #3b2257;
+  background: #f0e442;
+  border: 3px solid #ffffff;
+  border-radius: 8px;
+}
+
+#dialogue-text {
+  margin: 0 0 0.6rem;
+  min-height: 2.6em; /* room for two lines, so the box does not jump */
+  line-height: 1.3;
+}
+
+#dialogue-next {
+  display: block;
+  margin-left: auto; /* pushed to the right-hand side */
+  padding: 0.2rem 0.8rem;
+  background: #ffffff;
+  color: #3b2257;
+  font-weight: 600;
+}
+
+#dialogue[hidden] {
+  display: none;
+}
+
+/* --- Stepping through a portal -------------------------------------------
+   warp.js adds the class "warping" to the stage. While it is there the
+   map is shown eight times its size (zoomed towards the portal) and a
+   white cover fades in. "transition" makes the browser animate the
+   change over half a second instead of jumping. */
+#game-canvas {
+  transition: transform 0.5s ease-in;
+}
+
+#warp-flash {
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  opacity: 0; /* invisible until warping */
+  pointer-events: none; /* clicks go through to the map */
+  transition: opacity 0.5s ease-in;
+}
+
+.game-stage.warping {
+  overflow: hidden; /* the enlarged map must not spill over the page */
+}
+
+.game-stage.warping #game-canvas {
+  transform: scale(8);
+}
+
+.game-stage.warping #warp-flash {
+  opacity: 1;
+}
+
+/* The name tags would float oddly over a zooming map, so hide them. */
+.game-stage.warping #thing-labels {
+  visibility: hidden;
+}
+
+/* Visitors who asked for reduced motion get no zoom (warp.js skips it
+   anyway; this is a second safeguard). */
+@media (prefers-reduced-motion: reduce) {
+  #game-canvas,
+  #warp-flash {
+    transition: none;
+  }
+}
+
 /* --- The large reader pop-up ------------------------------------------- */
 #reader {
   width: min(52rem, 92vw);

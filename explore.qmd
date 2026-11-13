@@ -93,6 +93,18 @@ listing:
      pop-up instead, so they are not read twice. -->
 <div id="thing-labels" aria-hidden="true"></div>
 
+<!-- The conversation box (talking to the fairy). dialogue.js fills it
+     in. aria-live makes screen readers read each line as it appears. -->
+<div id="dialogue" aria-live="polite" hidden>
+  <strong id="dialogue-speaker"></strong>
+  <p id="dialogue-text"></p>
+  <button id="dialogue-next" class="btn" type="button">Next</button>
+</div>
+
+<!-- A white cover that fades in over the map when the player steps
+     through a portal (see warp.js). It never takes clicks. -->
+<div id="warp-flash"></div>
+
 </div><!-- end of game-stage -->
 
 <!-- The large pop-up for reading part of the regular site without

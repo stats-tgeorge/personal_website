@@ -58,6 +58,19 @@ export async function loadPlaces() {
       ...buildingAround(door),
     });
   }
+  // The mini-game cabinet ("G" on the outdoor map). It is not in
+  // explore-world.yml because it does not lead to a page.
+  for (const spot of findInRows(OUTDOOR_ROWS, "G")) {
+    places.push({
+      kind: "arcade",
+      ...spot,
+      reach: "adjacent",
+      label: "Mini-game",
+      title: "Mini-game field",
+      description: "A mini-game is being built in this field. Come back soon!",
+    });
+  }
+
   return places;
 }
 

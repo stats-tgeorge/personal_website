@@ -30,6 +30,19 @@ export function onGoInside(handler) {
   goInside = handler;
 }
 
+// What to do when the visitor steps through a portal to another
+// website. main.js supplies this too: it knows where the portal is on
+// screen, which the zoom effect needs.
+let stepThrough = (thing) => window.open(thing.url, "_blank");
+export function onStepThrough(handler) {
+  stepThrough = handler;
+}
+
+// Re-writes the strip for the thing on show, after its words changed.
+export function refreshPanel() {
+  if (shownThing) fillIn(shownThing);
+}
+
 // Shows the pop-up for a thing, or hides it if thing is null.
 // main.js calls this every frame, so do nothing unless the thing has
 // actually changed; otherwise screen readers would re-announce it
@@ -94,7 +107,7 @@ export function activateShownThing() {
   } else if (shownThing.html) {
     openReader(shownThing); // read it here, without leaving the game
   } else if (shownThing.newTab) {
-    window.open(shownThing.url, "_blank", "noopener");
+    stepThrough(shownThing);
   } else if (shownThing.url) {
     window.location.href = shownThing.url;
   }
@@ -117,5 +130,11 @@ link.addEventListener("click", (event) => {
   if (shownThing && shownThing.html && !shownThing.room) {
     event.preventDefault();
     openReader(shownThing);
+  } else if (shownThing && shownThing.newTab && !shownThing.plainLink) {
+    // A portal: play the zoom first. (If the browser refused to open
+    // the new tab, main.js marks the thing "plainLink" and the link
+    // then behaves like any ordinary link.)
+    event.preventDefault();
+    stepThrough(shownThing);
   }
 });

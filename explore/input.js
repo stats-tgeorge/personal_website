@@ -25,9 +25,10 @@ const ACTION_KEYS = ["Enter", " "]; // " " is the space bar
 
 // element  = the thing that must have focus for keys to count (the canvas).
 // onAction = a function to call when Enter or Space is pressed.
+// onCancel = a function to call when Escape is pressed.
 // Returns an object the game asks each frame: "which way is the player
 // trying to go?"
-export function createInput(element, onAction) {
+export function createInput(element, onAction, onCancel) {
   // The set of directions currently held, e.g. {"up", "left"}.
   const held = new Set();
 
@@ -44,6 +45,11 @@ export function createInput(element, onAction) {
       // "repeat" is true while a key is held down; only act on the
       // first press.
       if (!event.repeat) onAction();
+      return;
+    }
+
+    if (event.key === "Escape") {
+      onCancel();
       return;
     }
 
