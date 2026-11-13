@@ -1,0 +1,54 @@
+/* Written by Claude (an AI model made by Anthropic) at Tyler George's direction.
+   Styles for the landing page (index.qmd) only.
+   The purple matches the navbar colour set in _quarto.yml. */
+
+/* Two cards side by side; they stack on narrow screens (phones). */
+.chooser {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.chooser-card {
+  border: 2px solid #523178;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem 1.5rem;
+  /* Column layout so the button sits at the bottom of both cards. */
+  display: flex;
+  flex-direction: column;
+}
+
+.chooser-card h3 {
+  margin-top: 0;
+}
+
+/* Push the paragraph holding the button to the bottom of the card. */
+.chooser-card p:last-child {
+  margin-top: auto;
+  margin-bottom: 0;
+}
+
+/* The site sets link colour to black, so button colours are set explicitly. */
+.chooser-btn,
+.chooser-btn:visited {
+  background: #523178;
+  color: #ffffff;
+  font-size: 1.1rem;
+  padding: 0.6rem 1.1rem;
+  border: 2px solid #523178;
+}
+
+.chooser-btn:hover,
+.chooser-btn:focus {
+  background: #3b2257;
+  border-color: #3b2257;
+  color: #ffffff;
+}
+
+/* Second button: outlined, so the two choices look different at a glance. */
+.chooser-btn-alt,
+.chooser-btn-alt:visited {
+  background: #ffffff;
+  color: #523178;
+}

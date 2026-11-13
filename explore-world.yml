@@ -1,0 +1,59 @@
+# explore-world.yml
+# Written by Claude (an AI model made by Anthropic) at Tyler George's direction.
+# The titles and descriptions are drafts by Claude; edit them freely.
+#
+# The places a visitor can go in explore mode. This is the ONLY file you
+# need to edit to change a building's name, blurb or destination.
+#
+# Each place has four lines:
+#   door:        the digit used for that building's door in map.js
+#   title:       the name shown on the building's sign and in the pop-up
+#   path:        the page it opens. Use the .qmd file name, exactly as
+#                you would in a Quarto link. A full web address
+#                (https://...) also works.
+#   description: one or two sentences shown in the pop-up
+#
+# One optional line:
+#   room:        the name of a room to walk into (see explore/rooms.js).
+#                With it, the door offers "Go inside". Without it, the
+#                door simply opens the page.
+#
+# This file sits in the main site folder (next to the .qmd pages) so
+# that the paths above are written the same way as anywhere else in
+# the site.
+#
+# This file is used twice: the game reads it for signs and pop-ups, and
+# Quarto reads it to build the plain list of links under the map.
+#
+# To add a building, add an entry here with a new digit, then draw the
+# building in map.js with that digit as its door.
+
+- door: 1
+  title: "Professor George's Office"
+  path: about.qmd
+  room: office
+  description: "Who I am, how to reach me, and the dogs who run the household."
+
+- door: 2
+  title: "Classroom"
+  path: teaching.qmd
+  room: classroom
+  description: "The statistics and data science courses I teach, and how I teach them."
+
+- door: 3
+  title: "Student Support Center"
+  path: course-support.qmd
+  room: support
+  description: "Office hours, tutoring, and where to find help on campus."
+
+- door: 4
+  title: "Dr. George Achievements and Activities (CV)"
+  path: cv.qmd
+  room: hall
+  description: "My curriculum vitae: education, publications, talks and service."
+
+- door: 5
+  title: "Newsstand"
+  path: Blog.qmd
+  room: newsstand
+  description: "Blog posts, including notes from scouting a study-abroad course."
