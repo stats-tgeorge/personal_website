@@ -1,0 +1,36 @@
+---
+title: "Tyler George"
+subtitle: "Statistics and data science at Cornell College"
+toc: false
+# styles.css is the site-wide stylesheet; chooser.css only styles this page.
+css: [styles.css, explore/chooser.css]
+---
+
+<!--
+  Written by Claude (an AI model made by Anthropic) at Tyler George's direction.
+
+  This is the landing page ("chooser"). It is an ordinary Quarto page.
+  Before this file existed, Quarto made an index.html that redirected
+  straight to about.html. Now visitors pick a route here instead.
+  Both routes are plain links, so they work without JavaScript.
+-->
+
+Welcome! Pick how you would like to look around.
+
+::::: chooser
+::: chooser-card
+### Traditional site
+
+The regular website: courses, student support, blog, and CV.
+
+[Go to the traditional site](about.qmd){.btn .chooser-btn}
+:::
+
+::: chooser-card
+### Explore mode
+
+A small pixel-art campus you can walk around. Every building leads to a page of the regular site.
+
+[Enter explore mode](explore.qmd){.btn .chooser-btn .chooser-btn-alt}
+:::
+:::::
