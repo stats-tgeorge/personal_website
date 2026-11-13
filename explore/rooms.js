@@ -57,24 +57,35 @@ export async function loadRoom(place) {
     console.warn(`Explore mode: could not fill the ${place.room}.`, error);
   }
 
+  // An "X" on a map is a "Go Outside" sign, for an exit mat that is
+  // not the one the player came in by.
+  for (const spot of findInRows(room.rows, "X")) {
+    things.push({
+      kind: "sign",
+      ...spot,
+      reach: "adjacent",
+      label: "Go Outside",
+      title: "Go Outside",
+      description: "Step on the red mat beside this sign to go back outside.",
+    });
+  }
+
   // Every poster on the walls can be looked at: standing below one
-  // shows what it is and the real data behind it (see posters.js).
-  // These go last in the list so that anything else in reach is
-  // described in preference to a poster.
+  // shows what it is, and "Look closer" opens the full-size graph with
+  // its "Did you know?" (see posters.js). These go last in the list so
+  // that anything else in reach is described in preference to a poster.
   for (const letter of POSTER_LETTERS) {
     for (const spot of findInRows(room.rows, letter)) {
-      things.push({
-        kind: "poster",
-        ...spot,
-        reach: "below",
-        title: `Poster: ${POSTERS[letter].title}`,
-        description: POSTERS[letter].caption,
-      });
+      things.push(posterThing(POSTERS[letter], spot));
     }
   }
 
-  // The player appears on the tile just above the exit mat.
-  const exit = findInRows(room.rows, "E")[0];
+  // The player appears on the tile just above the exit mat by the
+  // entrance. A room may have a second mat elsewhere; the entrance is
+  // always the one nearest the bottom of the map, which is the last
+  // one found when reading the map top to bottom.
+  const exits = findInRows(room.rows, "E");
+  const exit = exits[exits.length - 1];
 
   // In the hall's map a digit is a pedestal spot. Once the pedestals
   // have been placed, the game only needs to know "this is a spot", so
@@ -92,6 +103,29 @@ export async function loadRoom(place) {
 }
 
 // --- Helpers shared by the rooms ---------------------------------------------
+
+// Turns a poster (from posters.js) on a wall tile into a thing the
+// player can look at from below.
+function posterThing(poster, spot) {
+  // The full-size graph is a picture file in the posters/ folder next
+  // to this file. If the picture is missing (the R script has not been
+  // run yet), "onerror" removes the broken-picture icon and the text
+  // still shows.
+  const picture = new URL(`./posters/${poster.file}`, import.meta.url).href;
+  return {
+    kind: "poster",
+    ...spot,
+    reach: "below",
+    title: `Poster: ${poster.title}`,
+    description: `${poster.caption} Did you know? ${poster.fact}`,
+    html: `
+      <img class="poster-large" src="${picture}" alt="${poster.title}" onerror="this.remove()">
+      <p>${poster.caption}</p>
+      <p><strong>Did you know?</strong> ${poster.fact}</p>
+      <p class="poster-source"><strong>Source:</strong> ${poster.source}</p>`,
+    linkLabel: "Look closer",
+  };
+}
 
 // Lists the tiles the player cannot walk onto because of the things in
 // a room. Desks, laptops, people, pedestals, signs and pets are solid; so is

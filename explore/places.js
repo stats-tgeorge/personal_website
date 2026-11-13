@@ -58,21 +58,98 @@ export async function loadPlaces() {
       ...buildingAround(door),
     });
   }
-  // The mini-game cabinet ("G" on the outdoor map). It is not in
-  // explore-world.yml because it does not lead to a page.
-  for (const spot of findInRows(OUTDOOR_ROWS, "G")) {
+  // Sheet Breaker (see the minigame/ folder). Its play area is the
+  // block of "g" tiles on the outdoor map.
+  const playArea = findInRows(OUTDOOR_ROWS, "g");
+  if (playArea.length > 0) {
+    const corner = playArea[0]; // top-left tile
+    const bottomRow = playArea[playArea.length - 1].row;
+    // Two name tags that are part of the spreadsheet's look: the
+    // game's name at the left of the menu bar, and the formula bar,
+    // where the game's messages are written (minigame/stall.js).
+    // (A tag that "hangs below" starts at the bottom of its thing's
+    // row, so each is placed on the row above the bar it belongs in.)
+    places.push({ kind: "marquee", col: corner.col - 1, row: corner.row - 3, wide: 4, reach: "none", labelBelow: true, label: "Sheet Breaker" });
+    places.push({ kind: "formula", col: corner.col, row: corner.row - 2, wide: 12, reach: "none", labelBelow: true, label: "" });
+    // The game itself: stand anywhere along the front to play.
+    // minigame/stall.js adds the "Play" button.
     places.push({
-      kind: "arcade",
+      kind: "booth",
+      col: corner.col,
+      row: bottomRow,
+      wide: 12,
+      reach: "below",
+      title: "Sheet Breaker",
+      description:
+        "Break the spreadsheet! Knock out the gold cell to finish each level and earn a skill. You have three lives, and every bounce costs a point. You can play as a student or as an instructor: the goals are different.",
+    });
+  }
+
+  // The two leaderboards (the "K" tiles): the top half of the block is
+  // the students' board and the bottom half the instructors'. Each
+  // board's name tag is its list of scores, and each is read from the
+  // path along its right-hand side. minigame/stall.js fills them in.
+  const boardTiles = findInRows(OUTDOOR_ROWS, "K");
+  if (boardTiles.length > 0) {
+    const top = boardTiles[0];
+    const bottom = boardTiles[boardTiles.length - 1];
+    const half = (bottom.row - top.row + 1) / 2; // rows in each board
+    ["student", "instructor"].forEach((mode, i) => {
+      const firstRow = top.row + i * half;
+      const pathBeside = [];
+      for (let row = firstRow; row < firstRow + half; row++) {
+        pathBeside.push({ col: bottom.col + 1, row }, { col: bottom.col + 2, row }); // the path is two tiles wide
+      }
+      places.push({
+        kind: "leaderboard",
+        mode,
+        col: top.col,
+        row: firstRow - 1, // the row above the board, so its tag hangs from the board's top edge
+        wide: bottom.col - top.col + 1,
+        reachTiles: pathBeside,
+        labelBelow: true, // the "tag" hangs down over the board
+        label: "",
+        title: "",
+        description: "",
+      });
+    });
+  }
+
+  // The trees that can be shaken ("Y" on the outdoor map): a small
+  // surprise for anyone who wanders. Each shake drops spreadsheets and
+  // shows the next remark from the list below.
+  for (const spot of findInRows(OUTDOOR_ROWS, "Y")) {
+    const tree = {
+      kind: "shaketree",
       ...spot,
       reach: "adjacent",
-      label: "Mini-game",
-      title: "Mini-game field",
-      description: "A mini-game is being built in this field. Come back soon!",
-    });
+      title: "A suspicious tree",
+      description: "Something is rustling in the branches.",
+      buttonLabel: "Shake",
+    };
+    tree.press = () => {
+      tree.shakenAt = performance.now(); // things.js draws the wobble from this time
+      tree.description = TREE_REMARKS[shakes % TREE_REMARKS.length];
+      shakes++;
+    };
+    places.push(tree);
   }
 
   return places;
 }
+
+// What the strip says each time a tree is shaken, in turn.
+let shakes = 0;
+const TREE_REMARKS = [
+  "Three spreadsheets fall out. One is called final_FINAL_v3.xlsx.",
+  "More spreadsheets. Somebody has merged the cells.",
+  "A spreadsheet with 40 tabs. One of them is called Sheet1 (2).",
+  "The dates in this one are stored as text. A classic.",
+  "No header row. Brave.",
+  "Column Q is hidden. What is column Q hiding?",
+  "This one uses colour as the only record of which rows were checked.",
+  "A tidy one! One row per observation, one column per variable. Frame it.",
+];
 
 // explore-world.yml uses Quarto-style paths ("about.qmd"). The rendered
 // site has "about.html", so swap the ending. Full web addresses are

@@ -33,7 +33,7 @@
 // courses, add more "o" and "p" spots here.
 
 export const CLASSROOM_ROWS = [
-  "###h######s######b##",
+  "###h##s########b####",
   "#________L_________#",
   "#__________________#",
   "#__________________#",

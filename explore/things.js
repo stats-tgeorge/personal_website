@@ -7,12 +7,13 @@
 // Every thing is a plain object with these properties:
 //   kind         decides how it is drawn: "door", "desk", "portal",
 //                "bubble", "fairy", "laptop", "person", "pedestal",
-//                "sign", "frame" or "pet". Two kinds are part of the
-//                map and need no drawing here: "poster" (a wall
-//                poster) and "arcade" (the mini-game cabinet outdoors)
+//                "sign", "frame", "pet" or "shaketree". Some kinds
+//                are part of the map and need no drawing here:
+//                "poster" (a wall poster), and outdoors "booth",
+//                "marquee", "formula" and "leaderboard" (Sheet Breaker)
 //   col, row     the map tile it is on
-//   wide         optional: 2 if it fills this tile and the one to its
-//                right (the pair of tutors)
+//   wide         optional: how many tiles wide it is, counting to the
+//                right (2 for the pair of tutors, 12 for the game stall)
 //   look         optional, for people: which helper to draw (people.js)
 //   reach        where the player must stand for the pop-up to show:
 //                  "below"    on the tile directly below it (doors)
@@ -20,6 +21,9 @@
 //                  "near"     on any of the eight tiles around it, corners
 //                             included (people: they speak as you walk by)
 //                  "on"       on the thing's own tile (portals)
+//                  "none"     nowhere: it is only a name tag
+//   reachTiles   optional: instead of "reach", the exact tiles it can
+//                be reached from, as a list of { col, row }
 //   label        optional name tag shown above it on the map (labels.js)
 //   labelBelow   optional: true to hang the name tag below it instead
 //   narrowLabel  optional: true for a narrower name tag
@@ -35,6 +39,8 @@
 //   room         optional name of a room this thing leads into (doors)
 //   onReach      optional: something to do each time the player comes
 //                up to it (a function)
+//   secondLabel  optional: words for a second button, with
+//   secondPress  what that second button does (a function)
 //   press        optional: something to do when its button is pressed
 //                (a function; pets use it for being petted, the fairy
 //                for saying her next line), with
@@ -60,6 +66,10 @@ export function thingInReach(player, things) {
     const rightEdge = thing.col + (thing.wide || 1) - 1;
     const across = Math.max(thing.col - col, col - rightEdge, 0);
     const down = Math.abs(thing.row - row);
+    if (thing.reach === "none") return false; // only a name tag; nothing to walk up to
+    // A thing can instead list the exact tiles it is reached from
+    // (the leaderboards are read from the path beside them).
+    if (thing.reachTiles) return thing.reachTiles.some((tile) => tile.col === col && tile.row === row);
     if (thing.reach === "on") return across === 0 && down === 0;
     if (thing.reach === "below") return across === 0 && row === thing.row + 1;
     if (thing.reach === "near") return across <= 1 && down <= 1 && across + down > 0;
@@ -145,6 +155,8 @@ export function drawThings(ctx, things, camera, now) {
     if (thing.kind === "frame") drawFrame(ctx, x, y); // see pets.js
     if (thing.kind === "pet") drawPet(ctx, thing, x, y, now); // see pets.js
 
+    if (thing.kind === "shaketree") drawShakeTree(ctx, thing, x, y, now);
+
     if (thing.kind === "portal") {
       // Rings of colour, like a doorway of light on the floor, with a
       // glow around it that slowly brightens and fades.
@@ -154,6 +166,55 @@ export function drawThings(ctx, things, camera, now) {
       fill(ctx, "#f0e442", x + 6, y + 5, 4, 6);
     }
   }
+}
+
+// A special tree outdoors: blossom instead of plain leaves, so it
+// stands out. Shaking it (thing.shakenAt is the time it was shaken)
+// makes it wobble and drop little spreadsheets.
+const SHAKE_TIME = 1400; // how long the whole thing lasts, in milliseconds
+
+function drawShakeTree(ctx, tree, x, y, now) {
+  // How far through the shake we are: 0 at the start, 1 at the end.
+  const progress = (now - (tree.shakenAt || -Infinity)) / SHAKE_TIME;
+  const shaking = progress >= 0 && progress < 1;
+
+  // The wobble: quick side-to-side movement for the first 40%, dying
+  // away. (No wobble for visitors who asked for reduced motion.)
+  let wobble = 0;
+  if (shaking && !reduceMotion && progress < 0.4) {
+    wobble = Math.round(Math.sin(progress * 60) * 2 * (1 - progress / 0.4));
+  }
+
+  fill(ctx, "#6b4a2b", x + 6, y + 10, 4, 6); // trunk (stays still)
+  fill(ctx, "#2f6b3a", x + 2 + wobble, y + 2, 12, 9); // leaves
+  fill(ctx, "#2f6b3a", x + 4 + wobble, y, 8, 2);
+  // Blossom, in the site's purple and a warm yellow.
+  for (const [dx, dy, color] of [[3, 3, "#cc79a7"], [8, 2, "#f0e442"], [11, 5, "#cc79a7"], [5, 7, "#f0e442"], [9, 8, "#cc79a7"]]) {
+    fill(ctx, color, x + dx + wobble, y + dy, 2, 2);
+  }
+
+  // The spreadsheets: three of them, dropping from the leaves to the
+  // ground beside the tree, then lying there until the time is up.
+  if (shaking) {
+    const landings = [[-12, 8], [14, 10], [2, 18]]; // where each ends up, from the tree's corner
+    landings.forEach(([landX, landY], i) => {
+      // Each starts a little later than the last, and takes 40% of the time to fall.
+      const fall = Math.min(1, Math.max(0, (progress - 0.1 - i * 0.08) / 0.4));
+      if (fall === 0) return;
+      const sheetX = Math.round(x + 5 + (landX - 5) * fall);
+      const sheetY = Math.round(y + 4 + (landY - 4) * (reduceMotion ? 1 : fall * fall)); // speeds up as it falls
+      drawSpreadsheet(ctx, sheetX, sheetY);
+    });
+  }
+}
+
+// A tiny spreadsheet: white page, green header row, grey grid lines.
+function drawSpreadsheet(ctx, x, y) {
+  fill(ctx, "#ffffff", x, y, 9, 7);
+  fill(ctx, "#1d7044", x, y, 9, 2);
+  fill(ctx, "#b0b0b0", x + 3, y + 2, 1, 5);
+  fill(ctx, "#b0b0b0", x + 6, y + 2, 1, 5);
+  fill(ctx, "#b0b0b0", x, y + 4, 9, 1);
 }
 
 // A soft glow around a tile, for portals and bubbles: two see-through

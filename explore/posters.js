@@ -8,7 +8,13 @@
 // Each poster has:
 //   title    shown when the player stands below it
 //   caption  one or two sentences saying what the picture shows
-//   type     how tiles.js draws it
+//   fact     a "Did you know?" about the data
+//   source   where the data and the fact come from
+//   file     the full-size picture shown when the player looks closer.
+//            These are made with ggplot by posters/make-posters.R and
+//            saved in the posters/ folder. Until that script has been
+//            run the picture is simply left out.
+//   type     how tiles.js draws the tiny version on the wall
 //   ...plus the numbers to draw. Heights are in pixels (the drawing
 //   area of a poster is 12 pixels wide and 10 tall), already worked
 //   out from the data as described in each comment. The summaries
@@ -27,6 +33,11 @@ export const POSTERS = {
     title: "Old Faithful eruptions",
     caption:
       "A histogram of how long 272 eruptions of the Old Faithful geyser lasted. Two humps: eruptions are either short (about 2 minutes) or long (about 4.5), rarely in between.",
+    fact:
+      "After a short eruption the next one arrives sooner: in these data the average wait is about 54 minutes after a short eruption and about 80 after a long one. Park staff use the same idea to post predicted eruption times.",
+    source:
+      "Azzalini, A. and Bowman, A. W. (1990). A look at some data on the Old Faithful geyser. Applied Statistics, 39, 357-365. Data: faithful, in R's datasets package.",
+    file: "old-faithful.png",
     type: "histogram",
     color: "#0072b2",
     heights: [2, 9, 4, 1, 1, 0, 2, 3, 7, 7, 8, 4],
@@ -38,6 +49,11 @@ export const POSTERS = {
     title: "Galton's heights",
     caption:
       "A histogram of the heights of 928 adult children measured by Francis Galton in the 1880s, the data behind the phrase 'regression to the mean'. Roughly bell-shaped, centred near 68 inches.",
+    fact:
+      "Francis Galton, who collected these heights, also coined the word 'eugenics' in 1883. In 1904 he funded a Eugenics Record Office at University College London, which became the Galton Laboratory of National Eugenics under Karl Pearson. Many founding methods of statistics grew up alongside that movement. After an inquiry into this history, UCL removed Galton's and Pearson's names from its buildings in 2020 and issued a formal apology in 2021.",
+    source:
+      "Galton, F. (1886). Regression towards mediocrity in hereditary stature. Journal of the Anthropological Institute, 15, 246-263. University College London (2020). Inquiry into the History of Eugenics at UCL: Final Report. Data: Galton, in the HistData package for R.",
+    file: "galton-heights.png",
     type: "histogram",
     color: "#cc79a7",
     heights: [1, 2, 3, 3, 6, 7, 6, 9, 5, 3, 2, 2],
@@ -51,6 +67,11 @@ export const POSTERS = {
     title: "Car weight and fuel economy",
     caption:
       "A scatter plot of 32 cars from 1974: weight across, miles per gallon up. Heavier cars go fewer miles on a gallon (correlation -0.87).",
+    fact:
+      "The 32 cars come from a 1974 issue of Motor Trend magazine. The most economical is the Toyota Corolla at 33.9 miles per gallon; the thirstiest are the Cadillac Fleetwood and the Lincoln Continental, both at 10.4.",
+    source:
+      "Henderson, H. V. and Velleman, P. F. (1981). Building multiple regression models interactively. Biometrics, 37, 391-411. Data: mtcars, in R's datasets package.",
+    file: "car-weight-mpg.png",
     type: "scatter",
     color: "#d55e00",
     // [pixels across, pixels up]
@@ -67,6 +88,11 @@ export const POSTERS = {
     title: "Surviving the Titanic",
     caption:
       "The share of people who survived the sinking of the Titanic, by class: 62% of first class, 41% of second, 25% of third, and 24% of the crew.",
+    fact:
+      "For years this table was used in classrooms as 'the unusual episode': students were shown the counts without being told what event they described, and had to work it out from the numbers alone.",
+    source:
+      "Dawson, R. J. MacG. (1995). The 'unusual episode' data revisited. Journal of Statistics Education, 3(3). Data: Titanic, in R's datasets package, from the British Board of Trade inquiry report of 1912.",
+    file: "titanic-survival.png",
     type: "bars",
     colors: ["#0072b2", "#e69f00", "#009e73", "#cc79a7"],
     heights: [6, 4, 3, 2],
@@ -82,6 +108,11 @@ export const POSTERS = {
     title: "Penguin flippers",
     caption:
       "Box plots of flipper length for three penguin species on the Palmer Archipelago, Antarctica: Adelie, Chinstrap and Gentoo. Gentoo flippers are clearly the longest.",
+    fact:
+      "These measurements were made by Dr Kristen Gorman and the Palmer Station research programme in Antarctica between 2007 and 2009, on 344 penguins. They were released as an R package in 2020.",
+    source:
+      "Gorman, K. B., Williams, T. D. and Fraser, W. R. (2014). Ecological sexual dimorphism and environmental variability within a community of Antarctic penguins (genus Pygoscelis). PLoS ONE, 9(3), e90081. Data: penguins, in the palmerpenguins package for R.",
+    file: "penguin-flippers.png",
     type: "boxes",
     colors: ["#0072b2", "#e69f00", "#009e73"],
     // [minimum, lower quartile, median, upper quartile, maximum], in pixels up
@@ -100,6 +131,11 @@ export const POSTERS = {
     title: "Airline passengers, 1949 to 1960",
     caption:
       "A time series: the average number of international airline passengers per month, year by year. It climbs from about 127,000 in 1949 to 476,000 in 1960.",
+    fact:
+      "Statisticians know this series simply as 'the airline data'. It gave its name to the 'airline model', a way of forecasting seasonal data that is still a standard starting point.",
+    source:
+      "Box, G. E. P. and Jenkins, G. M. (1976). Time Series Analysis: Forecasting and Control (revised edition). Holden-Day. Data: AirPassengers, in R's datasets package.",
+    file: "airline-passengers.png",
     type: "line",
     color: "#0072b2",
     heights: [1, 1, 1, 2, 3, 3, 4, 5, 6, 6, 7, 8],
@@ -113,6 +149,11 @@ export const POSTERS = {
     title: "Four things about a car",
     caption:
       "A correlation heat map for 32 cars: miles per gallon, horsepower, weight and quarter-mile time. Blue squares rise together, orange squares move in opposite directions. Fuel economy and weight are the strongest pair (-0.87).",
+    fact:
+      "This small table of 32 cars may be the most-used example in statistics teaching: it comes built into every copy of the R language, under the name mtcars.",
+    source:
+      "Henderson, H. V. and Velleman, P. F. (1981). Building multiple regression models interactively. Biometrics, 37, 391-411. R Core Team, the datasets package for R.",
+    file: "car-correlations.png",
     type: "heatmap",
     correlations: [
       [1.0, -0.78, -0.87, 0.42],
@@ -131,6 +172,11 @@ export const POSTERS = {
     title: "Two kinds of penguin",
     caption:
       "The body mass of Adelie penguins (blue) and Gentoo penguins (orange). The two distributions barely overlap: a typical Gentoo weighs about 5.1 kg, a typical Adelie about 3.7 kg.",
+    fact:
+      "The penguin data were offered as a replacement for a much older classroom favourite, the iris flower measurements, which the statistician Ronald Fisher published in 1936 in a journal called the Annals of Eugenics.",
+    source:
+      "Horst, A. M., Hill, A. P. and Gorman, K. B. (2020). palmerpenguins: Palmer Archipelago (Antarctica) penguin data. R package. Fisher, R. A. (1936). The use of multiple measurements in taxonomic problems. Annals of Eugenics, 7(2), 179-188.",
+    file: "penguin-mass.png",
     type: "curves",
     colors: ["#0072b2", "#d55e00"],
     curves: [

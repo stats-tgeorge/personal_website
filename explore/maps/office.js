@@ -29,9 +29,9 @@
 //     floor below it (stand there to look at it).
 
 export const OFFICE_ROWS = [
-  "#c#k##f#f#f#f#",
-  "#BBB___d_d_d_#",
-  "#____________#",
+  "##c#k#f#f#f#f#",
+  "#B_____d_d_d_#",
+  "#B___________#",
   "#__L_________#",
   "#____________#",
   "#______i_____#",

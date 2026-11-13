@@ -22,10 +22,15 @@ const nextButton = document.getElementById("dialogue-next");
 let lines = [];
 let lineNumber = 0;
 
+// What to do when the conversation ends (optional).
+let whenFinished = null;
+
 // Starts a conversation.
 //   speaker  the name shown on the box, e.g. "Fairy"
 //   allLines what they say, one entry per press of Next
-export function openDialogue(speaker, allLines) {
+//   then     optional: a function to call when the box closes
+export function openDialogue(speaker, allLines, then = null) {
+  whenFinished = then;
   lines = allLines;
   lineNumber = 0;
   speakerName.textContent = speaker;
@@ -45,7 +50,12 @@ export function advanceDialogue() {
 }
 
 export function closeDialogue() {
+  if (box.hidden) return; // already closed
   box.hidden = true;
+  // Do the "afterwards" step once, then forget it.
+  const then = whenFinished;
+  whenFinished = null;
+  if (then) then();
 }
 
 function showLine() {

@@ -17,8 +17,12 @@
 //   i  the helper fairy           (blocks the player; always present)
 //   L  the laptop at the far end  (blocks the player; always present.
 //                                  It opens the whole CV)
-//   E  the exit mat               (walking onto it leaves the museum;
-//                                  the player arrives on the tile above it)
+//   E  an exit mat                (walking onto it leaves the museum.
+//                                  There are two: one by the entrance,
+//                                  where the player arrives, and one at
+//                                  the far end to save the walk back)
+//   X  a "Go Outside" sign        (blocks the player; put it beside the
+//                                  far exit mat)
 //   1-9  a pedestal SPOT. The digit says which wing it belongs to:
 //        1 = the first "##" heading on the CV page, 2 = the second,
 //        and so on. Within a wing, the "###" headings fill that
@@ -42,9 +46,9 @@
 // To add a ninth wing, draw a new room with "9" spots, a "*" and an "l".
 
 export const HALL_ROWS = [
-  "           ##x#q##c#k##           ",
-  "           #____L_____#           ",
-  "           #__________#           ",
+  "           ##x#q#c#k###           ",
+  "           #_________X#           ",
+  "           #____L____E#           ",
   "   ############____#########      ",
   "   #___7__7__*#____#*__8___#      ",
   "   #l_____________________l#      ",

@@ -75,7 +75,7 @@ function fillIn(thing) {
 
   // The link. Some things only explain (the chalkboard) and have none.
   // Other websites open in a new tab so the game is not lost.
-  link.hidden = !thing.url && !thing.html;
+  link.hidden = !thing.url && !thing.html && !thing.secondPress;
   link.href = thing.url || "#";
   link.target = thing.newTab ? "_blank" : "";
   link.rel = thing.newTab ? "noopener" : "";
@@ -88,7 +88,8 @@ function fillIn(thing) {
   enterButton.hidden = !hasButton;
   if (thing.room) enterButton.textContent = "Go inside (Enter)";
   if (thing.press) enterButton.textContent = `${thing.buttonLabel} (Enter)`;
-  if (thing.room) link.textContent = `${thing.linkLabel} instead`;
+  if (thing.secondPress) link.textContent = thing.secondLabel;
+  else if (thing.room) link.textContent = `${thing.linkLabel} instead`;
   else if (thing.press) link.textContent = thing.linkLabel;
   else link.textContent = `${thing.linkLabel} (Enter)`;
 
@@ -127,7 +128,13 @@ enterButton.addEventListener("click", () => {
 // content to read in the game, open the reader instead.
 // (preventDefault stops the browser from following the link.)
 link.addEventListener("click", (event) => {
-  if (shownThing && shownThing.html && !shownThing.room) {
+  if (shownThing && shownThing.secondPress) {
+    // Here the "link" is standing in as a second button (the game
+    // stall's "Play as an instructor").
+    event.preventDefault();
+    shownThing.secondPress();
+    document.getElementById("game-canvas").focus();
+  } else if (shownThing && shownThing.html && !shownThing.room) {
     event.preventDefault();
     openReader(shownThing);
   } else if (shownThing && shownThing.newTab && !shownThing.plainLink) {

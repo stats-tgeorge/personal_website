@@ -31,6 +31,9 @@ export function showLabelsFor(things) {
     // Things that stand close together (museum pedestals) get a
     // narrower tag, so neighbours do not overlap.
     if (thing.narrowLabel) element.classList.add("narrow");
+    // Some tags are styled as part of Sheet Breaker's spreadsheet:
+    // the scores on a leaderboard, the game's name, the formula bar.
+    if (["leaderboard", "marquee", "formula"].includes(thing.kind)) element.classList.add(thing.kind);
     element.textContent = thing.label;
     holder.append(element);
     tags.push({ thing, element });
@@ -57,4 +60,27 @@ export function positionLabels(camera) {
     const onScreen = x >= 0 && x <= VIEW_COLS * TILE && y >= 0 && y <= VIEW_ROWS * TILE;
     element.hidden = !onScreen;
   }
+}
+
+// Changes the words on a thing's tag while it is on screen (the
+// formula bar's message, a leaderboard after a new high score).
+export function setLabelText(thing, text) {
+  thing.label = text;
+  const tag = tags.find((candidate) => candidate.thing === thing);
+  if (tag) tag.element.textContent = text;
+}
+
+// The player's own tag: their initials, floating above their head. It
+// is separate from the tags above because it follows the player.
+const playerTag = document.getElementById("player-tag");
+
+export function setPlayerTag(initials) {
+  playerTag.textContent = initials;
+  playerTag.hidden = initials === "";
+}
+
+// playerX, playerY = where the player's footprint is on screen, in game pixels.
+export function positionPlayerTag(playerX, playerY) {
+  playerTag.style.left = `${((playerX + 5) / (VIEW_COLS * TILE)) * 100}%`; // centre of the player
+  playerTag.style.top = `${((playerY - 12) / (VIEW_ROWS * TILE)) * 100}%`; // just above the head
 }

@@ -52,7 +52,7 @@ export function drawTile(ctx, char, x, y, col, row) {
   // (desks "o", portals "p", helpers "n", pets "d", signs "*", the
   // fairy "i", laptop desks "L" and "l") are drawn as bare floor here;
   // things.js draws whatever stands there on top.
-  if ("_opnd*liLE".includes(char)) {
+  if ("_opnd*XliLE".includes(char)) {
     fill(ctx, COLORS.floor, x, y, TILE, TILE);
     fill(ctx, COLORS.floorLine, x, y + 15, TILE, 1); // floorboard seams
     fill(ctx, COLORS.floorLine, x + (row % 2 === 0 ? 7 : 15), y, 1, TILE);
@@ -110,20 +110,32 @@ export function drawTile(ctx, char, x, y, col, row) {
     return;
   }
 
-  // The mini-game field outdoors: fence and arcade cabinet, on grass.
-  if (char === "F" || char === "G") {
+  // A tree that can be shaken ("Y"). Only its patch of grass is drawn
+  // here; things.js draws the tree itself, because it moves.
+  if (char === "Y") {
     fill(ctx, COLORS.grass, x, y, TILE, TILE);
-    if (char === "F") {
-      fill(ctx, "#8a5a2b", x + 2, y + 3, 2, 12); // two posts
-      fill(ctx, "#8a5a2b", x + 12, y + 3, 2, 12);
-      fill(ctx, "#a8733d", x, y + 5, TILE, 2); // two rails
-      fill(ctx, "#a8733d", x, y + 10, TILE, 2);
-    } else {
-      fill(ctx, "#3b2257", x + 3, y + 1, 10, 14); // arcade cabinet
-      fill(ctx, "#56b4e9", x + 5, y + 3, 6, 5); // its screen
-      fill(ctx, "#f0e442", x + 6, y + 10, 2, 2); // buttons
-      fill(ctx, "#d55e00", x + 9, y + 10, 2, 2);
-    }
+    return;
+  }
+
+  // The Sheet Breaker stall outdoors.
+  if (char === "M") {
+    // The edges of the spreadsheet. The game (minigame/draw.js) paints
+    // the menu bar, row numbers and scroll bar over these; this grey
+    // only shows if the game failed to load.
+    fill(ctx, "#d5dadd", x, y, TILE, TILE);
+    return;
+  }
+  if (char === "g") {
+    // The play area. The game (minigame/draw.js) paints over this; the
+    // colour only shows if the game failed to load.
+    fill(ctx, "#ffffff", x, y, TILE, TILE);
+    return;
+  }
+  if (char === "K") {
+    // The leaderboard: a dark board. The scores are written on it by
+    // a name tag (see places.js).
+    fill(ctx, "#1b1424", x, y, TILE, TILE);
+    fill(ctx, "#523178", x, y, TILE, 1);
     return;
   }
 

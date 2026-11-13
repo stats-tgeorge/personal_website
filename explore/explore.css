@@ -336,6 +336,246 @@
   display: none;
 }
 
+/* --- Sheet Breaker (the game outdoors) ------------------------------------ */
+/* Three name tags are dressed up as parts of the spreadsheet. */
+
+/* The game's name, at the left end of the green menu bar. */
+.thing-label.marquee {
+  max-width: none;
+  transform: translate(-50%, 15%); /* sits inside the bar, not above it */
+  font-size: clamp(0.7rem, 1.7cqw, 1.4rem);
+  font-weight: 700;
+  white-space: nowrap;
+  color: #ffffff;
+  background: none;
+}
+
+/* The formula bar: the game's messages. It covers the bar's white box
+   (12 tiles wide, most of a tile tall). */
+.thing-label.formula {
+  width: 60cqw; /* 12 of the map's 20 tiles */
+  max-width: none;
+  height: 4.2cqw;
+  transform: translate(-50%, 8%);
+  display: flex;
+  align-items: center;
+  padding: 0 0.6em;
+  font-size: clamp(0.65rem, 1.45cqw, 1.2rem);
+  line-height: 1.1;
+  text-align: left;
+  color: #1b1424;
+  background: none;
+}
+
+/* The scores written on a leaderboard. "pre-line" keeps the line
+   breaks, so each score is on its own line. */
+.thing-label.leaderboard {
+  max-width: 20cqw; /* a board is 4 tiles wide: 4/20 of the map */
+  width: 20cqw;
+  padding: 0.6em 0.3em;
+  font-family: monospace;
+  font-size: clamp(0.6rem, 1.45cqw, 1.15rem);
+  line-height: 1.45;
+  white-space: pre-line;
+  color: #f0e442;
+  background: none;
+}
+
+/* The player's initials above their head. */
+#player-tag {
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+/* The box asking who is playing. */
+#mode-choice,
+#creator {
+  width: min(34rem, 92vw);
+  padding: 1.2rem 1.4rem;
+  border: 3px solid #523178;
+  border-radius: 10px;
+}
+
+#mode-choice::backdrop,
+#creator::backdrop {
+  background: rgba(27, 20, 36, 0.7);
+}
+
+#mode-choice h2,
+#creator h2 {
+  margin-top: 0;
+  border: none;
+}
+
+.mode-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.mode-buttons .btn,
+#creator .btn[type="submit"] {
+  background: #523178;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.mode-buttons .btn:focus {
+  outline: 4px solid #e69f00;
+  outline-offset: 2px;
+}
+
+/* The histogram of past scores, in the large reader. */
+.histogram {
+  display: flex;
+  align-items: flex-end; /* bars stand on a common baseline */
+  gap: 4px;
+  height: 14rem;
+  padding-top: 1.5rem;
+  border-bottom: 2px solid #333333;
+}
+
+.histogram-bin {
+  flex: 1; /* all bins the same width */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+}
+
+.histogram-bar {
+  width: 100%;
+  background: #0072b2;
+}
+
+.histogram-count {
+  font-size: 0.85rem;
+}
+
+/* The number under each bar: where that bar's range starts. */
+.histogram-label {
+  position: absolute;
+  top: 100%;
+  font-size: 0.75rem;
+  padding-top: 0.2rem;
+}
+
+.histogram-axis {
+  margin-top: 1.6rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* --- Choose your character ------------------------------------------------ */
+.creator-layout {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 0.8rem;
+}
+
+/* The pictures are tiny (16 by 22 pixels); show them enlarged, with
+   the pixels kept crisp. */
+#creator-preview {
+  width: 96px;
+  height: 132px;
+  image-rendering: pixelated;
+  background: #e8f1e4;
+  border: 2px solid #523178;
+  border-radius: 8px;
+}
+
+.creator-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.creator-row {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.creator-choice {
+  padding: 2px;
+  background: #f4f4f4;
+  border: 3px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  line-height: 0;
+}
+
+.creator-choice canvas {
+  width: 40px;
+  height: 55px;
+  image-rendering: pixelated;
+}
+
+/* The chosen option in each row. */
+.creator-choice[aria-pressed="true"] {
+  border-color: #523178;
+  background: #ffffff;
+}
+
+.creator-choice:focus-visible {
+  outline: 3px solid #e69f00;
+}
+
+#creator-initials {
+  width: 4.5em;
+  margin-left: 0.5rem;
+  font-family: monospace;
+  font-size: 1.2rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* The small grey notes. */
+.creator-note {
+  margin: 0.3rem 0 0.8rem;
+  font-size: 0.85rem;
+  color: #6c6c6c;
+}
+
+/* The "enter three letters" form after a high score. */
+#score-entry {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 1.4rem;
+  color: #ffffff;
+  background: rgba(27, 20, 36, 0.96);
+  border: 3px solid #f0e442;
+  border-radius: 10px;
+  text-align: center;
+}
+
+#score-code {
+  width: 4.5em;
+  font-family: monospace;
+  font-size: 1.6rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+#score-entry .btn {
+  background: #f0e442;
+  color: #3b2257;
+  font-weight: 600;
+}
+
+#score-entry[hidden] {
+  display: none;
+}
+
 /* --- Stepping through a portal -------------------------------------------
    warp.js adds the class "warping" to the stage. While it is there the
    map is shown eight times its size (zoomed towards the portal) and a
@@ -443,6 +683,20 @@
 .welcome-text {
   font-size: 1.25rem;
   line-height: 1.5;
+}
+
+/* A poster looked at closely: the full-size graph, then its notes. */
+.poster-large {
+  display: block;
+  width: 100%;
+  max-width: 44rem;
+  margin: 0 auto 1rem;
+  border: 1px solid #dddddd;
+}
+
+.poster-source {
+  font-size: 0.9rem;
+  color: #555555;
 }
 
 .reader-foot {
