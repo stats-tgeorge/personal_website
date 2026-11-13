@@ -30,6 +30,19 @@ export function onGoInside(handler) {
   goInside = handler;
 }
 
+// What to do when the visitor steps through a portal to another
+// website. main.js supplies this too: it knows where the portal is on
+// screen, which the zoom effect needs.
+let stepThrough = (thing) => window.open(thing.url, "_blank");
+export function onStepThrough(handler) {
+  stepThrough = handler;
+}
+
+// Re-writes the strip for the thing on show, after its words changed.
+export function refreshPanel() {
+  if (shownThing) fillIn(shownThing);
+}
+
 // Shows the pop-up for a thing, or hides it if thing is null.
 // main.js calls this every frame, so do nothing unless the thing has
 // actually changed; otherwise screen readers would re-announce it
@@ -62,7 +75,7 @@ function fillIn(thing) {
 
   // The link. Some things only explain (the chalkboard) and have none.
   // Other websites open in a new tab so the game is not lost.
-  link.hidden = !thing.url && !thing.html;
+  link.hidden = !thing.url && !thing.html && !thing.secondPress;
   link.href = thing.url || "#";
   link.target = thing.newTab ? "_blank" : "";
   link.rel = thing.newTab ? "noopener" : "";
@@ -75,7 +88,8 @@ function fillIn(thing) {
   enterButton.hidden = !hasButton;
   if (thing.room) enterButton.textContent = "Go inside (Enter)";
   if (thing.press) enterButton.textContent = `${thing.buttonLabel} (Enter)`;
-  if (thing.room) link.textContent = `${thing.linkLabel} instead`;
+  if (thing.secondPress) link.textContent = thing.secondLabel;
+  else if (thing.room) link.textContent = `${thing.linkLabel} instead`;
   else if (thing.press) link.textContent = thing.linkLabel;
   else link.textContent = `${thing.linkLabel} (Enter)`;
 
@@ -94,7 +108,7 @@ export function activateShownThing() {
   } else if (shownThing.html) {
     openReader(shownThing); // read it here, without leaving the game
   } else if (shownThing.newTab) {
-    window.open(shownThing.url, "_blank", "noopener");
+    stepThrough(shownThing);
   } else if (shownThing.url) {
     window.location.href = shownThing.url;
   }
@@ -114,8 +128,20 @@ enterButton.addEventListener("click", () => {
 // content to read in the game, open the reader instead.
 // (preventDefault stops the browser from following the link.)
 link.addEventListener("click", (event) => {
-  if (shownThing && shownThing.html && !shownThing.room) {
+  if (shownThing && shownThing.secondPress) {
+    // Here the "link" is standing in as a second button (the game
+    // stall's "Play as an instructor").
+    event.preventDefault();
+    shownThing.secondPress();
+    document.getElementById("game-canvas").focus();
+  } else if (shownThing && shownThing.html && !shownThing.room) {
     event.preventDefault();
     openReader(shownThing);
+  } else if (shownThing && shownThing.newTab && !shownThing.plainLink) {
+    // A portal: play the zoom first. (If the browser refused to open
+    // the new tab, main.js marks the thing "plainLink" and the link
+    // then behaves like any ordinary link.)
+    event.preventDefault();
+    stepThrough(shownThing);
   }
 });

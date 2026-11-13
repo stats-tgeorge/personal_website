@@ -93,7 +93,67 @@ listing:
      pop-up instead, so they are not read twice. -->
 <div id="thing-labels" aria-hidden="true"></div>
 
+<!-- The conversation box (talking to the fairy). dialogue.js fills it
+     in. aria-live makes screen readers read each line as it appears. -->
+<div id="dialogue" aria-live="polite" hidden>
+  <strong id="dialogue-speaker"></strong>
+  <p id="dialogue-text"></p>
+  <button id="dialogue-next" class="btn" type="button">Next</button>
+</div>
+
+<!-- The player's initials, floating above their character. labels.js
+     moves it. aria-hidden: it is decoration. -->
+<div id="player-tag" class="thing-label" aria-hidden="true" hidden></div>
+
+<!-- Asks for three letters after a high score in Sheet Breaker
+     (see minigame/stall.js). -->
+<form id="score-entry" hidden>
+  <strong>New high score: <span id="score-entry-score"></span>!</strong>
+  <label for="score-code">Enter 3 letters or numbers for the leaderboard:</label>
+  <input id="score-code" type="text" maxlength="3" size="3" autocomplete="off" autocapitalize="characters">
+  <button class="btn" type="submit">Save</button>
+</form>
+
+<!-- A white cover that fades in over the map when the player steps
+     through a portal (see warp.js). It never takes clicks. -->
+<div id="warp-flash"></div>
+
 </div><!-- end of game-stage -->
+
+<!-- "Choose your character", shown when explore mode opens. creator.js
+     fills each row with picture buttons. The rows have no words on
+     purpose: people choose by picture. (Each button still has a name
+     for screen readers, set in creator.js.) -->
+<dialog id="creator" aria-labelledby="creator-title">
+  <form id="creator-form">
+    <h2 id="creator-title">Who is exploring today?</h2>
+    <p>Choose a character. Pick whatever looks right to you.</p>
+    <div class="creator-layout">
+      <canvas id="creator-preview" width="16" height="22" aria-hidden="true"></canvas>
+      <div class="creator-rows">
+        <div id="creator-skin" class="creator-row" role="group" aria-label="Skin tone"></div>
+        <div id="creator-hair" class="creator-row" role="group" aria-label="Hair style"></div>
+        <div id="creator-hair-color" class="creator-row" role="group" aria-label="Hair colour"></div>
+        <div id="creator-figure" class="creator-row" role="group" aria-label="Figure"></div>
+      </div>
+    </div>
+    <label for="creator-initials">Your initials (optional)</label>
+    <input id="creator-initials" type="text" maxlength="3" size="3" autocomplete="off" autocapitalize="characters">
+    <p class="creator-note">Shown above your character. Your initials are not saved or sent anywhere.</p>
+    <button class="btn" type="submit">Start exploring</button>
+  </form>
+</dialog>
+
+<!-- Sheet Breaker: asks who is playing (see minigame/stall.js). -->
+<dialog id="mode-choice" aria-labelledby="mode-title">
+  <h2 id="mode-title">Who is playing?</h2>
+  <p>The goals of each level depend on your answer.</p>
+  <div class="mode-buttons">
+    <button class="btn" type="button" data-mode="student" autofocus>A student</button>
+    <button class="btn" type="button" data-mode="instructor">An instructor or other professional</button>
+  </div>
+  <p class="creator-note">Arrow keys or Tab to choose, Enter to start, Esc to cancel.</p>
+</dialog>
 
 <!-- The large pop-up for reading part of the regular site without
      leaving the game. reader.js fills it in. <dialog> is the browser's
