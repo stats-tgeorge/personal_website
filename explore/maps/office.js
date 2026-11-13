@@ -22,14 +22,15 @@
 // About page:
 //   - a picture whose caption is one of the pets' names (listed in
 //     rooms.js) becomes that pet, standing on a "d" spot, with its
-//     photo in the frame directly above it. So every "d" must have an
-//     "f" above it.
+//     photo in the frame one tile up and one to the right, so the pet
+//     stands just left of its photo. So every "d" must have an "f"
+//     up and to its right.
 //   - any other captioned picture goes in an "f" frame that has plain
 //     floor below it (stand there to look at it).
 
 export const OFFICE_ROWS = [
   "#c#k##f#f#f#f#",
-  "#BBB____d_d_d#",
+  "#BBB___d_d_d_#",
   "#____________#",
   "#__L_________#",
   "#____________#",

@@ -98,27 +98,38 @@ function frontFirst(a, b) {
 
 // Every room has the same two fixtures:
 //   - a helper fairy ("i" in the map) hovering by the door, who calls
-//     "Hey, listen!" and explains how to use the room. Nothing pops up
-//     unasked: her words show in the strip when the player is near,
-//     and talking to her (Enter) shows them large.
+//     "Hey, listen!" and explains how to use the room. She speaks one
+//     line at a time: each press of her "Next" button (or Enter, or
+//     Space) moves to the next line. Nothing pops up unasked.
 //   - a laptop on a desk ("L") that opens the room's whole page in the
 //     large reader.
-// "words" supplies the text that differs from room to room.
+// "words" supplies the text that differs from room to room:
+//   words.fairyLines   what the fairy says, one entry per press. The
+//                      first is the welcome.
+//   words.laptopLabel  the laptop's name tag
+//   words.laptopText   the laptop's description
 function fairyAndLaptop(rows, place, page, words) {
   const things = [];
   for (const spot of findInRows(rows, "i")) {
-    things.push({
-      kind: "fairy",
-      ...spot,
-      reach: "near",
-      label: "Hey, listen!",
-      title: "Hey, listen!",
-      description: words.fairyText,
-      // The same words as a paragraph, for the large pop-up.
-      readerTitle: `${place.title}: how it works`,
-      html: `<p class="welcome-text">${words.fairyText}</p>`,
-      linkLabel: "Talk",
-    });
+    const lines = words.fairyLines;
+    const fairy = { kind: "fairy", ...spot, reach: "near", label: "Hey, listen!" };
+
+    // Puts line number "index" (counting from 0) into the fairy's
+    // title, description and button.
+    const say = (index) => {
+      fairy.line = index;
+      fairy.title = `Hey, listen! (${index + 1} of ${lines.length})`;
+      fairy.description = lines[index];
+      fairy.buttonLabel = index < lines.length - 1 ? "Next" : "Start again";
+    };
+    say(0);
+    // Pressing her button moves on a line; after the last line it
+    // goes round to the first. (% is "remainder after dividing".)
+    fairy.press = () => say((fairy.line + 1) % lines.length);
+    // Walking away and coming back starts her from the welcome again.
+    fairy.onReach = () => say(0);
+
+    things.push(fairy);
   }
   for (const spot of findInRows(rows, "L")) {
     things.push({
@@ -197,8 +208,14 @@ async function fillClassroom(rows, place) {
 
   things.push(
     ...fairyAndLaptop(rows, place, page, {
-      fairyText:
-        "Each desk is a course Tyler teaches, with the most recent nearest this door. Walk up to a desk and press Enter to read about it. A glowing doorway beside a desk leads to that course's own website. The laptop at the back of the room has every course on one page. Step on the red mat to go back outside.",
+      fairyLines: [
+        "Welcome to the Classroom!",
+        "Each desk is a course Professor George teaches. The most recent ones are nearest this door.",
+        "Walk up to a desk and press Enter to read about that course.",
+        "A glowing doorway beside a desk leads to that course's own website.",
+        "The laptop at the back of the room has every course on one page.",
+        "When you are done, step on the red mat to go back outside.",
+      ],
       laptopLabel: "All Course Details",
       laptopText: "The whole Teaching page in one place." + (extra > 0 ? ` It includes ${extra} more courses than there are desks.` : ""),
     })
@@ -301,8 +318,13 @@ async function fillSupportCenter(rows, place) {
 
   things.push(
     ...fairyAndLaptop(rows, place, page, {
-      fairyText:
-        "Each person here knows about one kind of help. Walk past someone to hear what they have to say, and press Enter to read more. The laptop at the back of the room has everything on one page. Step on the red mat to go back outside.",
+      fairyLines: [
+        "Welcome to the Student Support Center!",
+        "Each person here knows about one kind of help.",
+        "Walk past someone to hear what they have to say, and press Enter to read more.",
+        "The laptop at the back of the room has everything on one page.",
+        "When you are done, step on the red mat to go back outside.",
+      ],
       laptopLabel: "All Support Details",
       laptopText: "The whole Student Support page in one place.",
     })
@@ -379,8 +401,13 @@ async function fillNewsstand(rows, place) {
   const extra = blog.posts.length - spots.length;
   things.push(
     ...fairyAndLaptop(rows, place, blog, {
-      fairyText:
-        "Each bubble is a blog post, newest first, starting on your left and going clockwise round the room. Step into a bubble to see what the post is about, and press Enter to read it in a new tab. The kiosk in the middle lists every post. Step on the red mat to go back outside.",
+      fairyLines: [
+        "Welcome to the Newsstand!",
+        "Each bubble is a blog post. The newest is on your left, and they get older going clockwise round the room.",
+        "Step into a bubble to see what the post is about, and press Enter to read it in a new tab.",
+        "The kiosk in the middle lists every post.",
+        "When you are done, step on the red mat to go back outside.",
+      ],
       laptopLabel: "All Blog Posts",
       laptopText: "The whole list of blog posts." + (extra > 0 ? ` There are ${extra} older posts that do not have a bubble.` : ""),
     })
@@ -409,10 +436,11 @@ async function fillOffice(rows, place) {
   const things = [];
 
   // Pet spots, left to right, and the frame spots that are free for
-  // other photos (the ones with no pet spot directly below).
+  // other photos (the ones that are not a pet's own frame).
   const petSpots = findInRows(rows, "d");
+  // A pet's own frame is one tile up and one to the right of its spot.
   const freeFrames = findInRows(rows, "f").filter(
-    (frame) => !petSpots.some((spot) => spot.col === frame.col && spot.row === frame.row + 1)
+    (frame) => !petSpots.some((spot) => spot.col + 1 === frame.col && spot.row - 1 === frame.row)
   );
 
   let petsPlaced = 0;
@@ -429,8 +457,9 @@ async function fillOffice(rows, place) {
         reach: "near",
         breed: pet.breed,
         label: picture.caption,
+        labelBelow: true, // above the dog is the wall with the photos
         title: picture.caption,
-        description: "Woof! That is my photo on the wall. I like being petted.",
+        description: "Woof! That is my photo on the wall beside me. I like being petted.",
         image: picture.image,
         html: photo,
         linkLabel: "See the photo",
@@ -463,8 +492,13 @@ async function fillOffice(rows, place) {
   const intro = page.sections[0] ? shorten(page.sections[0].text, 200) : "The whole About page.";
   things.push(
     ...fairyAndLaptop(rows, place, page, {
-      fairyText:
-        "This is Professor George's office. The desk has everything about him: walk up to it and press Enter. The corner by the photos belongs to the family. The dogs like being petted, so go and say hello. Step on the red mat to go back outside.",
+      fairyLines: [
+        "Welcome to Professor George's office!",
+        "The desk has everything about him. Walk up to it and press Enter.",
+        "The photos on the wall are the family. Stand below the first one to look at it.",
+        "The dogs like being petted. Go and say hello!",
+        "When you are done, step on the red mat to go back outside.",
+      ],
       laptopLabel: "About Professor George",
       laptopText: intro,
     })
@@ -576,8 +610,14 @@ async function fillHall(rows, place) {
 
   things.push(
     ...fairyAndLaptop(rows, place, page, {
-      fairyText:
-        "Welcome to the museum of Dr. George's CV. The corridor ahead has a wing for each category, named on the sign inside its doorway. In a wing, every pedestal is one section: walk up and press Enter to read it. The laptop at the back of a wing has that whole category, and the laptop at the far end of the corridor has the entire CV. Step on the red mat to go back outside.",
+      fairyLines: [
+        "Welcome to the museum of Dr. George's CV!",
+        "The corridor ahead has a wing for each category. The sign inside each doorway names it.",
+        "In a wing, every pedestal is one section. Walk up to it and press Enter to read it.",
+        "The laptop at the back of a wing has that whole category on one page.",
+        "The laptop at the far end of the corridor has the entire CV.",
+        "When you are done, step on the red mat to go back outside.",
+      ],
       laptopLabel: "The Whole CV",
       laptopText: "The complete curriculum vitae in one place.",
     })

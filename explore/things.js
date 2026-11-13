@@ -31,8 +31,11 @@
 //   newTab       true to open the link in a new browser tab (other websites)
 //   image        optional picture shown in the pop-up (portal previews)
 //   room         optional name of a room this thing leads into (doors)
+//   onReach      optional: something to do each time the player comes
+//                up to it (a function)
 //   press        optional: something to do when its button is pressed
-//                (a function; pets use it for being petted), with
+//                (a function; pets use it for being petted, the fairy
+//                for saying her next line), with
 //   buttonLabel  the words on that button, e.g. "Pet"
 
 import { TILE, PLAYER_WIDTH, PLAYER_HEIGHT } from "./config.js";

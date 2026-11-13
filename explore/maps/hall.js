@@ -30,31 +30,38 @@
 //      A sign or wing laptop belongs to whichever wing's pedestal
 //      spots are closest to it.
 //
-// Today the CV has 8 categories with at most 5 sections each; every
-// wing here has 6 spots. To add a ninth wing, draw a new room with
-// "9" spots, a "*" and an "l".
+// The wings are different sizes: each is only as deep as the number
+// of sections its category has today (two pedestals per column), so
+// the museum is not a rectangle. Spots per wing today:
+//     wing:   1  2  3  4  5  6  7  8
+//     spots:  4  4  2  4  2  6  4  2
+// If a category gains a section and runs out of spots, the browser
+// console says so. To make room, widen that wing by three tiles: move
+// its back wall and its "l" three tiles further from the corridor and
+// add two more of its digit in the new space, in line with the others.
+// To add a ninth wing, draw a new room with "9" spots, a "*" and an "l".
 
 export const HALL_ROWS = [
   "           ##x#q##c#k##           ",
   "           #____L_____#           ",
   "           #__________#           ",
-  "###############____###############",
-  "#___7__7__7__*#____#*__8__8__8___#",
-  "#l______________________________l#",
-  "#___7__7__7___#____#___8__8__8___#",
-  "###############____###############",
-  "#___5__5__5__*#____#*__6__6__6___#",
-  "#l______________________________l#",
-  "#___5__5__5___#____#___6__6__6___#",
-  "###############____###############",
-  "#___3__3__3__*#____#*__4__4__4___#",
-  "#l______________________________l#",
-  "#___3__3__3___#____#___4__4__4___#",
-  "###############____###############",
-  "#___1__1__1__*#____#*__2__2__2___#",
-  "#l______________________________l#",
-  "#___1__1__1___#____#___2__2__2___#",
-  "###############____###############",
+  "   ############____#########      ",
+  "   #___7__7__*#____#*__8___#      ",
+  "   #l_____________________l#      ",
+  "   #___7__7___#____#___8___#      ",
+  "   ############____###############",
+  "      #___5__*#____#*__6__6__6___#",
+  "      #l________________________l#",
+  "      #___5___#____#___6__6__6___#",
+  "      #########____###############",
+  "      #___3__*#____#*__4__4___#   ",
+  "      #l_____________________l#   ",
+  "      #___3___#____#___4__4___#   ",
+  "   ############____############   ",
+  "   #___1__1__*#____#*__2__2___#   ",
+  "   #l________________________l#   ",
+  "   #___1__1___#____#___2__2___#   ",
+  "   ############____############   ",
   "           #__________#           ",
   "           #_____i____#           ",
   "           #####E######           ",

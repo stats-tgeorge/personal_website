@@ -154,7 +154,12 @@ function frame(now) {
   // something, note the time: things that react (the tutors' high-five
   // in people.js) use it to time their animation.
   const nowReached = thingInReach(player, things);
-  if (nowReached && nowReached !== reached) nowReached.reachedAt = now;
+  if (nowReached && nowReached !== reached) {
+    nowReached.reachedAt = now;
+    // Some things do something when the player arrives (the fairy
+    // goes back to the start of what she has to say).
+    if (nowReached.onReach) nowReached.onReach();
+  }
   reached = nowReached;
   showThing(reached);
   draw();

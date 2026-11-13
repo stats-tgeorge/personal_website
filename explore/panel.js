@@ -37,6 +37,14 @@ export function onGoInside(handler) {
 export function showThing(thing) {
   if (thing === shownThing) return;
   shownThing = thing;
+  fillIn(thing);
+}
+
+// Writes a thing's words, picture and buttons into the strip (or
+// hides them if thing is null). Kept separate from showThing so the
+// strip can be refreshed when a thing's words change while it is on
+// show: the fairy says something new each time she is spoken to.
+function fillIn(thing) {
 
   // With nothing in reach, the strip shows its "walk up to something" note.
   idleNote.hidden = Boolean(thing);
@@ -82,6 +90,7 @@ export function activateShownThing() {
     goInside(shownThing);
   } else if (shownThing.press) {
     shownThing.press();
+    fillIn(shownThing); // pressing may have changed its words (the fairy)
   } else if (shownThing.html) {
     openReader(shownThing); // read it here, without leaving the game
   } else if (shownThing.newTab) {

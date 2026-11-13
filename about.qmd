@@ -4,7 +4,7 @@ title: "Tyler George"
 
 ## Myself 
 
-I am an Assistant Professor of Statistics (and data science) at [Cornell College](https://www.cornellcollege.edu/) - a small undergraduate liberal arts college. I received my PhD in Statistics and Analytics at Central Michigan University. During my PhD I also studied mathematics and statistics education. My dissertation work involved creating a new lack of fit test for linear regression models. My interests are broadly in statistics education and data science.
+I am an Associate Professor of Statistics (and data science) at [Cornell College](https://www.cornellcollege.edu/) - a small undergraduate liberal arts college. I received my PhD in Statistics and Analytics at Central Michigan University. During my PhD I also studied mathematics and statistics education. My dissertation work involved creating a new lack of fit test for linear regression models. My interests are broadly in statistics education and data science.
 
 
 

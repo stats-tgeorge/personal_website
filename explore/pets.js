@@ -1,8 +1,8 @@
 // pets.js
 // Written by Claude (an AI model made by Anthropic) at Tyler George's direction.
 //
-// Draws the dogs in the office: each stands against the wall under its
-// own framed photo. PLACEHOLDER art made of coloured rectangles.
+// Draws the dogs in the office: each stands against the wall just to
+// the left of its own framed photo. PLACEHOLDER art made of coloured rectangles.
 //
 // A pet has a "breed" (chosen in rooms.js from its name):
 //   "lab"    a small black lab mix
@@ -26,8 +26,9 @@ const HAPPY_TIME = 1600;
 //        its tile on the canvas
 // now  = the current time in milliseconds
 export function drawPet(ctx, pet, x, y, now) {
-  // The framed photo on the wall tile above the pet.
-  drawFrame(ctx, x, y - TILE);
+  // The pet's framed photo: on the wall, one tile up and one to the
+  // right, so the pet stands just to the left of it and does not hide it.
+  drawFrame(ctx, x + TILE, y - TILE);
 
   // How far through the "just been petted" reaction we are (0 to 1),
   // or outside that range when not reacting.
