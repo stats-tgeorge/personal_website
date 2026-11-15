@@ -6,7 +6,8 @@
 // the words are in levels.js; the leaderboard is in scores.js.
 //
 // Everything here is measured in pixels from the top-left corner of
-// the sheet (the play area), which is 192 wide and 160 tall:
+// the sheet. The part of the sheet on screen is 192 wide and 160 tall.
+// On most levels that is the whole sheet:
 //
 //      0 ......................... 192
 //    0 [ header: A B C ... L        ]   8 pixels tall
@@ -16,6 +17,11 @@
 //  150 [        ==paddle==          ]
 //  160 ....... bottom: ball lost ....
 //
+// On the later levels the sheet is TALLER than the screen (game.height
+// is more than 160) and the view scrolls up and down to follow the
+// ball, as a spreadsheet does; the column letters stay put at the top
+// like a frozen header row. game.scroll says how far down the view is.
+//
 // main.js tells this file when to start, passes it the keys each
 // frame, and is told (through "game.on...") when there is something to
 // say or when the game ends.
@@ -24,16 +30,21 @@ import { LEVELS, MODES, LOST_REMARKS, HOLE_REMARK, GAME_OVER_REMARKS, POINTS } f
 
 // ---- Sizes and speeds: the knobs ------------------------------------------
 export const SHEET_WIDTH = 192;
-export const SHEET_HEIGHT = 160;
+export const VIEW_HEIGHT = 160; // how much of the sheet's height is on screen
 export const HEADER_HEIGHT = 8; // the "A B C" bar; its bottom edge is the top wall
 export const CELL_WIDTH = 16;
 export const CELL_HEIGHT = 8;
-export const PADDLE_Y = 150; // top edge of the paddle
+const PADDLE_FROM_BOTTOM = 10; // the paddle's top edge is this far above the sheet's bottom
 export const PADDLE_WIDTH = 34;
 export const PADDLE_HEIGHT = 4;
 const PADDLE_SPEED = 170; // pixels per second
 const BALL_START_SIZE = 2; // radius in pixels
 const BALL_BIGGEST = 7; // skills stop making it bigger at this radius
+const SCROLL_SPEED = 6; // how quickly the view catches up with the ball (bigger = snappier)
+
+// Visitors who have asked their computer to reduce motion get the
+// later levels without the scrolling (and so without the extra rows).
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const BALL_SPEED = 115; // pixels per second on level 1
 const SPEED_PER_LEVEL = 10; // added for each level completed
 const LIVES = 3;
@@ -52,8 +63,12 @@ export const game = {
   lives: LIVES,
   paddleX: SHEET_WIDTH / 2, // centre of the paddle
   ball: { x: 0, y: 0, speedX: 0, speedY: 0, size: BALL_START_SIZE },
-  cells: [], // rows of cells; see buildCells
+  cells: [], // rows of cells; see loadLevel
   holes: [],
+  height: VIEW_HEIGHT, // the height of this level's whole sheet
+  paddleY: VIEW_HEIGHT - PADDLE_FROM_BOTTOM, // top edge of the paddle
+  scroll: 0, // how far the view has scrolled down the sheet, in pixels
+  skills: [], // the skills earned so far this game
   remark: "", // the latest message, shown in the sheet's formula bar
   remarkChanged: true, // set whenever the message needs re-writing
   hudChanged: true, // set whenever the score line needs re-writing
@@ -86,6 +101,7 @@ export function startGame(mode) {
   game.levelsCleared = 0;
   game.score = 0;
   game.lives = LIVES;
+  game.skills = [];
   game.ball.size = BALL_START_SIZE;
   game.paddleX = SHEET_WIDTH / 2;
   loadLevel();
@@ -123,7 +139,10 @@ export function hudText() {
   const hearts = "♥".repeat(game.lives) + "♡".repeat(LIVES - game.lives);
   return {
     title: `Sheet Breaker · ${MODES[game.mode].name} · Level ${game.levelsCleared + 1} · Score ${game.score.toLocaleString()} · ${hearts}`,
-    description: `Goal: ${game.state === "idle" ? "" : currentGoal().goal}. Arrow keys or A and D move, Space launches, Esc quits. Each bounce costs a point.`,
+    description:
+      `Goal: ${game.state === "idle" ? "" : currentGoal().goal}. ` +
+      (game.skills.length > 0 ? `Skills earned: ${game.skills.join(", ")}. ` : "") +
+      "Arrow keys or A and D move the paddle. Space launches the ball. Each bounce costs a point. Press Esc to quit.",
   };
 }
 
@@ -137,10 +156,15 @@ export function updateGame(seconds, input) {
   const half = PADDLE_WIDTH / 2;
   game.paddleX = Math.max(half, Math.min(SHEET_WIDTH - half, game.paddleX));
 
-  if (game.state === "serve") {
-    ballOntoPaddle(); // the waiting ball rides on the paddle
-    return;
-  }
+  if (game.state === "serve") ballOntoPaddle(); // the waiting ball rides on the paddle
+
+  // On a tall sheet, scroll the view so the ball stays near the middle
+  // of the screen, never past the sheet's top or bottom. The view
+  // closes part of the gap each frame, which gives a smooth glide.
+  const wanted = Math.max(0, Math.min(game.height - VIEW_HEIGHT, game.ball.y - VIEW_HEIGHT / 2));
+  game.scroll += (wanted - game.scroll) * Math.min(1, seconds * SCROLL_SPEED);
+
+  if (game.state === "serve") return;
 
   // Move the ball in small steps of at most 2 pixels. One big step
   // could carry a fast ball right through a thin cell without the
@@ -175,7 +199,7 @@ function stepBall(seconds) {
 
   // Gone? Off the bottom, or out through a hole in a wall.
   const margin = ball.size + 6;
-  const offBottom = ball.y > SHEET_HEIGHT + margin;
+  const offBottom = ball.y > game.height + margin;
   const outOfHole = ball.x < -margin || ball.x > SHEET_WIDTH + margin || ball.y < HEADER_HEIGHT - margin;
   if (offBottom || outOfHole) loseLife(outOfHole);
 }
@@ -265,8 +289,8 @@ function bounceOffPaddle() {
   const ball = game.ball;
   if (ball.speedY <= 0) return; // only when the ball is coming down
   const touching =
-    ball.y + ball.size >= PADDLE_Y &&
-    ball.y - ball.size <= PADDLE_Y + PADDLE_HEIGHT &&
+    ball.y + ball.size >= game.paddleY &&
+    ball.y - ball.size <= game.paddleY + PADDLE_HEIGHT &&
     Math.abs(ball.x - game.paddleX) <= PADDLE_WIDTH / 2 + ball.size;
   if (!touching) return;
 
@@ -276,7 +300,7 @@ function bounceOffPaddle() {
   const speed = ballSpeed();
   ball.speedX = speed * Math.sin(angle);
   ball.speedY = -speed * Math.cos(angle);
-  ball.y = PADDLE_Y - ball.size; // sit exactly on top, so it cannot stick
+  ball.y = game.paddleY - ball.size; // sit exactly on top, so it cannot stick
   bouncePenalty();
 }
 
@@ -298,13 +322,15 @@ function completeLevel() {
   game.score += POINTS.levelBonus * (game.levelsCleared + 1);
   game.levelsCleared++;
 
-  // Every skill makes the ball bigger, up to a limit.
+  // Every skill makes the ball bigger, up to a limit. A bigger ball
+  // reaches more cells, so each skill makes the next level a little easier.
+  game.skills.push(done.skill);
   const grew = game.ball.size < BALL_BIGGEST;
   if (grew) game.ball.size++;
 
   const lines = [
-    `Goal complete: ${done.goal}!`,
-    `New skill: ${done.skill}. ${grew ? "Your ball grows." : "Your ball is already as big as it gets."}`,
+    `Goal complete: ${done.goal}! ${done.done}`,
+    `Skill earned: ${done.skill}. ${grew ? "Your ball grows, so it clears cells more easily." : "Your ball is already as big as it gets."}`,
   ];
 
   // After the last level the levels start again, faster.
@@ -352,21 +378,34 @@ function ballSpeed() {
 
 function ballOntoPaddle() {
   game.ball.x = game.paddleX;
-  game.ball.y = PADDLE_Y - game.ball.size;
+  game.ball.y = game.paddleY - game.ball.size;
   game.ball.speedX = 0;
   game.ball.speedY = 0;
 }
 
-// Turns the current level's text (see levels.js) into cells:
+// Sets up the current level from its description in levels.js.
 // game.cells[row][col] is null for an empty space, or
 // { kind: the letter from the text, hits: how many more hits it takes }.
 function loadLevel() {
   const level = LEVELS[game.level];
+
+  // A level may have a taller version, for scrolling (see levels.js).
+  const tall = level.tallSheet && !reduceMotion;
+  const sheet = tall ? level.tallSheet : level.sheet;
+  game.holes = tall ? level.tallHoles : level.holes;
+  game.height = VIEW_HEIGHT + (tall ? level.extraRows * CELL_HEIGHT : 0);
+  game.paddleY = game.height - PADDLE_FROM_BOTTOM;
+  game.scroll = game.height - VIEW_HEIGHT; // start looking at the bottom, where the paddle is
+
   const hitsNeeded = { m: 2, G: 3 }; // everything else takes 1
-  game.cells = level.sheet.map((rowText) =>
+  game.cells = sheet.map((rowText) =>
     [...rowText].map((letter) => (letter === "." ? null : { kind: letter, hits: hitsNeeded[letter] || 1 }))
   );
-  game.holes = level.holes;
+}
+
+// The picture on this level's goal cell (see levels.js and draw.js).
+export function goalIcon() {
+  return MODES[game.mode].goals[game.level].icon;
 }
 
 function pickOne(list) {

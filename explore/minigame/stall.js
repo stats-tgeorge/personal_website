@@ -11,9 +11,9 @@
 // main.js calls the functions here; nothing else needs to.
 
 import { TILE, PLAYER_WIDTH, PLAYER_HEIGHT } from "../config.js";
-import { game, startGame, updateGame, hudText } from "./game.js";
+import { game, startGame, quitGame, updateGame, hudText } from "./game.js";
 import { drawGame } from "./draw.js";
-import { isHighScore, saveHighScore, recordFinalScore, leaderboardLines, histogramHtml } from "./scores.js";
+import { refreshScores, recordGame, isHighScore, leaderboardLines, histogramHtml, scoresAsCsv } from "./scores.js";
 import { MODES } from "./levels.js";
 import { openDialogue } from "../dialogue.js";
 import { setLabelText } from "../labels.js";
@@ -23,6 +23,7 @@ const modeBox = document.getElementById("mode-choice");
 const entryForm = document.getElementById("score-entry");
 const entryCode = document.getElementById("score-code");
 const entryScore = document.getElementById("score-entry-score");
+const quitButton = document.getElementById("game-quit");
 
 let stall = null; // the "booth" thing from places.js, once found
 let leaderboards = []; // the two "leaderboard" things (students', instructors')
@@ -58,15 +59,26 @@ export function setUpStall(things, whenScoresChange, getInitials) {
   // Messages between levels use the conversation box.
   game.onMessage = (lines, then) => openDialogue("Sheet Breaker", lines, then);
 
-  // When a game ends its score is noted for the histogram, and a
-  // score good enough for the leaderboard earns three letters on it.
+  // When a game ends: a score good enough for the leaderboard earns
+  // three letters on it (asked for first, then recorded); any other
+  // score is recorded straight away under the player's initials.
   game.onGameOver = (score, mode) => {
-    recordFinalScore(mode, score);
     if (isHighScore(mode, score)) askForCode(score, mode);
-    else writeLeaderboards();
+    else keepScore(mode, playerInitials(), score);
   };
 
   if (formulaBar) formulaBar.label = game.remark;
+  writeLeaderboards();
+  // If scores are shared through the Google Sheet, fetch everyone's
+  // and write the boards again when they arrive.
+  refreshScores().then(writeLeaderboards);
+}
+
+// Records a finished game, then brings the boards up to date: at once
+// with this game added, and again once the shared list has been
+// fetched afresh (which is when other people's new games show up).
+function keepScore(mode, code, score) {
+  recordGame(mode, code, score).then(refreshScores).then(writeLeaderboards);
   writeLeaderboards();
 }
 
@@ -116,13 +128,23 @@ export function drawStall(ctx, camera) {
   if (sheetCorner) drawGame(ctx, sheetCorner.x - camera.x, sheetCorner.y - camera.y);
 }
 
-// Keeps the formula bar showing the game's latest message. main.js
-// calls this every frame; it only does anything when the message changes.
-export function updateFormulaBar() {
+// Keeps two things about the game current. main.js calls this every
+// frame; it only does any work when something has changed.
+//   - the formula bar shows the game's latest message
+//   - the "Quit" button is on screen only while a game is being played
+export function refreshStall() {
+  // (not while a message is being read: then the game is "waiting")
+  quitButton.hidden = !(game.state === "serve" || game.state === "play");
   if (!formulaBar || !game.remarkChanged) return;
   setLabelText(formulaBar, game.remark);
   game.remarkChanged = false;
 }
+
+// The Quit button does the same as the Esc key.
+quitButton.addEventListener("click", () => {
+  quitGame();
+  canvas.focus();
+});
 
 // The score line for the strip. "changed" is true when its words are
 // different from last time, so main.js knows to re-write the strip.
@@ -144,7 +166,7 @@ function writeLeaderboards() {
     // On the board itself: the top five. "\n" starts a new line.
     board.label = [`${who.toUpperCase()}S`, ...leaderboardLines(board.mode)].join("\n");
     board.title = `Sheet Breaker: ${who.toLowerCase()} high scores`;
-    board.description = "The top five are on the board. Look closer to see how every finished game has scored.";
+    board.description = "The top five are on the board. Look closer for a histogram of every finished game, and to download the scores.";
     board.readerTitle = `How ${who.toLowerCase()}s have scored`;
     board.html = histogramHtml(board.mode);
     board.linkLabel = "See all scores";
@@ -168,11 +190,30 @@ entryForm.addEventListener("submit", (event) => {
   event.preventDefault(); // a form normally reloads the page; not wanted here
   // Keep letters and numbers only, in capitals. "AAA" if nothing was typed.
   const code = entryCode.value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 3) || "AAA";
-  saveHighScore(pendingScore.mode, code, pendingScore.score);
+  keepScore(pendingScore.mode, code, pendingScore.score);
   pendingScore = null;
   entryForm.hidden = true;
-  writeLeaderboards();
   canvas.focus(); // hand the keyboard back to the map
+});
+
+// ---- Downloading the scores -----------------------------------------------------
+// The histogram in the large reader ends with a "Download" button
+// (made in scores.js). The reader's content is rebuilt every time it
+// opens, so the click is listened for on the reader itself, which is
+// always there, and the button is recognised by its class.
+document.getElementById("reader-content").addEventListener("click", (event) => {
+  const button = event.target.closest(".download-scores");
+  if (!button) return;
+  const mode = button.dataset.mode; // "student" or "instructor"
+
+  // Make the text into a file the browser can save, and "click" an
+  // invisible link to it, which is how a page starts a download.
+  const file = new Blob([scoresAsCsv(mode)], { type: "text/csv" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(file);
+  link.download = `sheet-breaker-${mode}-scores.csv`;
+  link.click();
+  URL.revokeObjectURL(link.href); // tidy up the temporary address
 });
 
 // Typing in the box must not reach the rest of the page (Quarto's

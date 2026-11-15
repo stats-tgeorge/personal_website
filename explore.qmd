@@ -114,20 +114,25 @@ listing:
   <button class="btn" type="submit">Save</button>
 </form>
 
+<!-- Shown only while Sheet Breaker is being played (see
+     minigame/stall.js). It does the same as the Esc key. -->
+<button id="game-quit" class="btn" type="button" hidden>Quit game <kbd>Esc</kbd></button>
+
 <!-- A white cover that fades in over the map when the player steps
      through a portal (see warp.js). It never takes clicks. -->
 <div id="warp-flash"></div>
 
 </div><!-- end of game-stage -->
 
-<!-- "Choose your character", shown when explore mode opens. creator.js
-     fills each row with picture buttons. The rows have no words on
-     purpose: people choose by picture. (Each button still has a name
-     for screen readers, set in creator.js.) -->
+<!-- "Change your look", opened from the signpost beside where the
+     player starts. creator.js fills each row with picture buttons.
+     The rows have no words on purpose: people choose by picture.
+     (Each button still has a name for screen readers, set in
+     creator.js.) -->
 <dialog id="creator" aria-labelledby="creator-title">
   <form id="creator-form">
-    <h2 id="creator-title">Who is exploring today?</h2>
-    <p>Choose a character. Pick whatever looks right to you.</p>
+    <h2 id="creator-title">Change your look</h2>
+    <p>Pick whatever looks right to you.</p>
     <div class="creator-layout">
       <canvas id="creator-preview" width="16" height="22" aria-hidden="true"></canvas>
       <div class="creator-rows">
@@ -140,7 +145,7 @@ listing:
     <label for="creator-initials">Your initials (optional)</label>
     <input id="creator-initials" type="text" maxlength="3" size="3" autocomplete="off" autocapitalize="characters">
     <p class="creator-note">Shown above your character. Your initials are not saved or sent anywhere.</p>
-    <button class="btn" type="submit">Start exploring</button>
+    <button class="btn" type="submit">Done</button>
   </form>
 </dialog>
 
@@ -152,7 +157,16 @@ listing:
     <button class="btn" type="button" data-mode="student" autofocus>A student</button>
     <button class="btn" type="button" data-mode="instructor">An instructor or other professional</button>
   </div>
-  <p class="creator-note">Arrow keys or Tab to choose, Enter to start, Esc to cancel.</p>
+  <!-- What the pictures on the cells mean. The little pictures are
+       drawn by explore.css to match the ones in the game. -->
+  <ul class="game-legend">
+    <li><span class="legend-cell gold"></span> <strong>Gold cell:</strong> the level's goal. Hit it three times to finish the level and earn a skill.</li>
+    <li><span class="legend-cell bonus"></span> <strong>Cells with a picture</strong> (an email, feedback, a coffee, a question): bonus points.</li>
+    <li><span class="legend-cell merged"></span> <strong>Merged cell:</strong> takes two hits.</li>
+    <li><span class="legend-cell error"></span> <strong>#REF! error:</strong> cannot be broken. Go around it.</li>
+    <li>Every bounce off the paddle costs a point, and you have three lives.</li>
+  </ul>
+  <p class="creator-note">Arrow keys or Tab to choose, Enter to start. While playing, <kbd>Esc</kbd> quits the game.</p>
 </dialog>
 
 <!-- The large pop-up for reading part of the regular site without
