@@ -1,14 +1,15 @@
 // creator.js
 // Written by Claude (an AI model made by Anthropic) at Tyler George's direction.
 //
-// The "choose your character" box shown when explore mode opens. The
+// The "change your look" box, opened from the signpost beside where the
+// player starts (nothing pops up when explore mode opens). The
 // visitor picks a skin tone, a hair style and colour, and a figure,
 // all by picture, and may type their initials. Nothing chosen here is
 // saved or sent anywhere: it lasts until the page is closed.
 //
 // The box is a <dialog> in explore.qmd. This file fills each row with
 // picture buttons, keeps the preview up to date, and hands the result
-// to main.js when the visitor presses "Start exploring".
+// to main.js when the visitor presses "Done".
 
 import { drawCharacter, SKIN_TONES, HAIR_COLORS, HAIR_STYLES, FIGURES, DEFAULT_LOOK } from "./character.js";
 
@@ -19,28 +20,37 @@ const initialsBox = document.getElementById("creator-initials");
 
 // The look being built. It starts as the default.
 const look = { ...DEFAULT_LOOK };
+// The initials last accepted. Kept here so that opening the box again
+// and closing it with Esc does not wipe them.
+let initials = "";
 
-// Each row of choices: which part of the look it sets, how many
-// options there are, the name read out by screen readers for each
-// option, and how to draw option number i on a small canvas.
+// Each row of choices: which part of the look it sets, the name read
+// out by screen readers for each option, and what each button shows.
+// So that it is clear what a row changes, each row shows only that:
+//   - the two colour rows are plain squares of colour ("swatches")
+//   - the hair style row is a close-up of the head
+//   - the figure row is the whole person
+// "draw" paints option number i on the button's small canvas; a row
+// with "colors" instead needs no drawing.
 const ROWS = [
   {
     holder: "creator-skin",
     part: "skin",
     names: ["Skin tone 1", "Skin tone 2", "Skin tone 3", "Skin tone 4", "Skin tone 5"],
-    draw: (ctx, i) => drawCharacter(ctx, { ...look, skin: i }, 3, 4),
+    colors: SKIN_TONES,
   },
   {
     holder: "creator-hair",
     part: "hair",
     names: HAIR_STYLES,
-    draw: (ctx, i) => drawCharacter(ctx, { ...look, hair: i }, 3, 4),
+    closeUp: true, // explore.css enlarges the head and crops the rest
+    draw: (ctx, i) => drawCharacter(ctx, { ...look, hair: i, figure: 0 }, 3, 4),
   },
   {
     holder: "creator-hair-color",
     part: "hairColor",
     names: ["Black hair", "Brown hair", "Red hair", "Blond hair", "Grey hair"],
-    draw: (ctx, i) => drawCharacter(ctx, { ...look, hairColor: i, hair: look.hair === 4 ? 0 : look.hair }, 3, 4),
+    colors: HAIR_COLORS,
   },
   {
     holder: "creator-figure",
@@ -59,10 +69,17 @@ for (const row of ROWS) {
     button.className = "creator-choice";
     // The name is for screen readers only; on screen there is just the picture.
     button.setAttribute("aria-label", name);
-    const picture = document.createElement("canvas");
-    picture.width = 16;
-    picture.height = 22;
-    button.append(picture);
+    if (row.colors) {
+      // A plain square of the colour.
+      button.classList.add("swatch");
+      button.style.setProperty("--swatch", row.colors[i]);
+    } else {
+      const picture = document.createElement("canvas");
+      picture.width = 16;
+      picture.height = 22;
+      if (row.closeUp) button.classList.add("close-up");
+      button.append(picture);
+    }
     button.addEventListener("click", () => {
       look[row.part] = i;
       redraw();
@@ -77,9 +94,11 @@ for (const row of ROWS) {
 function redraw() {
   for (const row of ROWS) {
     row.buttons.forEach((button, i) => {
-      const ctx = button.firstChild.getContext("2d");
-      ctx.clearRect(0, 0, 16, 22);
-      row.draw(ctx, i);
+      if (row.draw) {
+        const ctx = button.firstChild.getContext("2d");
+        ctx.clearRect(0, 0, 16, 22);
+        row.draw(ctx, i);
+      }
       // aria-pressed tells screen readers which option is chosen;
       // explore.css uses it to draw the highlight.
       button.setAttribute("aria-pressed", String(look[row.part] === i));
@@ -94,7 +113,6 @@ function redraw() {
 //   { look, initials }
 export function chooseCharacter(whenDone) {
   redraw();
-  let initials = ""; // stays empty if the box is closed with the Esc key
 
   form.onsubmit = (event) => {
     event.preventDefault(); // a form normally reloads the page; not wanted here
@@ -103,8 +121,8 @@ export function chooseCharacter(whenDone) {
     box.close();
   };
 
-  // "close" happens however the box is shut: the Start button, or the
-  // Esc key (which keeps whatever has been chosen so far). Waiting for
+  // "close" happens however the box is shut: the Done button, or the
+  // Esc key (which keeps the look chosen so far). Waiting for
   // it means the box is really gone before the game takes the keyboard.
   box.onclose = () => whenDone({ look: { ...look }, initials });
 

@@ -23,7 +23,7 @@
 //   posters.js      the wall posters and the real data behind them
 //   minigame/       Sheet Breaker, the game outdoors
 //   character.js    draws people (the player and the helpers)
-//   creator.js      the "choose your character" box shown at the start
+//   creator.js      the "change your look" box, opened from a signpost
 //   layout.js       makes the game fill the browser window
 //
 // The game repeats three steps many times a second: read the keys,
@@ -46,7 +46,7 @@ import { onReaderClosed } from "./reader.js";
 import { fillTheWindow } from "./layout.js";
 import { dialogueIsOpen, advanceDialogue, closeDialogue } from "./dialogue.js";
 import { gameAction, quitGame, gameIsActive } from "./minigame/game.js";
-import { setUpStall, stallCamera, updateStall, drawStall, stallHud, updateFormulaBar } from "./minigame/stall.js";
+import { setUpStall, stallCamera, updateStall, drawStall, stallHud, refreshStall } from "./minigame/stall.js";
 import { chooseCharacter } from "./creator.js";
 
 const canvas = document.getElementById("game-canvas");
@@ -105,6 +105,11 @@ loadPlaces()
       },
       () => player.initials
     );
+    // Give the "Change your look" signpost its button.
+    for (const sign of outdoorPlaces.filter((place) => place.changesLook)) {
+      sign.buttonLabel = "Change your look";
+      sign.press = changeLook;
+    }
     draw(); // redraw so the signs appear straight away
   })
   .catch((error) => console.warn("Explore mode: places not loaded.", error));
@@ -219,7 +224,7 @@ function frame(now) {
   } else {
     walkAbout(seconds, now);
   }
-  updateFormulaBar(); // Sheet Breaker's latest message, if it changed
+  refreshStall(); // Sheet Breaker's message and its Quit button
 
   draw();
   requestAnimationFrame(frame); // ask the browser to call frame() again
@@ -277,14 +282,34 @@ canvas.addEventListener("blur", (event) => {
 // so the visitor can carry on walking straight away.
 onReaderClosed(() => canvas.focus());
 
-// When explore mode opens, the visitor chooses a character. Their
-// choices go onto the player, and the game starts.
-chooseCharacter((choice) => {
-  player.look = choice.look;
-  player.initials = choice.initials;
-  setPlayerTag(choice.initials);
-  canvas.focus();
-  draw();
+// Opens the "change your look" box (the signpost beside the starting
+// spot does this). The visitor's choices go onto the player.
+function changeLook() {
+  chooseCharacter((choice) => {
+    player.look = choice.look;
+    player.initials = choice.initials;
+    setPlayerTag(choice.initials);
+    canvas.focus();
+    draw();
+  });
+}
+
+// Clicking with the mouse on the thing the player is standing at does
+// the same as pressing Enter there. (Only that thing: clicking
+// something across the map does nothing, as you have to walk to it.)
+canvas.addEventListener("click", (event) => {
+  if (dialogueIsOpen() || gameIsActive()) return;
+  const thing = thingInReach(player, things);
+  if (!thing) return;
+  // Where on the map was the click? The canvas is shown enlarged, so
+  // first scale the click back to the canvas's own 320 by 224 pixels.
+  const box = canvas.getBoundingClientRect();
+  const camera = cameraFor(player);
+  const col = Math.floor((((event.clientX - box.left) / box.width) * canvas.width + camera.x) / TILE);
+  const row = Math.floor((((event.clientY - box.top) / box.height) * canvas.height + camera.y) / TILE);
+  const onIt =
+    col >= thing.col && col < thing.col + (thing.wide || 1) && row >= thing.row && row < thing.row + (thing.tall || 1);
+  if (onIt) activateShownThing();
 });
 
 // Clicking the hint (which sits on top of the canvas) starts the game.

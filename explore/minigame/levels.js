@@ -21,7 +21,8 @@
 //   r  a cell with a review       (the same)
 //   k  a cell with a coffee       (the same)
 //   q  a cell with a question     (the same)
-//   G  the goal cell              (3 hits; breaking it ends the level)
+//   G  the goal cell              (gold, 3 hits; breaking it ends the
+//                                  level. Its picture shows the goal)
 //
 // "holes" are gaps in the edges that the ball can fly out through
 // (losing a life): missing row numbers at the sides, or a missing
@@ -30,6 +31,16 @@
 // "right" or "top", and from/to are distances in pixels along that
 // wall (down from the top for the side walls, across from the left for
 // the top wall). The sheet is 192 pixels wide and 152 tall.
+//
+// SCROLLING LEVELS. A level may also have a taller version, in which
+// the sheet is longer than the screen and the view scrolls up and down
+// to follow the ball:
+//   extraRows  how many rows taller than the screen it is (a row is 8 pixels)
+//   tallSheet  the cells for the tall version, top row first
+//   tallHoles  the holes for the tall version (side-wall distances are
+//              measured down the whole tall sheet)
+// Visitors who ask their computer to reduce motion get the ordinary
+// version ("sheet" and "holes") instead, with no scrolling.
 export const LEVELS = [
   {
     sheet: [
@@ -75,6 +86,25 @@ export const LEVELS = [
       ["left", 72, 96],
       ["right", 104, 128],
     ],
+    // The scrolling version: 10 more rows than fit on screen.
+    extraRows: 10,
+    tallSheet: [
+      "mmmmmGmmmmmm",
+      "cccccccccccc",
+      "c#cccccccc#c",
+      "cecccrrccckc",
+      "cccccccccccc",
+      "............",
+      "............",
+      "ccc#cccc#ccc",
+      "cqcccccccqcc",
+      "cc#cccccc#cc",
+      "cccc....cccc",
+    ],
+    tallHoles: [
+      ["left", 150, 174],
+      ["right", 184, 208],
+    ],
   },
   {
     sheet: [
@@ -92,45 +122,83 @@ export const LEVELS = [
       ["right", 112, 128],
       ["top", 88, 104],
     ],
+    // The scrolling version: 16 more rows than fit on screen.
+    extraRows: 16,
+    tallSheet: [
+      "##mmmGmmmm##",
+      "mmccccccccmm",
+      "cccccccccccc",
+      "c#cecccrc#cc",
+      "cccccccccccc",
+      "............",
+      "ccccc##ccccc",
+      "ckcccccccqcc",
+      "cccccccccccc",
+      "............",
+      "mmcc....ccmm",
+      "cc#cccccc#cc",
+      "cc..cccc..cc",
+    ],
+    tallHoles: [
+      ["left", 120, 136],
+      ["left", 204, 220],
+      ["right", 156, 172],
+      ["right", 236, 252],
+      ["top", 88, 104],
+    ],
   },
 ];
 
 // ---- The two ways to play -------------------------------------------------
-// For each mode: its name, the goal and the skill earned on each level
-// (in the same order as LEVELS), and what is said when a cell with a
-// picture on it is broken.
+// For each mode, one entry per level (in the same order as LEVELS):
+//   goal   what the player is trying to get done. Breaking the gold
+//          cell does it.
+//   icon   the little picture on the gold cell (drawn in draw.js):
+//          "page", "envelope", "bug", "people", "grade", "clock" or "coin"
+//   done   what is said when it is done
+//   skill  what the player has learned by doing it. Each skill makes
+//          the ball bigger.
+// The goal, picture and skill are meant to belong together: the skill
+// is what doing that task really teaches.
+//
+// "remarks" is what is said when one of the four bonus cells is
+// broken. The four pictures mean the same thing in both modes:
+//   e  envelope       an email dealt with
+//   r  star           a piece of feedback
+//   k  mug            a coffee
+//   q  question mark  a question asked
 export const MODES = {
   student: {
     name: "Student",
     goals: [
-      { goal: "Finish the statistics homework", skill: "Data Moves" },
-      { goal: "Email the professor before the deadline", skill: "Polite Persistence" },
-      { goal: "Find the missing parenthesis in your R code", skill: "Debugging Eyes" },
-      { goal: "Survive the group project", skill: "Diplomacy" },
-      { goal: "Pass the final exam", skill: "Sampling Distribution Zen" },
+      { goal: "Finish the statistics homework", icon: "page", done: "Every answer has units.", skill: "Data Moves" },
+      { goal: "Email the professor before the deadline", icon: "envelope", done: "Sent at 11:58 pm.", skill: "Asking for Help" },
+      { goal: "Find the bug in your R code", icon: "bug", done: "It was a missing parenthesis.", skill: "Debugging" },
+      { goal: "Finish the group project", icon: "people", done: "Everyone did their part. Eventually.", skill: "Teamwork" },
+      { goal: "Pass the final exam", icon: "grade", done: "You checked the conditions first.", skill: "Statistical Thinking" },
     ],
     remarks: {
-      e: "Email sent: 'Did I miss anything important on Tuesday?'",
-      r: "Online review posted. Five stars for the dog photos.",
-      k: "Coffee acquired. Probability of sleeping tonight: not significant.",
-      q: "You asked a question in class. Three classmates silently thank you.",
+      e: "Email: you wrote 'Did I miss anything important on Tuesday?' +50",
+      r: "Feedback: 'Good graph. Label the axes next time.' +50",
+      k: "Coffee: awake for the 8 am class. +50",
+      q: "Question: you asked one in class, and three classmates silently thanked you. +50",
     },
     endOfTerm: "Semester complete! You may now forget everything until August.",
   },
   instructor: {
     name: "Instructor",
     goals: [
-      { goal: "Clear the inbox", skill: "Inbox Zero (it will not last)" },
-      { goal: "Grade the stack of exams", skill: "Rubric Vision" },
-      { goal: "Respond to Reviewer 2", skill: "Thick Skin" },
-      { goal: "Sit through the committee meeting", skill: "This Could Have Been an Email" },
-      { goal: "Submit the grant on time", skill: "Budget Justification" },
+      { goal: "Clear the inbox", icon: "envelope", done: "Zero unread. It will not last.", skill: "Time Management" },
+      { goal: "Grade the stack of exams", icon: "grade", done: "The rubric held up.", skill: "Rubric Design" },
+      { goal: "Respond to Reviewer 2", icon: "page", done: "'We thank the reviewer for this comment.'", skill: "Revising" },
+      { goal: "Run the committee meeting", icon: "clock", done: "It ended on time. A first.", skill: "Running a Meeting" },
+      { goal: "Submit the grant on time", icon: "coin", done: "Uploaded with four minutes to spare.", skill: "Grant Writing" },
     ],
     remarks: {
-      e: "Email sent: 'As stated in the syllabus...'",
-      r: "Course evaluation received: 'Too much statistics for a statistics course.'",
-      k: "Coffee. The real instructor of record.",
-      q: "'Will this be on the exam?' Yes. Everything is on the exam.",
+      e: "Email: you replied 'As stated in the syllabus...' +50",
+      r: "Feedback: a course evaluation says 'Too much statistics for a statistics course.' +50",
+      k: "Coffee: the real instructor of record. +50",
+      q: "Question: 'Will this be on the exam?' Yes. Everything is on the exam. +50",
     },
     endOfTerm: "Semester complete! Grades are in. Sabbatical is only six years away.",
   },

@@ -106,12 +106,42 @@ export async function loadPlaces() {
         col: top.col,
         row: firstRow - 1, // the row above the board, so its tag hangs from the board's top edge
         wide: bottom.col - top.col + 1,
+        tall: half + 1, // with "wide", the area a mouse click counts as "on the board"
         reachTiles: pathBeside,
         labelBelow: true, // the "tag" hangs down over the board
         label: "",
         title: "",
         description: "",
       });
+    });
+  }
+
+  // A signpost beside the leaderboards ("P"), so that people know the
+  // boards have more to show than the top five.
+  for (const spot of findInRows(OUTDOOR_ROWS, "P")) {
+    places.push({
+      kind: "sign",
+      ...spot,
+      reach: "adjacent",
+      label: "Click leaderboard to see how you compare",
+      title: "Click a leaderboard to see how you compare",
+      description:
+        "Walk up this path beside either leaderboard, then click the board (or press Enter) for a histogram of every finished game. You can download the scores there too.",
+    });
+  }
+
+  // The "Change your look" signpost ("W"), beside where the player
+  // starts. main.js gives it its button, which opens the box in
+  // creator.js. "changesLook" is how main.js recognises it.
+  for (const spot of findInRows(OUTDOOR_ROWS, "W")) {
+    places.push({
+      kind: "sign",
+      changesLook: true,
+      ...spot,
+      reach: "adjacent",
+      label: "Change your look",
+      title: "Change your look",
+      description: "Choose how your character looks, and add your initials if you like. Nothing is saved or sent anywhere.",
     });
   }
 

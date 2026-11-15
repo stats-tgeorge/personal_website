@@ -131,6 +131,11 @@ export function drawTile(ctx, char, x, y, col, row) {
     fill(ctx, "#ffffff", x, y, TILE, TILE);
     return;
   }
+  if (char === "P" || char === "W") {
+    // A signpost stands on grass; things.js draws the sign itself.
+    fill(ctx, COLORS.grass, x, y, TILE, TILE);
+    return;
+  }
   if (char === "K") {
     // The leaderboard: a dark board. The scores are written on it by
     // a name tag (see places.js).
