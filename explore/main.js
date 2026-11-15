@@ -46,7 +46,7 @@ import { onReaderClosed } from "./reader.js";
 import { fillTheWindow } from "./layout.js";
 import { dialogueIsOpen, advanceDialogue, closeDialogue } from "./dialogue.js";
 import { gameAction, quitGame, gameIsActive } from "./minigame/game.js";
-import { setUpStall, stallCamera, updateStall, drawStall, stallHud, updateFormulaBar } from "./minigame/stall.js";
+import { setUpStall, stallCamera, updateStall, drawStall, stallHud, refreshStall } from "./minigame/stall.js";
 import { chooseCharacter } from "./creator.js";
 
 const canvas = document.getElementById("game-canvas");
@@ -219,7 +219,7 @@ function frame(now) {
   } else {
     walkAbout(seconds, now);
   }
-  updateFormulaBar(); // Sheet Breaker's latest message, if it changed
+  refreshStall(); // Sheet Breaker's message and its Quit button
 
   draw();
   requestAnimationFrame(frame); // ask the browser to call frame() again

@@ -5,7 +5,7 @@
 // the paddle and the ball. PLACEHOLDER art, like the rest of the game.
 // When nobody is playing, the same drawing serves as the still display.
 
-import { game, SHEET_WIDTH, SHEET_HEIGHT, HEADER_HEIGHT, CELL_WIDTH, CELL_HEIGHT, PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT } from "./game.js";
+import { game, goalIcon, SHEET_WIDTH, VIEW_HEIGHT, HEADER_HEIGHT, CELL_WIDTH, CELL_HEIGHT, PADDLE_WIDTH, PADDLE_HEIGHT } from "./game.js";
 
 // Tiny letters A to L for the column headers, 3 pixels wide and 5
 // tall. Each row of a letter is three characters: 1 = a dark pixel.
@@ -41,6 +41,18 @@ const DIGITS = [
 // How wide the edges around the sheet are: one map tile.
 const EDGE = 16;
 
+// The pictures that can appear on the gold goal cell, one per kind of
+// goal (levels.js says which level uses which). 1 = a white pixel.
+const GOAL_ICONS = {
+  page: ["11110", "10011", "11111", "10001", "11111"], // a sheet of paper with a folded corner
+  envelope: ["11111", "11011", "10101", "10001", "11111"],
+  bug: ["10101", "01110", "11111", "01110", "10101"],
+  people: ["01010", "01010", "00000", "11011", "11011"], // two heads, two bodies
+  grade: ["01000", "10101", "11111", "10101", "10000"], // an "A+"
+  clock: ["01110", "10101", "10111", "10001", "01110"],
+  coin: ["01110", "10101", "10111", "11101", "01110"],
+};
+
 // left, top = where the sheet's top-left corner is on the canvas.
 export function drawGame(ctx, left, top) {
   // Small helper: a rectangle measured from the sheet's corner.
@@ -55,21 +67,21 @@ export function drawGame(ctx, left, top) {
     });
   };
 
-  // The sheet: white paper with pale grid lines.
-  fill("#ffffff", 0, 0, SHEET_WIDTH, SHEET_HEIGHT);
-  for (let x = 0; x <= SHEET_WIDTH; x += CELL_WIDTH) fill("#e3e7ea", x, HEADER_HEIGHT, 1, SHEET_HEIGHT - HEADER_HEIGHT);
-  for (let y = HEADER_HEIGHT; y <= SHEET_HEIGHT; y += CELL_HEIGHT) fill("#e3e7ea", 0, y, SHEET_WIDTH, 1);
+  // On a tall level the sheet scrolls. Everything that scrolls (cells,
+  // row numbers, holes, paddle, ball) is drawn "scroll" pixels higher
+  // than its place on the sheet. The column letters do not scroll.
+  const scroll = Math.round(game.scroll);
 
-  // ---- The edges: what surrounds a real spreadsheet ----
+  // ---- The edges that never move: what surrounds a real spreadsheet ----
   // Above the sheet, two bars, each one map tile tall. First the menu
-  // bar: the program's green, with smudges where "File", "Edit" and
-  // the rest would be (deliberately unreadable). The game's name is
-  // written at its left end by a name tag (see places.js).
+  // bar: the program's green, with the game's name at its left end
+  // (a name tag; see places.js) followed by smudges where "File",
+  // "Edit" and the rest would be (deliberately unreadable).
   fill("#1d6f42", -EDGE, -2 * EDGE, SHEET_WIDTH + 2 * EDGE, EDGE);
-  [22, 16, 20, 28, 18, 24].reduce((x, width) => {
+  [14, 12, 16, 20, 14].reduce((x, width) => {
     fill("rgba(255, 255, 255, 0.35)", x, -2 * EDGE + 6, width, 4);
-    return x + width + 8; // the next smudge starts after a gap
-  }, 60);
+    return x + width + 6; // the next smudge starts after a gap
+  }, 46);
 
   // Then the formula bar: the game's messages are written in it by
   // another name tag. Here, just the bar and its "fx" mark.
@@ -77,17 +89,26 @@ export function drawGame(ctx, left, top) {
   fill("#ffffff", 0, -EDGE + 2, SHEET_WIDTH, EDGE - 4);
   pattern("#777777", -11, -EDGE + 5, ["0110000", "1000101", "1100010", "1000101", "1000000"]); // "fx"
 
-  // The header bar with the column letters.
-  fill("#d5dadd", -EDGE, 0, SHEET_WIDTH + 2 * EDGE, HEADER_HEIGHT);
-  Object.keys(LETTERS).forEach((letter, column) => {
-    pattern("#555555", column * CELL_WIDTH + 6, 1, LETTERS[letter]);
-    fill("#b8bfc4", column * CELL_WIDTH, 0, 1, HEADER_HEIGHT);
-  });
+  // ---- The part that scrolls -------------------------------------------
+  // "Clipping" tells the canvas to draw only inside a rectangle: here,
+  // the sheet below its header plus the two side edges. Anything that
+  // has scrolled out of that rectangle is simply not drawn.
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(Math.round(left - EDGE), Math.round(top + HEADER_HEIGHT), SHEET_WIDTH + 2 * EDGE, VIEW_HEIGHT - HEADER_HEIGHT);
+  ctx.clip();
 
-  // Down the left side, the row numbers: one for every row of cells.
-  fill("#d5dadd", -EDGE, HEADER_HEIGHT, EDGE, SHEET_HEIGHT - HEADER_HEIGHT);
-  for (let row = 1; HEADER_HEIGHT + row * CELL_HEIGHT <= SHEET_HEIGHT; row++) {
-    const y = HEADER_HEIGHT + (row - 1) * CELL_HEIGHT;
+  // The sheet: white paper with pale grid lines.
+  fill("#ffffff", 0, HEADER_HEIGHT, SHEET_WIDTH, VIEW_HEIGHT - HEADER_HEIGHT);
+  for (let x = 0; x <= SHEET_WIDTH; x += CELL_WIDTH) fill("#e3e7ea", x, HEADER_HEIGHT, 1, VIEW_HEIGHT - HEADER_HEIGHT);
+
+  // Row numbers down the left and a scroll bar down the right.
+  fill("#d5dadd", -EDGE, HEADER_HEIGHT, EDGE, VIEW_HEIGHT - HEADER_HEIGHT);
+  fill("#eef1f3", SHEET_WIDTH, HEADER_HEIGHT, EDGE, VIEW_HEIGHT - HEADER_HEIGHT);
+  for (let row = 1; HEADER_HEIGHT + (row - 1) * CELL_HEIGHT < game.height; row++) {
+    const y = HEADER_HEIGHT + (row - 1) * CELL_HEIGHT - scroll;
+    if (y < 0 || y > VIEW_HEIGHT) continue; // not on screen at the moment
+    fill("#e3e7ea", 0, y, SHEET_WIDTH, 1); // the grid line across the sheet
     fill("#b8bfc4", -EDGE, y, EDGE, 1);
     // One or two digits, ending 3 pixels from the gutter's right edge.
     const digits = String(row);
@@ -95,47 +116,63 @@ export function drawGame(ctx, left, top) {
       pattern("#555555", -3 - (digits.length - i) * 4, y + 2, DIGITS[Number(digit)]);
     });
   }
+  // The scroll bar's handle shows how far down the sheet the view is.
+  const track = VIEW_HEIGHT - HEADER_HEIGHT - 4;
+  const handle = Math.max(16, Math.round((VIEW_HEIGHT / game.height) * track));
+  const travel = game.height > VIEW_HEIGHT ? scroll / (game.height - VIEW_HEIGHT) : 0;
+  fill("#c3c9ce", SHEET_WIDTH + 5, HEADER_HEIGHT + 2 + Math.round(travel * (track - handle)), 6, handle);
 
-  // Down the right side, a scroll bar.
-  fill("#eef1f3", SHEET_WIDTH, HEADER_HEIGHT, EDGE, SHEET_HEIGHT - HEADER_HEIGHT);
-  fill("#c3c9ce", SHEET_WIDTH + 5, HEADER_HEIGHT + 10, 6, 44);
-
-  // Holes: stretches of an edge that are missing, so the ball can
-  // leave through them. A missing piece of edge is shown dark, with a
-  // red line where the gap opens onto the sheet.
+  // Holes in the side edges: stretches that are missing, so the ball
+  // can leave through them. Shown dark, with a red line where the gap
+  // opens onto the sheet.
   for (const [wall, from, to] of game.holes) {
     if (wall === "left") {
-      fill("#1b1424", -EDGE, from, EDGE, to - from);
-      fill("#d62828", -2, from, 2, to - from);
+      fill("#1b1424", -EDGE, from - scroll, EDGE, to - from);
+      fill("#d62828", -2, from - scroll, 2, to - from);
     }
     if (wall === "right") {
-      fill("#1b1424", SHEET_WIDTH, from, EDGE, to - from);
-      fill("#d62828", SHEET_WIDTH, from, 2, to - from);
-    }
-    if (wall === "top") {
-      fill("#1b1424", from, 0, to - from, HEADER_HEIGHT);
-      fill("#d62828", from, HEADER_HEIGHT - 2, to - from, 2);
+      fill("#1b1424", SHEET_WIDTH, from - scroll, EDGE, to - from);
+      fill("#d62828", SHEET_WIDTH, from - scroll, 2, to - from);
     }
   }
 
   // The cells.
   game.cells.forEach((row, r) => {
     row.forEach((cell, c) => {
-      if (cell) drawCell(fill, pattern, cell, c * CELL_WIDTH, HEADER_HEIGHT + r * CELL_HEIGHT);
+      if (cell) drawCell(fill, pattern, cell, c * CELL_WIDTH, HEADER_HEIGHT + r * CELL_HEIGHT - scroll);
     });
   });
 
   // The paddle, drawn as a scroll bar.
   const paddleLeft = game.paddleX - PADDLE_WIDTH / 2;
-  fill("#8a9299", paddleLeft, PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT);
-  fill("#5c646b", paddleLeft + 4, PADDLE_Y + 1, PADDLE_WIDTH - 8, PADDLE_HEIGHT - 2);
+  fill("#8a9299", paddleLeft, game.paddleY - scroll, PADDLE_WIDTH, PADDLE_HEIGHT);
+  fill("#5c646b", paddleLeft + 4, game.paddleY - scroll + 1, PADDLE_WIDTH - 8, PADDLE_HEIGHT - 2);
 
   // The ball: a data point. A square with its corners knocked off
   // reads as a circle at this size.
   const ball = game.ball;
   const size = ball.size;
-  fill("#d55e00", ball.x - size, ball.y - size + 1, size * 2, size * 2 - 2);
-  fill("#d55e00", ball.x - size + 1, ball.y - size, size * 2 - 2, size * 2);
+  fill("#d55e00", ball.x - size, ball.y - scroll - size + 1, size * 2, size * 2 - 2);
+  fill("#d55e00", ball.x - size + 1, ball.y - scroll - size, size * 2 - 2, size * 2);
+
+  ctx.restore(); // stop clipping
+
+  // ---- The header: column letters, frozen at the top --------------------
+  // Drawn last so that it covers anything scrolling up underneath it.
+  fill("#d5dadd", -EDGE, 0, SHEET_WIDTH + 2 * EDGE, HEADER_HEIGHT);
+  Object.keys(LETTERS).forEach((letter, column) => {
+    pattern("#555555", column * CELL_WIDTH + 6, 1, LETTERS[letter]);
+    fill("#b8bfc4", column * CELL_WIDTH, 0, 1, HEADER_HEIGHT);
+  });
+  // A hole in the top edge is a missing stretch of the header. It only
+  // matters (and only shows) when the view is at the top of the sheet.
+  if (scroll === 0) {
+    for (const [wall, from, to] of game.holes) {
+      if (wall !== "top") continue;
+      fill("#1b1424", from, 0, to - from, HEADER_HEIGHT);
+      fill("#d62828", from, HEADER_HEIGHT - 2, to - from, 2);
+    }
+  }
 }
 
 // One cell, with its top-left corner at (x, y) on the sheet.
@@ -159,7 +196,8 @@ function drawCell(fill, pattern, cell, x, y) {
     fill("#7a5c00", x, y + h - 1, w, 1);
     fill("#7a5c00", x, y, 1, h);
     fill("#7a5c00", x + w - 1, y, 1, h);
-    pattern("#ffffff", x + 5, y + 1, ["00100", "01110", "11111", "01110", "01010"]); // a star
+    // Its picture shows what this level's goal is (see levels.js).
+    pattern("#ffffff", x + 5, y + 1, GOAL_ICONS[goalIcon()] || GOAL_ICONS.page);
     return;
   }
 

@@ -115,6 +115,20 @@ export async function loadPlaces() {
     });
   }
 
+  // A signpost beside the leaderboards ("P"), so that people know the
+  // boards have more to show than the top five.
+  for (const spot of findInRows(OUTDOOR_ROWS, "P")) {
+    places.push({
+      kind: "sign",
+      ...spot,
+      reach: "adjacent",
+      label: "Score charts this way",
+      title: "See how everyone scored",
+      description:
+        "Walk up this path beside either leaderboard and choose 'See all scores' for a histogram of every finished game. You can download the scores there too.",
+    });
+  }
+
   // The trees that can be shaken ("Y" on the outdoor map): a small
   // surprise for anyone who wanders. Each shake drops spreadsheets and
   // shows the next remark from the list below.

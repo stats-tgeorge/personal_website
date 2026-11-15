@@ -114,6 +114,10 @@ listing:
   <button class="btn" type="submit">Save</button>
 </form>
 
+<!-- Shown only while Sheet Breaker is being played (see
+     minigame/stall.js). It does the same as the Esc key. -->
+<button id="game-quit" class="btn" type="button" hidden>Quit game <kbd>Esc</kbd></button>
+
 <!-- A white cover that fades in over the map when the player steps
      through a portal (see warp.js). It never takes clicks. -->
 <div id="warp-flash"></div>
@@ -131,9 +135,16 @@ listing:
     <div class="creator-layout">
       <canvas id="creator-preview" width="16" height="22" aria-hidden="true"></canvas>
       <div class="creator-rows">
+        <!-- Each row: a short name, then the choices (made by
+             creator.js). The last row has no name on purpose: it is
+             chosen by picture alone. -->
+        <span class="creator-row-name" aria-hidden="true">Skin</span>
         <div id="creator-skin" class="creator-row" role="group" aria-label="Skin tone"></div>
+        <span class="creator-row-name" aria-hidden="true">Hair style</span>
         <div id="creator-hair" class="creator-row" role="group" aria-label="Hair style"></div>
+        <span class="creator-row-name" aria-hidden="true">Hair colour</span>
         <div id="creator-hair-color" class="creator-row" role="group" aria-label="Hair colour"></div>
+        <span class="creator-row-name" aria-hidden="true"></span>
         <div id="creator-figure" class="creator-row" role="group" aria-label="Figure"></div>
       </div>
     </div>
@@ -152,7 +163,16 @@ listing:
     <button class="btn" type="button" data-mode="student" autofocus>A student</button>
     <button class="btn" type="button" data-mode="instructor">An instructor or other professional</button>
   </div>
-  <p class="creator-note">Arrow keys or Tab to choose, Enter to start, Esc to cancel.</p>
+  <!-- What the pictures on the cells mean. The little pictures are
+       drawn by explore.css to match the ones in the game. -->
+  <ul class="game-legend">
+    <li><span class="legend-cell gold"></span> <strong>Gold cell:</strong> the level's goal. Hit it three times to finish the level and earn a skill.</li>
+    <li><span class="legend-cell bonus"></span> <strong>Cells with a picture</strong> (an email, feedback, a coffee, a question): bonus points.</li>
+    <li><span class="legend-cell merged"></span> <strong>Merged cell:</strong> takes two hits.</li>
+    <li><span class="legend-cell error"></span> <strong>#REF! error:</strong> cannot be broken. Go around it.</li>
+    <li>Every bounce off the paddle costs a point, and you have three lives.</li>
+  </ul>
+  <p class="creator-note">Arrow keys or Tab to choose, Enter to start. While playing, <kbd>Esc</kbd> quits the game.</p>
 </dialog>
 
 <!-- The large pop-up for reading part of the regular site without

@@ -20,6 +20,7 @@
 //   K  the two leaderboards beside the game: the top five rows are the
 //      students' board, the bottom five the instructors' (blocks the
 //      player; walk up the path to their right to look closer)
+//   P  a signpost pointing out the score charts (blocks the player)
 //   1-9  a building's door (blocks the player; the player stands in
 //        front of it). The digit matches the "door:" line of a place
 //        in explore-world.yml.
@@ -56,17 +57,17 @@ export const OUTDOOR_ROWS = [
   "T..........::::::::::..................T",
   "T..........::MMMMMMMMMMMMMM............T",
   "T..........::MMMMMMMMMMMMMM............T",
-  "T..........::MggggggggggggM.KKKK::.....T",
-  "T..........::MggggggggggggM.KKKK::.....T",
-  "T..........::MggggggggggggM.KKKK::.....T",
-  "T..........::MggggggggggggM.KKKK::.....T",
-  "T..........::MggggggggggggM.KKKK::.....T",
-  "T..........::MggggggggggggM.KKKK::.....T",
-  "T..........::MggggggggggggM.KKKK::.....T",
-  "T..........::MggggggggggggM.KKKK::.....T",
-  "T..........::MggggggggggggM.KKKK::.....T",
-  "T..........::MggggggggggggM.KKKK::.....T",
-  "T..........:::::::::::::::::::::::.....T",
+  "T..........::MggggggggggggM.KKK::......T",
+  "T..........::MggggggggggggM.KKK::......T",
+  "T..........::MggggggggggggM.KKK::......T",
+  "T..........::MggggggggggggM.KKK::......T",
+  "T..........::MggggggggggggM.KKK::......T",
+  "T..........::MggggggggggggM.KKK::......T",
+  "T..........::MggggggggggggM.KKK::......T",
+  "T..........::MggggggggggggM.KKK::......T",
+  "T..........::MggggggggggggM.KKK::......T",
+  "T..........::MggggggggggggM.KKK::......T",
+  "T..........::::::::::::::::::::::P.....T",
   "T......................................T",
   "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
 ];

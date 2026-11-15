@@ -370,8 +370,8 @@
 /* The scores written on a leaderboard. "pre-line" keeps the line
    breaks, so each score is on its own line. */
 .thing-label.leaderboard {
-  max-width: 20cqw; /* a board is 4 tiles wide: 4/20 of the map */
-  width: 20cqw;
+  max-width: 15cqw; /* a board is 3 tiles wide: 3/20 of the map */
+  width: 15cqw;
   padding: 0.6em 0.3em;
   font-family: monospace;
   font-size: clamp(0.6rem, 1.45cqw, 1.15rem);
@@ -487,10 +487,19 @@
   border-radius: 8px;
 }
 
+/* Two columns: each row's short name, then its choices. */
 .creator-rows {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0.5rem 0.7rem;
+}
+
+.creator-row-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: right;
+  color: #444444;
 }
 
 .creator-row {
@@ -499,9 +508,10 @@
 }
 
 .creator-choice {
+  position: relative; /* so the tick below can sit in its corner */
   padding: 2px;
   background: #f4f4f4;
-  border: 3px solid transparent;
+  border: 3px solid #d0d0d0;
   border-radius: 6px;
   cursor: pointer;
   line-height: 0;
@@ -513,10 +523,48 @@
   image-rendering: pixelated;
 }
 
-/* The chosen option in each row. */
+/* A plain square of colour (skin tone, hair colour). creator.js sets
+   --swatch to the colour. */
+.creator-choice.swatch {
+  width: 50px;
+  height: 34px;
+  background: var(--swatch);
+}
+
+/* Hair style: the same little person, enlarged so that only the head
+   fits in the button. "overflow: hidden" crops the rest. */
+.creator-choice.close-up {
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+}
+
+.creator-choice.close-up canvas {
+  width: 80px;
+  height: 110px;
+  margin: -14px 0 0 -18px;
+}
+
+/* The chosen option in each row: a thick purple border and a tick in
+   the corner, so the choice does not depend on colour alone. */
 .creator-choice[aria-pressed="true"] {
   border-color: #523178;
-  background: #ffffff;
+  box-shadow: 0 0 0 2px #523178;
+}
+
+.creator-choice[aria-pressed="true"]::after {
+  content: "✓";
+  position: absolute;
+  top: -9px;
+  right: -9px;
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+  line-height: 18px;
+  text-align: center;
+  color: #ffffff;
+  background: #523178;
+  border-radius: 50%;
 }
 
 .creator-choice:focus-visible {
@@ -538,6 +586,77 @@
   font-size: 0.85rem;
   color: #6c6c6c;
 }
+
+/* --- Sheet Breaker: the Quit button and the legend ------------------------- */
+/* Sits at the right-hand end of the spreadsheet's green menu bar while
+   a game is on (about where a window's close button would be). */
+#game-quit {
+  position: absolute;
+  top: 0.5cqw;
+  right: 26cqw;
+  padding: 0.15em 0.6em;
+  z-index: 3;
+  font-size: clamp(0.8rem, 1.6cqw, 1.2rem);
+  font-weight: 700;
+  color: #ffffff;
+  background: #b3261e;
+  border: 2px solid #ffffff;
+}
+
+#game-quit[hidden] {
+  display: none;
+}
+
+#game-quit kbd,
+#mode-choice kbd {
+  padding: 0.05em 0.4em;
+  font-size: 0.9em;
+  color: #1b1424;
+  background: #ffffff;
+  border: 1px solid #888888;
+  border-radius: 4px;
+}
+
+/* The "Download these scores" button under the histogram. */
+.download-scores {
+  margin: 0.8rem 0 0.4rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: #523178;
+  border: 2px solid #523178;
+}
+
+.download-scores:hover,
+.download-scores:focus-visible {
+  color: #523178;
+  background: #ffffff;
+}
+
+.game-legend {
+  margin: 1rem 0 0.6rem;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.game-legend li {
+  margin-bottom: 0.3rem;
+}
+
+/* Small coloured boxes matching the cells in the game. */
+.legend-cell {
+  display: inline-block;
+  width: 1.6em;
+  height: 0.9em;
+  vertical-align: -0.1em;
+  border: 1px solid #555555;
+}
+
+.legend-cell.gold { background: #ffd700; border-color: #7a5c00; }
+.legend-cell.bonus { background: #dbeafe; border-color: #7aa5d8; }
+.legend-cell.merged { background: #8fd19e; border-color: #2e7d32; }
+.legend-cell.error { background: #f4c7c3; border-color: #b3261e; }
 
 /* The "enter three letters" form after a high score. */
 #score-entry {
