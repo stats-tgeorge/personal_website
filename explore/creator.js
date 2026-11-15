@@ -1,14 +1,15 @@
 // creator.js
 // Written by Claude (an AI model made by Anthropic) at Tyler George's direction.
 //
-// The "choose your character" box shown when explore mode opens. The
+// The "change your look" box, opened from the signpost beside where the
+// player starts (nothing pops up when explore mode opens). The
 // visitor picks a skin tone, a hair style and colour, and a figure,
 // all by picture, and may type their initials. Nothing chosen here is
 // saved or sent anywhere: it lasts until the page is closed.
 //
 // The box is a <dialog> in explore.qmd. This file fills each row with
 // picture buttons, keeps the preview up to date, and hands the result
-// to main.js when the visitor presses "Start exploring".
+// to main.js when the visitor presses "Done".
 
 import { drawCharacter, SKIN_TONES, HAIR_COLORS, HAIR_STYLES, FIGURES, DEFAULT_LOOK } from "./character.js";
 
@@ -19,6 +20,9 @@ const initialsBox = document.getElementById("creator-initials");
 
 // The look being built. It starts as the default.
 const look = { ...DEFAULT_LOOK };
+// The initials last accepted. Kept here so that opening the box again
+// and closing it with Esc does not wipe them.
+let initials = "";
 
 // Each row of choices: which part of the look it sets, the name read
 // out by screen readers for each option, and what each button shows.
@@ -109,7 +113,6 @@ function redraw() {
 //   { look, initials }
 export function chooseCharacter(whenDone) {
   redraw();
-  let initials = ""; // stays empty if the box is closed with the Esc key
 
   form.onsubmit = (event) => {
     event.preventDefault(); // a form normally reloads the page; not wanted here
@@ -118,8 +121,8 @@ export function chooseCharacter(whenDone) {
     box.close();
   };
 
-  // "close" happens however the box is shut: the Start button, or the
-  // Esc key (which keeps whatever has been chosen so far). Waiting for
+  // "close" happens however the box is shut: the Done button, or the
+  // Esc key (which keeps the look chosen so far). Waiting for
   // it means the box is really gone before the game takes the keyboard.
   box.onclose = () => whenDone({ look: { ...look }, initials });
 

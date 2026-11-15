@@ -124,34 +124,28 @@ listing:
 
 </div><!-- end of game-stage -->
 
-<!-- "Choose your character", shown when explore mode opens. creator.js
-     fills each row with picture buttons. The rows have no words on
-     purpose: people choose by picture. (Each button still has a name
-     for screen readers, set in creator.js.) -->
+<!-- "Change your look", opened from the signpost beside where the
+     player starts. creator.js fills each row with picture buttons.
+     The rows have no words on purpose: people choose by picture.
+     (Each button still has a name for screen readers, set in
+     creator.js.) -->
 <dialog id="creator" aria-labelledby="creator-title">
   <form id="creator-form">
-    <h2 id="creator-title">Who is exploring today?</h2>
-    <p>Choose a character. Pick whatever looks right to you.</p>
+    <h2 id="creator-title">Change your look</h2>
+    <p>Pick whatever looks right to you.</p>
     <div class="creator-layout">
       <canvas id="creator-preview" width="16" height="22" aria-hidden="true"></canvas>
       <div class="creator-rows">
-        <!-- Each row: a short name, then the choices (made by
-             creator.js). The last row has no name on purpose: it is
-             chosen by picture alone. -->
-        <span class="creator-row-name" aria-hidden="true">Skin</span>
         <div id="creator-skin" class="creator-row" role="group" aria-label="Skin tone"></div>
-        <span class="creator-row-name" aria-hidden="true">Hair style</span>
         <div id="creator-hair" class="creator-row" role="group" aria-label="Hair style"></div>
-        <span class="creator-row-name" aria-hidden="true">Hair colour</span>
         <div id="creator-hair-color" class="creator-row" role="group" aria-label="Hair colour"></div>
-        <span class="creator-row-name" aria-hidden="true"></span>
         <div id="creator-figure" class="creator-row" role="group" aria-label="Figure"></div>
       </div>
     </div>
     <label for="creator-initials">Your initials (optional)</label>
     <input id="creator-initials" type="text" maxlength="3" size="3" autocomplete="off" autocapitalize="characters">
     <p class="creator-note">Shown above your character. Your initials are not saved or sent anywhere.</p>
-    <button class="btn" type="submit">Start exploring</button>
+    <button class="btn" type="submit">Done</button>
   </form>
 </dialog>
 

@@ -10,4 +10,4 @@
 // steps in google-sheet/README.md and paste the web address it gives
 // you between the quotation marks, like this:
 //   export const SCORES_URL = "https://script.google.com/macros/s/AKfy.../exec";
-export const SCORES_URL = "";
+export const SCORES_URL = "https://script.google.com/macros/s/AKfycbywYnHPGURhkajCBVwX7FbuwxCz9QiKsAp9vXEJmlfsWOuvHv7wP6Bzgm3uS6Kid9FGhQ/exec";

@@ -487,19 +487,10 @@
   border-radius: 8px;
 }
 
-/* Two columns: each row's short name, then its choices. */
 .creator-rows {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: center;
-  gap: 0.5rem 0.7rem;
-}
-
-.creator-row-name {
-  font-size: 0.85rem;
-  font-weight: 600;
-  text-align: right;
-  color: #444444;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .creator-row {
