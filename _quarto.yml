@@ -18,7 +18,12 @@ website:
     
   navbar:
     background: "#523178"
-    #left:
+    # "Explore Mode" sits on the left, beside the site's title, so it
+    # stands apart from the ordinary pages on the right.
+    left:
+      - text: "Explore Mode"
+        icon: controller
+        file: explore.qmd
       
       # - student_work_showcase.qmd
       # - teaching_ped.qmd
@@ -27,7 +32,7 @@ website:
       
       # - talks.qmd
 
-      - text: "Home"
+      - text: "About"
         file: about.qmd
         
               
@@ -44,9 +49,13 @@ website:
       - icon: github 
         href: https://github.com/stats-tgeorge/personal_website
         aria-label: GitHub
-      - icon: twitter
-        href: https://twitter.com/stats_tgeorge
-        aria-label: stats-tgeorge
+      - icon: twitter-x
+        href: https://x.com/stats_tgeorge
+        aria-label: X (formerly Twitter)
+      # The Bluesky butterfly is drawn by styles.css.
+      - icon: bluesky
+        href: https://bsky.app/profile/stats-tgeorge.bsky.social
+        aria-label: Bluesky
 
 format:
   html:

@@ -2,3 +2,20 @@
 a, u {
   text-decoration: none;
 }
+/* The Bluesky butterfly, for "icon: bluesky" in _quarto.yml and
+   <i class="bi bi-bluesky"> in about.qmd. (Added by Claude, an AI model
+   made by Anthropic, at Tyler George's direction.)
+   Older versions of Quarto's icon set have no Bluesky icon, so it is
+   drawn here: the butterfly's outline is used as a stencil ("mask")
+   over a square of the surrounding text colour. That way it matches
+   the other icons whatever colour they are. */
+.bi-bluesky::before {
+  content: "" !important;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+  background-color: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.468 1.948C5.303 3.325 7.276 6.118 8 7.616c.725-1.498 2.698-4.29 4.532-5.668C13.855.955 16 .186 16 2.632c0 .489-.28 4.105-.444 4.692-.572 2.04-2.653 2.561-4.504 2.246 3.236.551 4.06 2.375 2.281 4.2-3.376 3.464-4.852-.87-5.23-1.98-.07-.204-.103-.3-.103-.218 0-.081-.033.014-.103.218-.378 1.11-1.854 5.444-5.23 1.98-1.778-1.825-.955-3.65 2.28-4.2-1.85.315-3.932-.205-4.503-2.246C.28 7.737 0 4.12 0 2.632 0 .186 2.145.955 3.468 1.948'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.468 1.948C5.303 3.325 7.276 6.118 8 7.616c.725-1.498 2.698-4.29 4.532-5.668C13.855.955 16 .186 16 2.632c0 .489-.28 4.105-.444 4.692-.572 2.04-2.653 2.561-4.504 2.246 3.236.551 4.06 2.375 2.281 4.2-3.376 3.464-4.852-.87-5.23-1.98-.07-.204-.103-.3-.103-.218 0-.081-.033.014-.103.218-.378 1.11-1.854 5.444-5.23 1.98-1.778-1.825-.955-3.65 2.28-4.2-1.85.315-3.932-.205-4.503-2.246C.28 7.737 0 4.12 0 2.632 0 .186 2.145.955 3.468 1.948'/%3E%3C/svg%3E") center / contain no-repeat;
+}

@@ -13,6 +13,8 @@
 // Like the other pop-ups, the box is ordinary HTML (in explore.qmd),
 // so screen readers read each line as it appears.
 
+import { isTouch } from "./touch.js";
+
 const box = document.getElementById("dialogue");
 const speakerName = document.getElementById("dialogue-speaker");
 const text = document.getElementById("dialogue-text");
@@ -31,7 +33,9 @@ let whenFinished = null;
 //   then     optional: a function to call when the box closes
 export function openDialogue(speaker, allLines, then = null) {
   whenFinished = then;
-  lines = allLines;
+  // What people say is written for a keyboard ("press Enter"). On a
+  // phone the same thing is done with the Go button, so say that.
+  lines = isTouch() ? allLines.map((line) => line.replace(/press Enter/g, "press Go")) : allLines;
   lineNumber = 0;
   speakerName.textContent = speaker;
   box.hidden = false;

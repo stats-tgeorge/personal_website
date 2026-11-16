@@ -80,6 +80,12 @@ export function createInput(element, onAction, onCancel, onKey) {
     // Each is -1, 0 or +1. Holding two opposite keys cancels out.
     horizontal: () => (held.has("right") ? 1 : 0) - (held.has("left") ? 1 : 0),
     vertical: () => (held.has("down") ? 1 : 0) - (held.has("up") ? 1 : 0),
+
+    // For the on-screen arrow pad on phones (touch.js), which "holds"
+    // and lets go of directions just as the keys do.
+    // direction is "up", "down", "left" or "right".
+    hold: (direction) => held.add(direction),
+    releaseAll: () => held.clear(),
   };
 }
 
