@@ -11,6 +11,7 @@
 // is a real link: it can be clicked, tapped, and read by screen readers.
 
 import { openReader } from "./reader.js";
+import { isTouch } from "./touch.js";
 
 const panel = document.getElementById("place-panel");
 const title = document.getElementById("place-title");
@@ -86,12 +87,14 @@ function fillIn(thing) {
   // Enter does what the link does.
   const hasButton = Boolean(thing.room || thing.press);
   enterButton.hidden = !hasButton;
-  if (thing.room) enterButton.textContent = "Go inside (Enter)";
-  if (thing.press) enterButton.textContent = `${thing.buttonLabel} (Enter)`;
+  // The reminder of which key to press: on a phone it is the Go button.
+  const key = isTouch() ? "Go" : "Enter";
+  if (thing.room) enterButton.textContent = `Go inside (${key})`;
+  if (thing.press) enterButton.textContent = `${thing.buttonLabel} (${key})`;
   if (thing.secondPress) link.textContent = thing.secondLabel;
   else if (thing.room) link.textContent = `${thing.linkLabel} instead`;
   else if (thing.press) link.textContent = thing.linkLabel;
-  else link.textContent = `${thing.linkLabel} (Enter)`;
+  else link.textContent = `${thing.linkLabel} (${key})`;
 
   panel.hidden = false;
 }

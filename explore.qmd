@@ -124,6 +124,22 @@ listing:
 
 </div><!-- end of game-stage -->
 
+<!-- The controls for phones and tablets (see explore/touch.js): an
+     arrow pad for walking and a "Go" button that does what Enter
+     does. They stay hidden on a computer with a keyboard.
+     The pad is aria-hidden because it only works by sliding a thumb;
+     screen-reader users have the "All places" list and the buttons in
+     the strip above the map instead. -->
+<div id="touch-controls" hidden>
+  <div id="touch-pad" aria-hidden="true">
+    <span class="pad-arrow up">▲</span>
+    <span class="pad-arrow left">◀</span>
+    <span class="pad-arrow right">▶</span>
+    <span class="pad-arrow down">▼</span>
+  </div>
+  <button id="touch-go" type="button" aria-label="Go: use what you are standing at">Go</button>
+</div>
+
 <!-- "Change your look", opened from the signpost beside where the
      player starts. creator.js fills each row with picture buttons.
      The rows have no words on purpose: people choose by picture.
@@ -166,7 +182,7 @@ listing:
     <li><span class="legend-cell error"></span> <strong>#REF! error:</strong> cannot be broken. Go around it.</li>
     <li>Every bounce off the paddle costs a point, and you have three lives.</li>
   </ul>
-  <p class="creator-note">Arrow keys or Tab to choose, Enter to start. While playing, <kbd>Esc</kbd> quits the game.</p>
+  <p class="creator-note keyboard-only">Arrow keys or Tab to choose, Enter to start. While playing, <kbd>Esc</kbd> quits the game.</p>
 </dialog>
 
 <!-- The large pop-up for reading part of the regular site without
@@ -175,7 +191,7 @@ listing:
 <dialog id="reader" aria-labelledby="reader-title">
   <div class="reader-bar">
     <strong id="reader-title"></strong>
-    <button id="reader-close" class="btn" type="button">Close (Esc)</button>
+    <button id="reader-close" class="btn" type="button">Close <span class="keyboard-only">(Esc)</span></button>
   </div>
   <div id="reader-content"></div>
   <p class="reader-foot">

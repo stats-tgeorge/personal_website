@@ -833,3 +833,200 @@
 .game-bar .btn[hidden] {
   display: none;
 }
+
+/* --- Phones and tablets ----------------------------------------------------
+   touch.js adds the class "touch" to the game when it is on a touch
+   screen, and shows the controls: an arrow pad at the bottom left and
+   a round "Go" button at the bottom right.
+
+   Held upright, the map is as wide as the phone and the controls sit
+   in the empty space below it. Held sideways, the map is in the middle
+   and the controls sit in the dark margins either side of it. */
+#touch-controls[hidden] {
+  display: none;
+}
+
+#touch-controls {
+  position: absolute; /* placed against the edges of the game */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  /* Stay clear of a phone's rounded corners and its home bar. */
+  padding: 0 max(0.9rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom))
+    max(0.9rem, env(safe-area-inset-left));
+  pointer-events: none; /* touches between the two controls reach the map */
+}
+
+#touch-pad,
+#touch-go {
+  pointer-events: auto;
+  touch-action: none; /* a thumb here never scrolls or zooms the page */
+  -webkit-user-select: none;
+  user-select: none; /* nor selects the arrows as if they were text */
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* The pad: a circle with four arrows. Its size shrinks on very short
+   screens ("vmin" is 1% of the screen's shorter side). */
+#touch-pad {
+  position: relative;
+  width: min(9rem, 38vmin);
+  height: min(9rem, 38vmin);
+  background: rgba(255, 255, 255, 0.16);
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+}
+
+.pad-arrow {
+  position: absolute;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.85);
+  transform: translate(-50%, -50%); /* centre each arrow on its spot */
+}
+
+.pad-arrow.up { left: 50%; top: 18%; }
+.pad-arrow.down { left: 50%; top: 82%; }
+.pad-arrow.left { left: 18%; top: 50%; }
+.pad-arrow.right { left: 82%; top: 50%; }
+
+/* touch.js notes which way is being pressed; light up that arrow. */
+#touch-pad[data-down="up"] .up,
+#touch-pad[data-down="down"] .down,
+#touch-pad[data-across="left"] .left,
+#touch-pad[data-across="right"] .right {
+  color: #f0e442;
+}
+
+#touch-go {
+  width: min(5.5rem, 24vmin);
+  height: min(5.5rem, 24vmin);
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #3b2257;
+  background: rgba(240, 228, 66, 0.92);
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+}
+
+#touch-go:active {
+  background: #ffffff;
+}
+
+/* On a phone there is no Esc key: the Quit button is simply "Quit game". */
+.touch #game-quit kbd,
+.touch .keyboard-only {
+  display: none;
+}
+
+/* Bigger things to tap: the pop-up boxes and the strip's buttons. */
+.touch .creator-choice.swatch {
+  height: 40px;
+}
+
+/* A phone held sideways is very short. Give the map every bit of
+   height: a thinner bar and strip, and smaller text in them. */
+@media (max-height: 500px) {
+  .game-area {
+    --talk-height: 4.2rem;
+  }
+  .explore-full .game-talk {
+    font-size: 0.85rem;
+  }
+  #place-image {
+    display: none;
+  }
+}
+
+/* Pop-up boxes must never be wider or taller than a phone's screen;
+   if their contents are longer, the box itself scrolls. */
+#creator,
+#mode-choice {
+  max-width: calc(100vw - 1rem);
+  max-height: calc(100dvh - 1rem);
+  overflow-y: auto;
+}
+
+@media (max-width: 600px) {
+  /* The preview above the choices, not beside them. */
+  .creator-layout {
+    flex-direction: column;
+    align-items: center;
+  }
+  #creator-preview {
+    height: 88px;
+    width: auto;
+  }
+  .mode-buttons {
+    flex-direction: column;
+  }
+  .game-legend {
+    font-size: 0.8rem;
+  }
+}
+
+/* Quarto adds a small "link to this heading" icon to headings, which
+   on touch screens is always visible. The pop-up boxes do not want one. */
+#creator .anchorjs-link,
+#mode-choice .anchorjs-link,
+#reader-title .anchorjs-link {
+  display: none;
+}
+
+/* Small maps (a phone either way up): smaller name tags, and room in
+   the top bar and strip for long names. */
+@media (max-width: 600px), (max-height: 500px) {
+  .thing-label {
+    font-size: clamp(0.55rem, 1.2cqw, 1rem);
+  }
+  /* A long room name is cut short with "..." and stays on one line. */
+  #scene-label {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (max-width: 600px) {
+  .explore-full .game-talk {
+    font-size: 0.9rem;
+  }
+  /* At most three lines of description, so the buttons under it are
+     never pushed out of the strip. */
+  #place-description {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+  }
+}
+
+/* Small maps: the writing on Sheet Breaker's message bar and on the
+   leaderboards is sized by the map alone, cut off where it would
+   spill. (On a phone the messages also appear in the strip above the
+   map, and the full scores are a tap away.) */
+@media (max-width: 600px), (max-height: 500px) {
+  .thing-label.formula {
+    display: block;
+    font-size: 2.3cqw;
+    line-height: 4.2cqw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .thing-label.leaderboard {
+    font-size: 1.9cqw;
+    line-height: 1.3;
+    padding: 0.5em 0.2em;
+    overflow: hidden;
+  }
+}

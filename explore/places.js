@@ -126,7 +126,7 @@ export async function loadPlaces() {
       label: "Click leaderboard to see how you compare",
       title: "Click a leaderboard to see how you compare",
       description:
-        "Walk up this path beside either leaderboard, then click the board (or press Enter) for a histogram of every finished game. You can download the scores there too.",
+        "Walk up this path beside either leaderboard, then click or tap the board for a histogram of every finished game. You can download the scores there too.",
     });
   }
 

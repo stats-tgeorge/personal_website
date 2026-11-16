@@ -6,7 +6,9 @@ I am an Associate Professor of Statistics (and data science) at [Cornell College
 
 ::::: columns
 ::: column
-{{< fa brands twitter >}} [stats_tgeorge](https://twitter.com/stats_tgeorge)
+<i class="bi bi-twitter-x" aria-hidden="true"></i> [stats_tgeorge](https://x.com/stats_tgeorge)
+
+<i class="bi bi-bluesky" aria-hidden="true"></i> [stats-tgeorge.bsky.social](https://bsky.app/profile/stats-tgeorge.bsky.social)
 
 {{< fa solid envelope >}} <a href="mailto:tgeorge@cornellcollege.edu"> tgeorge\@cornellcollege.edu </a>
 

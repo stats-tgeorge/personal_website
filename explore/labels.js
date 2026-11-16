@@ -43,7 +43,16 @@ export function showLabelsFor(things) {
 // Puts each tag just above its thing. main.js calls this every time it
 // draws, because on a map bigger than the screen the things move
 // across the screen as the player walks.
-export function positionLabels(camera) {
+// On a phone the map is small, and a room full of name tags becomes
+// an unreadable pile. Below this width (in screen pixels), only the
+// tags of things within NEAR_TILES of the player are shown, so tags
+// appear as the player walks up to things.
+const SMALL_MAP = 520;
+const NEAR_TILES = 3;
+
+// player (optional) = where the player is, for the rule just above.
+export function positionLabels(camera, player) {
+  const nearbyOnly = player && holder.clientWidth < SMALL_MAP;
   for (const { thing, element } of tags) {
     // Where the thing is on screen, in game pixels...
     // (thing.wide is 2 for a thing that fills two tiles side by side.)
@@ -58,7 +67,14 @@ export function positionLabels(camera) {
 
     // Hide tags for things that have scrolled off the screen.
     const onScreen = x >= 0 && x <= VIEW_COLS * TILE && y >= 0 && y <= VIEW_ROWS * TILE;
-    element.hidden = !onScreen;
+    // The big signs (the game's title, its message bar, the
+    // leaderboards) always show; only ordinary name tags are thinned out.
+    const ordinary = !["leaderboard", "marquee", "formula"].includes(thing.kind);
+    const far =
+      nearbyOnly &&
+      ordinary &&
+      Math.hypot(x + camera.x - player.x, y + camera.y - player.y) > NEAR_TILES * TILE;
+    element.hidden = !onScreen || far;
   }
 }
 
