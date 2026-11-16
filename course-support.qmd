@@ -1,8 +1,21 @@
 ---
 title: "Course support"
+# student-questions.lua turns student-questions.csv into the
+# click-to-open questions below.
+shortcodes:
+  - student-questions.lua
 ---
 
-Most of you will need help at some point and we want to make sure you can identify when that is without getting too frustrated and feel comfortable seeking help.
+Everyone needs help at some point, including me. I want you to notice when you're stuck before it turns into frustration, and to feel comfortable asking. Here is where to go.
+
+## Questions students ask {#student-questions}
+
+<!-- These come from student-questions.csv: edit that file to change
+     them. The people on the Support Trail in explore mode give the
+     same answers. Please keep the {#student-questions} label above;
+     explore mode finds the questions by it. -->
+
+{{< student-questions >}}
 
 ## Lectures and labs
 
@@ -10,17 +23,19 @@ If you have a question during lecture or lab, feel free to ask it! There are lik
 
 ## Office hours
 
-You are encouraged to attend office hours during the times posted on the home page to ask questions about the course content and assignments. A lot of questions are most effectively answered in person, so office hours are a valuable resource. I encourage every one of you to take advantage of this resource! Pledge to stop by during office hours at least once during the first few days of class. If you truly have no questions to ask, just stop by and say hi and introduce yourself. You can find a [list of your professor's office hours here](/course-instructor.html).
+Office hours are your time, and I like it when you use them. Many questions are easier to sort out in person. Come by at least once in the first few days of a course, even if it's only to say hi. My office is West 311.
+
+See your course syllabus for current office hours or email Professor George at [tgeorge\@cornellcollege.edu](mailto:tgeorge@cornellcollege.edu).
 
 #### Professor Email
 
-If you are not available during office hours times or have a questions later in the evening or other times outside of class, email your professor at [tgeorge\@cornellcollege.edu](mailto:tgeorge@cornellcollege.edu). If your question involves code - it is very likely you will need to meet with him to get help. Please reach out with any concerns you have during the course!
+If you can't make office hours, or a question comes up in the evening, email me at [tgeorge\@cornellcollege.edu](mailto:tgeorge@cornellcollege.edu). If it's about code, we'll probably need to meet so I can see what you're seeing. Please reach out with any concern, large or small.
 
 ## Academic support
 
 ### **Quantitative Reasoning Studio (QRS)**
 
-There are times you may need help outside of class or office hours. Or, maybe you need something explained differently. In those instances, I encourage you to visit the **Quantitative Reasoning Studio** in Cole Library room 322. The [Quantitative Reasoning Studio (QRS)](https://www.cornellcollege.edu/library/ctl/qr/) offers free tutoring to all students at Cornell College. There will be at least 1 peer tutor who has taken this course and will be able to help you if you arrive at a time they are working. Feel free to email Jessica Johanningmeier at [QRS\@cornellcollege.edu](mailto:QRS@cornellcollege.edu "QRS@cornellcollege.edu") to ask when the tutor for this class will be available. They often will have a schedule posted on the wall in the studio.
+Sometimes you need help outside class, or need something explained a different way. The [Quantitative Reasoning Studio (QRS)](https://www.cornellcollege.edu/library/ctl/qr/) in Cole Library room 322 offers free tutoring to all Cornell students. There is usually a peer tutor who has taken your statistics course. Email [QRS\@cornellcollege.edu](mailto:QRS@cornellcollege.edu "QRS@cornellcollege.edu") to ask when that tutor is working, or check the schedule posted in the studio.
 
 ### QRS Hours
 
@@ -44,7 +59,7 @@ For help with your writing, visit the [Dungy Writing Studio](https://www.cornell
 
 ### Academic Support Services
 
-There are a variety of support services offered to all students. See more information at: <https://www.cornellcollege.edu/academics/support-services/index.shtml>\>
+There are a variety of support services offered to all students. See more information at: <https://www.cornellcollege.edu/academics/support-services/index.shtml>
 
 ## Ebersole Health and Wellbeing Center
 
@@ -59,4 +74,4 @@ The Student Health Center is located in the Ebersole Building, directly south of
 
 ## Technology Support
 
-If you have issues with your computer during the block, IT may be able to help. [Please submit a ticket](https://www.cornellcollege.edu/information-technology/).
+If your computer gives you trouble during the block, IT may be able to help. [Please submit a ticket](https://www.cornellcollege.edu/information-technology/). Tell me too, so we can work around it.

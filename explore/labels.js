@@ -34,6 +34,7 @@ export function showLabelsFor(things) {
     // Some tags are styled as part of Sheet Breaker's spreadsheet:
     // the scores on a leaderboard, the game's name, the formula bar.
     if (["leaderboard", "marquee", "formula"].includes(thing.kind)) element.classList.add(thing.kind);
+    if (thing.thought) element.classList.add("thought"); // a question someone is thinking
     element.textContent = thing.label;
     holder.append(element);
     tags.push({ thing, element });
@@ -70,9 +71,12 @@ export function positionLabels(camera, player) {
     // The big signs (the game's title, its message bar, the
     // leaderboards) always show; only ordinary name tags are thinned out.
     const ordinary = !["leaderboard", "marquee", "formula"].includes(thing.kind);
+    // A "thought" (a question on the Support Trail) is long, and there
+    // are several close together, so on every size of screen it only
+    // appears when the player walks up.
     const far =
-      nearbyOnly &&
-      ordinary &&
+      player &&
+      (thing.thought || (nearbyOnly && ordinary)) &&
       Math.hypot(x + camera.x - player.x, y + camera.y - player.y) > NEAR_TILES * TILE;
     element.hidden = !onScreen || far;
   }

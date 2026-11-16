@@ -15,6 +15,10 @@ I am an Associate Professor of Statistics (and data science) at [Cornell College
 {{< fa brands github >}} [stats-tgeorge](https://github.com/stats-tgeorge)
 
 {{< fa brands github >}} [Page Source](https://github.com/stats-tgeorge/personal_website)
+
+{{< fa solid door-open >}} Office: West 311
+
+**Students:** See your course syllabus for current office hours or email Professor George at [tgeorge\@cornellcollege.edu](mailto:tgeorge@cornellcollege.edu).
 :::
 
 ::: column

@@ -27,7 +27,7 @@ How equitable are housing services in Iowa? In this course we will seek to under
 :::
 
 ::: {.column width="30%"}
-[![](img/sys_logo.png){width="225"}](https://stats-tgeorge.quarto.pub/sta-200-stats4sj/)
+[![](img/sys_logo.png){width="225"}](https://stats-tgeorge.github.io/STA200_S4E)
 :::
 :::::
 
@@ -36,7 +36,7 @@ How equitable are housing services in Iowa? In this course we will seek to under
 
 Semesters: All of them
 
-I teach this course using a combination of simulation and traditional methods from the Lock5 book ["Statistics: Unlocking the Power of Data."](https://www.lock5stat.com/) I understand the jury is still out on which approach is best when teaching statistics, but I can speak from at least a few years of experience teaching each way. The simulation methods bootstrapping and randomization) are easier for me to explain, and lend themselves to fun activities for students to learn through. Specifically, the concept of a sampling distribution really clicks for my students when learning through bootstrapping.
+I teach this course using a combination of simulation and traditional methods from the Lock5 book ["Statistics: Unlocking the Power of Data."](https://www.lock5stat.com/) I understand the jury is still out on which approach is best when teaching statistics, but I can speak from at least a few years of experience teaching each way. The simulation methods (bootstrapping and randomization) are easier for me to explain, and lend themselves to fun activities for students to learn through. Specifically, the concept of a sampling distribution really clicks for my students when learning through bootstrapping.
 
 I use a combination of the author's free online StatKey product and JMP as statistical software. I have also been using the WileyPlus platform (paid) for the very nice eBook, and assigning the skill builder questions from the homework. Students complete the other exercises and present them in class the following day. This gives students a nice mix of immediate and delayed feedback and allows them to try the more challenging questions only after they have been successful online.
 
@@ -107,7 +107,7 @@ Course website: [bit.ly/STATS_UKnIR](https://stats-tgeorge.quarto.pub/history-of
 
 The description says it all! I lead students around the British Isles learning about the history of statistics. The good, and bad. Check out the site for course details and photos. I also discuss creating the course in a [blog](blogs/Post1AbroadScouting.qmd). 
 
-::: {.callout-note title="STA 200 Course Description" collapse= "true"}
+::: {.callout-note title="STA 257 Course Description" collapse= "true"}
 In this course students will walk the path of historical statisticians in the United Kingdom and the Republic of Ireland, both physically and in thought. Students will learn about, and critique the reasoning of, the founders of statistics, their circumstances, and sometimes flawed reasoning, that led to the creation of major statistical concepts such as correlation and hypothesis testing. Students will additionally learn about, and engage with, cryptography, data visualization, early computers, epidemiology, experimental design, gathering of information, sports statistics, and the role statistics played in the eugenics movement.
 :::
 :::
@@ -128,7 +128,7 @@ Semester: Spring 2026 Block 8, Spring 2024 Block 8
 
 Course website: <https://stats-tgeorge.github.io/STA362StatLearning>
 
-First, I'll note that this course is being redesigned and relabeled as an Advanced Data Science course. I've taught this course a few times now and my students **love** it! The course is taught out of [An Introduction to Statistical Learning with Applications in R](https://hastie.su.domains/ISLR2/ISLRv2_corrected_June_2023.pdf.download.html) by Gareth James, Daniela Witten, Trevor Hastie, and Robert Tibshirani. We cover roughly the first half of the book, but with different code. We focus on conceptual understanding of methods like Naive Bayes, Random Forests, and more, since there is no mathematics prerequisite like calculus. We use **tidyverse** and **tidymodels** for almost every model. Check it out if you are not familiar. It is a *replacemnt* for **caret** (the author of **caret**, Max Kuhn, works on **tidymodels.**)
+First, I'll note that this course is being redesigned and relabeled as an Advanced Data Science course. I've taught this course a few times now and my students **love** it! The course is taught out of [An Introduction to Statistical Learning with Applications in R](https://hastie.su.domains/ISLR2/ISLRv2_corrected_June_2023.pdf.download.html) by Gareth James, Daniela Witten, Trevor Hastie, and Robert Tibshirani. We cover roughly the first half of the book, but with different code. We focus on conceptual understanding of methods like Naive Bayes, Random Forests, and more, since there is no mathematics prerequisite like calculus. We use **tidyverse** and **tidymodels** for almost every model. Check it out if you are not familiar. It is a *replacement* for **caret** (the author of **caret**, Max Kuhn, works on **tidymodels.**)
 
 This website design and all the R *tidymodels* code are based on [STA 363](https://sta-363-s23.github.io/website/) by Dr. Lucy D’Agostino McGowan, who used materials from ESPM-157 by Carl Boettinger, Sta199 by Mine Çetinkaya-Rundel, and PMAP 8521 by Andrew Heiss. See the GitHub website for more details. 
 
@@ -202,3 +202,22 @@ Time series analysis is a vital tool for investigating data from many fields, su
 Semester: Facilitated 2024-2025, Co-facilitated in 2021-2022
 
 Our department has struggled to clarify capstone expectations with students in the past. In fall 2024, we co-developed rubrics for the mathematics, statistics, and data science project tracks. Please reach out individually to request these to be shared. 
+
+
+## Courses at a Glance
+
+<!-- Table added by Claude (an AI model made by Anthropic) from the
+     course notes above. Update a row when you teach a course again.
+     A dash means the notes above do not say. -->
+
+| Course | Last offered | Times offered | Book | Software |
+|--------|--------------|---------------|------|----------|
+| Community Engaged Statistics and Data Science (STA 200) | Fall 2025, Block 1 | 2 | — | — |
+| Statistical Methods I (STA 201) | Every semester | Many | *Statistics: Unlocking the Power of Data* (Lock5) | StatKey, JMP |
+| Statistical Methods II (STA 202) | Fall 2025, Block 4 | 4 | *STAT2: Modeling with Regression and ANOVA* (Cannon et al.) | — |
+| Introduction to Data Science (DSC 223) | Spring 2024, Block 7 | 3 | *Data Science in a Box* materials (Çetinkaya-Rundel) | R (RStudio Server) |
+| History of Statistics in the UK and Ireland (STA 257) | Fall 2024, Block 1 | 1 | — | — |
+| Statistical Learning (STA 362) | Spring 2026, Block 8 | 2 | *An Introduction to Statistical Learning* (James et al.) | R (tidyverse, tidymodels) |
+| Advanced Regression (STA 363) | Fall 2025, Block 3 | 3 | *Beyond Multiple Linear Regression* (Roback and Legler) | R |
+| Introduction to Time Series (STA 364) | Spring 2025, Block 5 | 3 | *Forecasting: Principles and Practice*, 3rd ed. (Hyndman and Athanasopoulos) | R (fable, fpp3) |
+| Statistics and Data Science Capstone (STA/DSC 484 and 502) | 2024–2025 | 2 | — | — |

@@ -333,6 +333,11 @@ async function fillSupportCenter(rows, place) {
   const page = await readPage(place.url, 2);
   const spots = findInRows(rows, "n").sort(frontFirst);
 
+  // "Questions students ask" is a "##" heading too, but it is not one
+  // of the helpers: its questions are answered by the people on the
+  // Support Trail outside (see places.js). Take it out of the list.
+  page.sections = page.sections.filter((topic) => !topic.url.endsWith("#student-questions"));
+
   const things = page.sections.slice(0, spots.length).map((topic, i) => {
     const look = lookFor(topic.title);
     const spot = spots[i];

@@ -39,6 +39,11 @@ const HIGH_FIVE_TIME = 600;
 //          its tile on the canvas
 // now    = the current time in milliseconds (for animation)
 export function drawPerson(ctx, person, x, y, now) {
+  if (person.look === "staff") {
+    drawStaff(ctx, person, x, y, now);
+    return;
+  }
+
   if (person.look === "tutors") {
     drawTutors(ctx, person, x, y, now);
     return;
@@ -96,6 +101,68 @@ export function drawPerson(ctx, person, x, y, now) {
 
   // "plain", and any look this file does not know.
   drawFigure(ctx, x, y, LOOKS.plain);
+}
+
+// ---- The people on the Support Trail ----------------------------------------
+// Staff and faculty, so each is dressed for work: a jacket or a
+// cardigan over a shirt, some with a tie. person.staff is a number
+// (0, 1, 2...) that picks one of the looks below, so that they do not
+// all look alike; when there are more people than looks, the looks
+// come round again.
+//   jacket = colour of the jacket or cardigan
+//   shirt  = the strip of shirt showing down the middle
+//   tie    = a tie's colour, or leave it out for no tie
+const STAFF_LOOKS = [
+  { skin: 3, hair: 3, hairColor: 0, figure: 0, jacket: "#1f2a44", shirt: "#ffffff", tie: "#b3261e" },
+  { skin: 0, hair: 0, hairColor: 4, figure: 0, jacket: "#5b5b5b", shirt: "#cfe3f5", tie: "#523178" },
+  { skin: 2, hair: 1, hairColor: 1, figure: 0, jacket: "#523178", shirt: "#ffffff" },
+  { skin: 4, hair: 4, hairColor: 0, figure: 1, jacket: "#2d4a3e", shirt: "#f3e9c6", tie: "#e69f00" },
+  { skin: 1, hair: 2, hairColor: 2, figure: 0, jacket: "#7a4b2a", shirt: "#ffffff" },
+  { skin: 4, hair: 1, hairColor: 0, figure: 0, jacket: "#1f2a44", shirt: "#f5d6e0" },
+  { skin: 0, hair: 3, hairColor: 3, figure: 4, jacket: "#3b3b3b", shirt: "#ffffff", tie: "#0072b2" },
+  { skin: 2, hair: 0, hairColor: 0, figure: 0, jacket: "#44546a", shirt: "#ffffff", tie: "#2d4a3e" },
+  { skin: 1, hair: 1, hairColor: 4, figure: 0, jacket: "#6b2d3a", shirt: "#f3e9c6" },
+];
+
+function drawStaff(ctx, person, x, y, now) {
+  const look = STAFF_LOOKS[person.staff % STAFF_LOOKS.length];
+  // Someone on a bench sits a little lower, and the bench hides their legs.
+  const sit = person.seated ? 2 : 0;
+  const px = x + 3; // the figure is 10 pixels wide: this centres it in the tile
+  const py = y + sit;
+
+  if (person.seated) {
+    fill(ctx, "#6b4a2b", x, y + 5, TILE, 6); // the bench's back, behind the sitter
+    fill(ctx, "#8a5a2b", x, y + 6, TILE, 1); // a lighter plank across it
+  }
+
+  // The person, wearing the jacket as their "shirt"...
+  drawCharacter(ctx, { ...look, shirt: look.jacket }, px, py, "down", 0);
+  // ...then the shirt showing between the jacket's two sides, and a tie.
+  fill(ctx, look.shirt, px + 4, py + 8, 2, 4);
+  if (look.tie) fill(ctx, look.tie, px + 4, py + 9, 2, 3);
+
+  if (person.seated) {
+    fill(ctx, "#8a5a2b", x, y + 12, TILE, 2); // the seat, in front of the legs
+    fill(ctx, "#6b4a2b", x + 1, y + 14, 2, 2); // the bench's own legs
+    fill(ctx, "#6b4a2b", x + TILE - 3, y + 14, 2, 2);
+  }
+
+  // The dog walker holds a lead that runs to the dog on the next tile.
+  if (person.walksDog) fill(ctx, "#333333", px + 9, py + 11, 8, 1);
+
+  // A small thought bubble above the head: there is a question here.
+  // (The question itself appears as a name tag when the player is close.)
+  const bob = reduceMotion ? 0 : Math.round(Math.sin(now / 500 + person.staff) * 1);
+  const bx = x + 10;
+  const by = y - 9 + bob;
+  fill(ctx, "#ffffff", bx + 1, by, 7, 7);
+  fill(ctx, "#ffffff", bx, by + 1, 9, 5);
+  fill(ctx, "#ffffff", bx - 1, by + 8, 2, 2); // the little trailing bubble
+  fill(ctx, "#523178", bx + 3, by + 1, 3, 1); // a question mark:
+  fill(ctx, "#523178", bx + 5, by + 2, 1, 1);
+  fill(ctx, "#523178", bx + 4, by + 3, 1, 1);
+  fill(ctx, "#523178", bx + 4, by + 5, 1, 1);
 }
 
 // The two tutors stand on this tile and the one to its right.
