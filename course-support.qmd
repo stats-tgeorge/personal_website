@@ -1,5 +1,5 @@
 ---
-title: "Course support"
+title: "Course Support"
 # student-questions.lua turns student-questions.csv into the
 # click-to-open questions below.
 shortcodes:
@@ -8,20 +8,22 @@ shortcodes:
 
 Everyone needs help at some point, including me. I want you to notice when you're stuck before it turns into frustration, and to feel comfortable asking. Here is where to go.
 
-## Questions students ask {#student-questions}
+## Common Student Questions {#student-questions}
 
+```{=html}
 <!-- These come from student-questions.csv: edit that file to change
      them. The people on the Support Trail in explore mode give the
      same answers. Please keep the {#student-questions} label above;
      explore mode finds the questions by it. -->
+```
 
 {{< student-questions >}}
 
-## Lectures and labs
+## Lectures and Labs
 
 If you have a question during lecture or lab, feel free to ask it! There are likely other students with the same question, so by asking you will create a learning opportunity for everyone.
 
-## Office hours
+## Office Hours
 
 Office hours are your time, and I like it when you use them. Many questions are easier to sort out in person. Come by at least once in the first few days of a course, even if it's only to say hi. My office is West 311.
 
@@ -31,7 +33,7 @@ See your course syllabus for current office hours or email Professor George at [
 
 If you can't make office hours, or a question comes up in the evening, email me at [tgeorge\@cornellcollege.edu](mailto:tgeorge@cornellcollege.edu). If it's about code, we'll probably need to meet so I can see what you're seeing. Please reach out with any concern, large or small.
 
-## Academic support
+## Academic Support
 
 ### **Quantitative Reasoning Studio (QRS)**
 
@@ -65,10 +67,10 @@ There are a variety of support services offered to all students. See more inform
 
 The mission of Cornell College Student Health Services complements the mission of the college by promoting the optimal well-being of students. We do this by:
 
--   providing and coordinating quality health care services
--   advocating for students in their pursuit of health and wellness
--   preparing students to be their own health advocates and informed consumers of appropriate health care services
--   providing health education to promote the development of healthy lifestyles
+- providing and coordinating quality health care services
+- advocating for students in their pursuit of health and wellness
+- preparing students to be their own health advocates and informed consumers of appropriate health care services
+- providing health education to promote the development of healthy lifestyles
 
 The Student Health Center is located in the Ebersole Building, directly south of the Thomas Commons. Appointments are preferred. You can schedule an appointment online or by phone at 319-895-4292. Walk-ins will be accommodated as time permits. Appointments with the nurse are free.
 

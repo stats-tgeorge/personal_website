@@ -211,12 +211,12 @@ Our department has struggled to clarify capstone expectations with students in t
      A dash means the notes above do not say. -->
 
 | Course | Last offered | Times offered | Book | Software |
-|--------|--------------|---------------|------|----------|
-| Community Engaged Statistics and Data Science (STA 200) | Fall 2025, Block 1 | 2 | — | — |
+|--------|--------|----|----------------|----|
+| Community Engaged Statistics and Data Science (STA 200) | Fall 2025, Block 1 | 2 | — | JMP |
 | Statistical Methods I (STA 201) | Every semester | Many | *Statistics: Unlocking the Power of Data* (Lock5) | StatKey, JMP |
-| Statistical Methods II (STA 202) | Fall 2025, Block 4 | 4 | *STAT2: Modeling with Regression and ANOVA* (Cannon et al.) | — |
+| Statistical Methods II (STA 202) | Fall 2025, Block 4 | 4 | *STAT2: Modeling with Regression and ANOVA* (Cannon et al.) | JMP |
 | Introduction to Data Science (DSC 223) | Spring 2024, Block 7 | 3 | *Data Science in a Box* materials (Çetinkaya-Rundel) | R (RStudio Server) |
-| History of Statistics in the UK and Ireland (STA 257) | Fall 2024, Block 1 | 1 | — | — |
+| History of Statistics in the UK and Ireland (STA 257) | Fall 2024, Block 1 | 1 | *The Lady Tasting Tea* (David Salsburg) | — |
 | Statistical Learning (STA 362) | Spring 2026, Block 8 | 2 | *An Introduction to Statistical Learning* (James et al.) | R (tidyverse, tidymodels) |
 | Advanced Regression (STA 363) | Fall 2025, Block 3 | 3 | *Beyond Multiple Linear Regression* (Roback and Legler) | R |
 | Introduction to Time Series (STA 364) | Spring 2025, Block 5 | 3 | *Forecasting: Principles and Practice*, 3rd ed. (Hyndman and Athanasopoulos) | R (fable, fpp3) |
