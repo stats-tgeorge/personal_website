@@ -221,8 +221,20 @@ export function drawSigns(ctx, places, camera) {
     const lines = wrapText(ctx, place.title, buildingWidth - 6);
     const lineHeight = 9;
     const firstLineY = roofY + TILE - ((lines.length - 1) * lineHeight) / 2;
-    lines.forEach((line, i) => ctx.fillText(line, Math.round(centreX), Math.round(firstLineY + i * lineHeight)));
+    lines.forEach((line, i) => drawSignLine(ctx, line, centreX, Math.round(firstLineY + i * lineHeight)));
   }
+}
+
+// Writes one line of a roof sign, centred on centreX.
+// The letters are placed one at a time, each exactly LETTER_STEP
+// pixels after the last. Left to itself the browser spaces these small
+// letters by fractions of a pixel, which on a canvas this coarse shows
+// up as uneven gaps: "Newsstand" looked like "News stand".
+const LETTER_STEP = 5;
+function drawSignLine(ctx, line, centreX, y) {
+  const letters = [...line];
+  const startX = Math.round(centreX - ((letters.length - 1) * LETTER_STEP) / 2);
+  letters.forEach((letter, i) => ctx.fillText(letter, startX + i * LETTER_STEP, y));
 }
 
 // Splits text into lines no wider than maxWidth, breaking at spaces.
@@ -231,7 +243,7 @@ function wrapText(ctx, text, maxWidth) {
   let current = "";
   for (const word of String(text).split(" ")) {
     const candidate = current ? `${current} ${word}` : word;
-    if (current && ctx.measureText(candidate).width > maxWidth) {
+    if (current && candidate.length * LETTER_STEP > maxWidth) {
       lines.push(current);
       current = word;
     } else {
