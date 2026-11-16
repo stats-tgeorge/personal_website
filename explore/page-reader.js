@@ -188,3 +188,21 @@ export function shorten(text, maxLength = 240) {
   const cut = text.slice(0, maxLength);
   return cut.slice(0, cut.lastIndexOf(" ")) + "…";
 }
+
+// Reads the "Questions students ask" on the Student Support page and
+// returns them in the page's order:
+//   [{ question, answer }, ...]
+// The page gets them from student-questions.csv (Quarto writes each
+// one as a box that opens when clicked, called a "callout"); this
+// reads the finished boxes, so the game always says what the page says.
+export async function readQuestions(pageUrl) {
+  const response = await fetch(pageUrl);
+  if (!response.ok) throw new Error(`Could not load ${pageUrl} (${response.status})`);
+  const page = new DOMParser().parseFromString(await response.text(), "text/html");
+
+  return [...page.querySelectorAll("#student-questions .callout")].map((box) => ({
+    question: box.querySelector(".callout-title-container").textContent.trim(),
+    // The answer as plain text, with runs of spaces and line breaks tidied to one space.
+    answer: box.querySelector(".callout-body-container").textContent.replace(/\s+/g, " ").trim(),
+  }));
+}

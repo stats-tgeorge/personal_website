@@ -28,7 +28,8 @@ const HAPPY_TIME = 1600;
 export function drawPet(ctx, pet, x, y, now) {
   // The pet's framed photo: on the wall, one tile up and one to the
   // right, so the pet stands just to the left of it and does not hide it.
-  drawFrame(ctx, x + TILE, y - TILE);
+  // (The dog in the park has no photo: places.js sets "noFrame".)
+  if (!pet.noFrame) drawFrame(ctx, x + TILE, y - TILE);
 
   // How far through the "just been petted" reaction we are (0 to 1),
   // or outside that range when not reacting.

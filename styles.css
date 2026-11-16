@@ -2,6 +2,16 @@
 a, u {
   text-decoration: none;
 }
+
+/* Links in the text of a page are purple (linkcolor in _quarto.yml)
+   and underlined, so that they can be told apart from ordinary text.
+   (Changed by Claude, an AI model made by Anthropic, at Tyler George's
+   direction.) Buttons, the little link icons beside headings and the
+   blog's post list keep their own look. */
+main.content a:not(.btn):not(.anchorjs-link):not(.quarto-grid-link) {
+  text-decoration: underline;
+}
+
 /* The Bluesky butterfly, for "icon: bluesky" in _quarto.yml and
    <i class="bi bi-bluesky"> in about.qmd. (Added by Claude, an AI model
    made by Anthropic, at Tyler George's direction.)
