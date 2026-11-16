@@ -29,12 +29,17 @@
 // Each "p" belongs to the "o" just before it (reading left to right,
 // top to bottom). A spot with nothing to show is drawn as plain floor.
 //
-// There are 8 desk spots. If the Teaching page ever has more than 8
-// courses, add more "o" and "p" spots here.
+// There are 12 desk spots, in three rows of four. If the Teaching page
+// ever has more than 12 courses, add another row: copy one
+// "#__op__op__op__op__#" line and the three floor lines above it.
 
 export const CLASSROOM_ROWS = [
   "###h##s########b####",
   "#________L_________#",
+  "#__________________#",
+  "#__________________#",
+  "#__op__op__op__op__#",
+  "#__________________#",
   "#__________________#",
   "#__________________#",
   "#__op__op__op__op__#",
