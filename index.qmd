@@ -19,7 +19,7 @@ css: [styles.css, explore/chooser.css]
 
 # Welcome!
 
-You have made it to the website of Associate Professor Tyler George. There are two ways to navigate this website. Choose one to to continue on to content or jump to a specific page using the top buttons. 
+You have made it to the website of Associate Professor Tyler George. There are two ways to navigate this website. Choose one to continue on to content or jump to a specific page using the top buttons. 
 
 ::::: chooser
 ::: chooser-card
@@ -38,3 +38,7 @@ A small game campus you can walk around. You have to walk to the content you are
 [Enter explore mode](explore.qmd){.btn .chooser-btn .chooser-btn-alt}
 :::
 :::::
+
+::: chooser-contact
+**Students:** See your course syllabus for current office hours or email Professor George at [tgeorge\@cornellcollege.edu](mailto:tgeorge@cornellcollege.edu). Office: West 311.
+:::

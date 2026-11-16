@@ -52,3 +52,13 @@
   background: #ffffff;
   color: #523178;
 }
+
+/* The line for students under the two cards. */
+.chooser-contact {
+  max-width: 44rem;
+  margin: 1.5rem auto 0;
+  padding: 0.8rem 1rem;
+  text-align: center;
+  background: #f4f0f8;
+  border-left: 4px solid #523178;
+}

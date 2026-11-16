@@ -14,6 +14,8 @@ import { TILE } from "./config.js";
 import { findInRows } from "./map.js";
 import { OUTDOOR_ROWS } from "./maps/outdoor.js";
 import { roomExists } from "./rooms.js";
+import { readQuestions } from "./page-reader.js";
+import { openDialogue } from "./dialogue.js";
 
 // Reads explore-world.yml and returns a list of door "things". Each is
 // the explore-world.yml entry plus the properties described in
@@ -145,6 +147,8 @@ export async function loadPlaces() {
     });
   }
 
+  places.push(...(await supportTrail(places)));
+
   // The trees that can be shaken ("Y" on the outdoor map): a small
   // surprise for anyone who wanders. Each shake drops spreadsheets and
   // shows the next remark from the list below.
@@ -252,4 +256,111 @@ function wrapText(ctx, text, maxWidth) {
   }
   if (current) lines.push(current);
   return lines;
+}
+
+// ---- The Support Trail ---------------------------------------------------------
+// The park around the Student Support Center. Each person there has
+// one of the "Questions students ask" from the Student Support page
+// (which come from student-questions.csv) in a thought bubble, and
+// gives its answer when talked to.
+//
+// The questions are handed out in the page's order to the people on
+// the map, reading the map left to right, top to bottom. If there are
+// more questions than people, the console says so (press F12); add
+// more "Q" or "Z" spots to maps/outdoor.js.
+//
+// places = the places made so far (used to find the Student Support page)
+async function supportTrail(places) {
+  const things = [];
+
+  // The park's name sign, and a name for the pond.
+  for (const spot of findInRows(OUTDOOR_ROWS, "N")) {
+    things.push({
+      kind: "sign",
+      ...spot,
+      reach: "adjacent",
+      label: "Support Trail",
+      title: "Support Trail",
+      description: "A walk around Ink Pond. The people here are thinking about questions students often ask. Talk to one to hear the answer.",
+    });
+  }
+  const water = findInRows(OUTDOOR_ROWS, "~").filter((tile) => tile.col < 12); // the park's pond, not the one by the Classroom
+  if (water.length > 0) {
+    const middle = water[Math.floor(water.length / 2)];
+    things.push({ kind: "name", ...middle, reach: "none", label: "Ink Pond" });
+  }
+
+  // The dog comes before its walker in the list: where both are in
+  // reach, the first one listed is the one the player gets.
+  for (const spot of findInRows(OUTDOOR_ROWS, "J")) {
+    const dog = {
+      kind: "pet",
+      ...spot,
+      reach: "near",
+      breed: "corgi",
+      noFrame: true, // no photo on a wall out here
+      title: "A dog out for a walk",
+      description: "Very interested in the pond.",
+      buttonLabel: "Pet",
+    };
+    dog.press = () => {
+      dog.pettedAt = performance.now(); // pets.js draws the hearts from this
+    };
+    things.push(dog);
+  }
+
+  // The questions, read from the Student Support page.
+  const support = places.find((place) => place.room === "support");
+  let questions = [];
+  try {
+    if (support) questions = await readQuestions(support.url);
+  } catch (error) {
+    console.warn("Support Trail: could not read the questions from the Student Support page.", error);
+  }
+
+  // Everyone on the trail, in reading order.
+  const spots = ["Q", "Z", "D"]
+    .flatMap((char) => findInRows(OUTDOOR_ROWS, char).map((spot) => ({ ...spot, char })))
+    .sort((a, b) => a.row - b.row || a.col - b.col);
+
+  spots.forEach((spot, i) => {
+    const asked = questions[i]; // may be missing if there are fewer questions than people
+    const person = {
+      kind: "person",
+      look: "staff",
+      staff: i, // which outfit (see people.js)
+      seated: spot.char === "Z",
+      walksDog: spot.char === "D",
+      col: spot.col,
+      row: spot.row,
+      reach: asked ? "near" : "none",
+    };
+    if (asked) {
+      person.thought = true; // labels.js shows the question as a thought, and only up close
+      person.label = asked.question;
+      person.title = asked.question;
+      person.description = "Talk to hear the answer.";
+      person.buttonLabel = "Talk";
+      person.press = () => openDialogue("On the Support Trail", [asked.question, ...inSpeakingLengths(asked.answer)]);
+    }
+    things.push(person);
+  });
+
+  if (questions.length > spots.length) {
+    console.warn(`The Student Support page has ${questions.length} questions but the Support Trail has ${spots.length} people. Add more "Q" or "Z" spots in maps/outdoor.js.`);
+  }
+  return things;
+}
+
+// Splits an answer into pieces short enough for the conversation box:
+// whole sentences, joined while they stay under about 150 letters.
+function inSpeakingLengths(answer) {
+  const sentences = answer.match(/[^.!?]+[.!?]+(\s|$)|[^.!?]+$/g) || [answer];
+  const pieces = [];
+  for (const sentence of sentences.map((part) => part.trim())) {
+    const last = pieces[pieces.length - 1];
+    if (last && (last + " " + sentence).length <= 150) pieces[pieces.length - 1] = `${last} ${sentence}`;
+    else pieces.push(sentence);
+  }
+  return pieces;
 }

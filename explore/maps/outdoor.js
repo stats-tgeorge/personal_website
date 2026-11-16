@@ -22,6 +22,17 @@
 //      player; walk up the path to their right to look closer)
 //   P  a signpost pointing out the score charts (blocks the player)
 //   W  the "Change your look" signpost, beside where the player starts
+//
+//   The Support Trail: the little park around the Student Support
+//   Center, with a round path and Ink Pond in the middle. The people
+//   there each answer one question from student-questions.csv, in the
+//   order the spots come (reading left to right, top to bottom).
+//   Q  someone standing          (blocks the player)
+//   Z  someone sitting on a bench (blocks the player)
+//   D  someone walking a dog     (blocks the player)
+//   J  the dog, which can be petted (blocks the player)
+//   N  the park's name sign      (blocks the player)
+//
 //   1-9  a building's door (blocks the player; the player stands in
 //        front of it). The digit matches the "door:" line of a place
 //        in explore-world.yml.
@@ -43,18 +54,18 @@ export const OUTDOOR_ROWS = [
   "T..::::::::::::::::::::::::::::::::::..T",
   "T..::::::::::::::::::::::::::::::::::..T",
   "T..................::..................T",
-  "T...............Y.W@:.....T............T",
-  "T.....^^^^^^^......::....T.^^^^^^^.....T",
-  "T..Y..^^^^^^^......::.....T^^^^^^^T....T",
-  "T.....#######......::......#######.....T",
-  "T.....###3###......::......###5###....TT",
-  "T.T......:.........::.........:....Y...T",
-  "T........::::::::::::::::::::::........T",
-  "T...T..............::................T.T",
-  "T......T...........::.......T..........T",
-  "T..................::..................T",
-  "T................T.::...Y..............T",
-  "T..................::..................T",
+  "T..Q.....DJ.....Y.W@:.....T............T",
+  "T...:::::..^^^^^^^.::....T.^^^^^^^.....T",
+  "T..::.Z.::.^^^^^^^.::.....T^^^^^^^T....T",
+  "T.::.....::#######.::......#######.....T",
+  "T.:..~~~..:###3###.::......###5###....TT",
+  "T.:Q~~~~~.:...:.Q..::.........:....Y...T",
+  "T.:..~~~..:::::::::::::::::::::........T",
+  "T.::.....::Q......N::................T.T",
+  "TZ.::.Z.::.........::.......T..........T",
+  "T...:::::....T.....::..................T",
+  "TY.......Q.......T.::...Y..............T",
+  "T....T.............::..................T",
   "T..........::::::::::..................T",
   "T..........::MMMMMMMMMMMMMM............T",
   "T..........::MMMMMMMMMMMMMM............T",
