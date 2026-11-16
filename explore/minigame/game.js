@@ -26,6 +26,7 @@
 // frame, and is told (through "game.on...") when there is something to
 // say or when the game ends.
 
+import { isTouch } from "../touch.js";
 import { LEVELS, MODES, LOST_REMARKS, HOLE_REMARK, GAME_OVER_REMARKS, POINTS } from "./levels.js";
 
 // ---- Sizes and speeds: the knobs ------------------------------------------
@@ -142,7 +143,11 @@ export function hudText() {
     description:
       `Goal: ${game.state === "idle" ? "" : currentGoal().goal}. ` +
       (game.skills.length > 0 ? `Skills earned: ${game.skills.join(", ")}. ` : "") +
-      "Arrow keys or A and D move the paddle. Space launches the ball. Each bounce costs a point. Press Esc to quit.",
+      // On a phone the sheet's own message bar is too small to read,
+      // so the latest message is shown here instead of the key reminders.
+      (isTouch()
+        ? `${game.remark} (The arrow pad moves the paddle.)`
+        : "Arrow keys or A and D move the paddle. Space launches the ball. Each bounce costs a point. Press Esc to quit."),
   };
 }
 
@@ -364,6 +369,8 @@ function endGame(why) {
 // ---- Small helpers -----------------------------------------------------------
 // Puts a message in the formula bar.
 function say(message) {
+  if (isTouch()) message = message.replace("Press Space", "Press Go"); // no space bar on a phone
+  game.hudChanged = true; // on a phone the strip above the map shows the message too
   game.remark = message;
   game.remarkChanged = true;
 }

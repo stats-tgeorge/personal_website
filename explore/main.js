@@ -9,6 +9,7 @@
 //   map.js          questions about the map in use (what tile is here?)
 //   tiles.js        how each kind of tile is drawn
 //   input.js        which keys are held down
+//   touch.js        the arrow pad and "Go" button on phones
 //   player.js       moving and drawing the player
 //   camera.js       which part of the map is on screen
 //   places.js       joins the buildings outdoors to explore-world.yml
@@ -34,6 +35,7 @@ import { useMap, tileAt, findInRows } from "./map.js";
 import { OUTDOOR_ROWS } from "./maps/outdoor.js";
 import { drawTile } from "./tiles.js";
 import { createInput } from "./input.js";
+import { setUpTouchControls } from "./touch.js";
 import { createPlayer, movePlayerToTile, updatePlayer, drawPlayer } from "./player.js";
 import { cameraFor } from "./camera.js";
 import { loadPlaces, drawSigns } from "./places.js";
@@ -60,19 +62,22 @@ const ctx = canvas.getContext("2d");
 //                   during Sheet Breaker: launch the ball;
 //                   otherwise: the main action of whatever is in reach.
 //   Escape          ends a conversation, or quits Sheet Breaker.
+function mainAction() {
+  if (dialogueIsOpen()) advanceDialogue();
+  else if (gameIsActive()) gameAction();
+  else activateShownThing();
+}
 const input = createInput(
   canvas,
-  () => {
-    if (dialogueIsOpen()) advanceDialogue();
-    else if (gameIsActive()) gameAction();
-    else activateShownThing();
-  },
+  mainAction,
   () => {
     if (dialogueIsOpen()) closeDialogue();
     else if (gameIsActive()) quitGame();
   },
   () => false // no other keys are used at present
 );
+// On phones: an arrow pad and a "Go" button that does what Enter does.
+setUpTouchControls(input, mainAction, canvas);
 const start = findInRows(OUTDOOR_ROWS, "@")[0] || { col: 1, row: 1 };
 const player = createPlayer(start.col, start.row);
 
@@ -192,7 +197,7 @@ function draw() {
   drawThings(ctx, things, camera, performance.now());
   if (!insidePlace) drawSigns(ctx, things.filter((thing) => thing.kind === "door"), camera);
   drawPlayer(ctx, player, player.x - camera.x, player.y - camera.y);
-  positionLabels(camera); // keep the name tags above their things
+  positionLabels(camera, player); // keep the name tags above their things
   positionPlayerTag(player.x - camera.x, player.y - camera.y);
 }
 
@@ -272,7 +277,7 @@ canvas.addEventListener("blur", (event) => {
   // If focus moved into the description strip (the visitor is about to
   // click its button or link), the conversation box or the large
   // reader, do not put the "click to start" hint on top of things.
-  const stillInGame = ["place-panel", "reader", "dialogue", "score-entry", "mode-choice", "creator"].some((id) =>
+  const stillInGame = ["place-panel", "reader", "dialogue", "score-entry", "mode-choice", "creator", "touch-controls"].some((id) =>
     document.getElementById(id).contains(event.relatedTarget)
   );
   startHint.hidden = stillInGame;

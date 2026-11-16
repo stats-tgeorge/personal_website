@@ -148,10 +148,17 @@ window.Quarto = {
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./explore.html" aria-current="page"> <i class="bi bi-controller" role="img">
+</i> 
+<span class="menu-text">Explore Mode</span></a>
+  </li>  
+</ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
     <a class="nav-link" href="./about.html"> 
-<span class="menu-text">Home</span></a>
+<span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./course-support.html"> 
@@ -175,7 +182,12 @@ window.Quarto = {
 <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com/stats_tgeorge"> <i class="bi bi-twitter" role="img" aria-label="stats-tgeorge">
+    <a class="nav-link" href="https://x.com/stats_tgeorge"> <i class="bi bi-twitter-x" role="img" aria-label="X (formerly Twitter)">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://bsky.app/profile/stats-tgeorge.bsky.social"> <i class="bi bi-bluesky" role="img" aria-label="Bluesky">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -318,6 +330,22 @@ window.Quarto = {
 
 </div><!-- end of game-stage -->
 
+<!-- The controls for phones and tablets (see explore/touch.js): an
+     arrow pad for walking and a "Go" button that does what Enter
+     does. They stay hidden on a computer with a keyboard.
+     The pad is aria-hidden because it only works by sliding a thumb;
+     screen-reader users have the "All places" list and the buttons in
+     the strip above the map instead. -->
+<div id="touch-controls" hidden="">
+  <div id="touch-pad" aria-hidden="true">
+    <span class="pad-arrow up">▲</span>
+    <span class="pad-arrow left">◀</span>
+    <span class="pad-arrow right">▶</span>
+    <span class="pad-arrow down">▼</span>
+  </div>
+  <button id="touch-go" type="button" aria-label="Go: use what you are standing at">Go</button>
+</div>
+
 <!-- "Change your look", opened from the signpost beside where the
      player starts. creator.js fills each row with picture buttons.
      The rows have no words on purpose: people choose by picture.
@@ -360,7 +388,7 @@ window.Quarto = {
     <li><span class="legend-cell error"></span> <strong>#REF! error:</strong> cannot be broken. Go around it.</li>
     <li>Every bounce off the paddle costs a point, and you have three lives.</li>
   </ul>
-  <p class="creator-note">Arrow keys or Tab to choose, Enter to start. While playing, <kbd>Esc</kbd> quits the game.</p>
+  <p class="creator-note keyboard-only">Arrow keys or Tab to choose, Enter to start. While playing, <kbd>Esc</kbd> quits the game.</p>
 </dialog>
 
 <!-- The large pop-up for reading part of the regular site without
@@ -369,7 +397,7 @@ window.Quarto = {
 <dialog id="reader" aria-labelledby="reader-title">
   <div class="reader-bar">
     <strong id="reader-title"></strong>
-    <button id="reader-close" class="btn" type="button">Close (Esc)</button>
+    <button id="reader-close" class="btn" type="button">Close <span class="keyboard-only">(Esc)</span></button>
   </div>
   <div id="reader-content"></div>
   <p class="reader-foot">
@@ -402,7 +430,7 @@ What is there
 </thead>
 <tbody class="list">
 
-<tr data-index="0" data-listing-file-modified-sort="1794754622447" data-listing-reading-time-sort="1" data-listing-word-count-sort="120" data-listing-title-sort="Professor George's Office" data-listing-filename-sort="about.qmd">
+<tr data-index="0" data-listing-file-modified-sort="1794842193448" data-listing-reading-time-sort="1" data-listing-word-count-sort="125" data-listing-title-sort="Professor George's Office" data-listing-filename-sort="about.qmd">
 <td>
 <a href="./about.html" class="title listing-title">Professor George’s Office</a>
 </td>
@@ -412,7 +440,7 @@ What is there
 
 </tr>
 
-<tr data-index="1" data-listing-file-modified-sort="1794754622607" data-listing-reading-time-sort="5" data-listing-word-count-sort="939" data-listing-title-sort="Classroom" data-listing-filename-sort="teaching.qmd">
+<tr data-index="1" data-listing-file-modified-sort="1794842193600" data-listing-reading-time-sort="5" data-listing-word-count-sort="939" data-listing-title-sort="Classroom" data-listing-filename-sort="teaching.qmd">
 <td>
 <a href="./teaching.html" class="title listing-title">Classroom</a>
 </td>
@@ -422,7 +450,7 @@ What is there
 
 </tr>
 
-<tr data-index="2" data-listing-file-modified-sort="1794754622502" data-listing-reading-time-sort="5" data-listing-word-count-sort="813" data-listing-title-sort="Student Support Center" data-listing-filename-sort="course-support.qmd">
+<tr data-index="2" data-listing-file-modified-sort="1794842193502" data-listing-reading-time-sort="5" data-listing-word-count-sort="813" data-listing-title-sort="Student Support Center" data-listing-filename-sort="course-support.qmd">
 <td>
 <a href="./course-support.html" class="title listing-title">Student Support Center</a>
 </td>
@@ -432,7 +460,7 @@ What is there
 
 </tr>
 
-<tr data-index="3" data-listing-date-sort="1794754622000" data-listing-file-modified-sort="1794754622503" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="25" data-listing-word-count-sort="4942" data-listing-title-sort="Dr. George Achievements and Activities (CV)" data-listing-filename-sort="cv.qmd">
+<tr data-index="3" data-listing-date-sort="1794842193000" data-listing-file-modified-sort="1794842193502" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="25" data-listing-word-count-sort="4942" data-listing-title-sort="Dr. George Achievements and Activities (CV)" data-listing-filename-sort="cv.qmd">
 <td>
 <a href="./cv.html" class="title listing-title">Dr.&nbsp;George Achievements and Activities (CV)</a>
 </td>
@@ -442,7 +470,7 @@ What is there
 
 </tr>
 
-<tr data-index="4" data-listing-file-modified-sort="1794754622441" data-listing-reading-time-sort="1" data-listing-word-count-sort="1" data-listing-title-sort="Newsstand" data-listing-filename-sort="Blog.qmd">
+<tr data-index="4" data-listing-file-modified-sort="1794842193441" data-listing-reading-time-sort="1" data-listing-word-count-sort="1" data-listing-title-sort="Newsstand" data-listing-filename-sort="Blog.qmd">
 <td>
 <a href="./Blog.html" class="title listing-title">Newsstand</a>
 </td>

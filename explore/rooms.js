@@ -569,7 +569,13 @@ async function fillOffice(rows, place) {
 
   // The fairy and the desk. In this room the "laptop" is the office
   // desk, and it opens the About page.
-  const intro = page.sections[0] ? shorten(page.sections[0].text, 200) : "The whole About page.";
+  // What the desk says: the opening paragraph of the About page. (If
+  // the page ever has no paragraphs, its first section stands in.)
+  const firstParagraph = new DOMParser().parseFromString(page.html, "text/html").querySelector("p");
+  const intro = shorten(
+    (firstParagraph && firstParagraph.textContent.trim()) || (page.sections[0] && page.sections[0].text) || "The whole About page.",
+    200
+  );
   things.push(
     ...fairyAndLaptop(rows, place, page, {
       fairyLines: [
