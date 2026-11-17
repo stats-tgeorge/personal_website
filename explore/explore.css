@@ -1044,3 +1044,26 @@
   border: 2px solid #523178;
   border-radius: 1em;
 }
+
+/* The count of spreadsheets collected from the trees, in the top bar. */
+#sheet-count {
+  margin-left: auto; /* sits just before the bar's buttons */
+  margin-right: 0.4rem;
+  padding: 0.1rem 0.6rem;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  color: #3b2257;
+  background: #f0e442;
+  border-radius: 1em;
+}
+
+/* A picture under the words in the conversation box (the R logo). */
+#dialogue-picture {
+  display: block;
+  height: clamp(3rem, 12cqw, 7rem);
+  margin: 0 auto 0.6rem;
+}
+
+#dialogue-picture[hidden] {
+  display: none;
+}

@@ -67,6 +67,13 @@ export function thingInReach(player, things) {
     const across = Math.max(thing.col - col, col - rightEdge, 0);
     const down = Math.abs(thing.row - row);
     if (thing.reach === "none") return false; // only a name tag; nothing to walk up to
+    // The portal the player arrives on does nothing until they have
+    // stepped off it once. Otherwise a first press of Enter, meant to
+    // "start", would send a new visitor straight back out.
+    if (thing.asleepUntilLeft) {
+      if (across === 0 && down === 0) return false;
+      thing.asleepUntilLeft = false;
+    }
     // A thing can instead list the exact tiles it is reached from
     // (the leaderboards are read from the path beside them).
     if (thing.reachTiles) return thing.reachTiles.some((tile) => tile.col === col && tile.row === row);
@@ -150,6 +157,19 @@ export function drawThings(ctx, things, camera, now) {
       fill(ctx, "#523178", x + 1, y + 1, 14, 8); // board
       fill(ctx, "#ffffff", x + 3, y + 3, 10, 1); // lines of writing
       fill(ctx, "#ffffff", x + 3, y + 6, 7, 1);
+    }
+
+    // A billboard: a yellow board on two posts with an arrow pointing
+    // down the map (towards Sheet Breaker).
+    if (thing.kind === "billboard") {
+      fill(ctx, "#6b4a2b", x + 2, y + 10, 2, 6); // posts
+      fill(ctx, "#6b4a2b", x + 12, y + 10, 2, 6);
+      fill(ctx, "#3b2257", x, y, 16, 12); // the board's edge
+      fill(ctx, "#f0e442", x + 1, y + 1, 14, 10); // the board
+      fill(ctx, "#3b2257", x + 7, y + 2, 2, 5); // the arrow's shaft
+      fill(ctx, "#3b2257", x + 5, y + 6, 6, 1); // and its head, narrowing to a point
+      fill(ctx, "#3b2257", x + 6, y + 7, 4, 1);
+      fill(ctx, "#3b2257", x + 7, y + 8, 2, 1);
     }
 
     if (thing.kind === "frame") drawFrame(ctx, x, y); // see pets.js

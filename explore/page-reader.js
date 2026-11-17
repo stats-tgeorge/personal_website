@@ -200,9 +200,16 @@ export async function readQuestions(pageUrl) {
   if (!response.ok) throw new Error(`Could not load ${pageUrl} (${response.status})`);
   const page = new DOMParser().parseFromString(await response.text(), "text/html");
 
-  return [...page.querySelectorAll("#student-questions .callout")].map((box) => ({
-    question: box.querySelector(".callout-title-container").textContent.trim(),
+  return [...page.querySelectorAll("#student-questions .callout")].map((box) => {
+    // The box's title. Quarto tucks the word "Note" (the kind of box)
+    // into it for screen readers; take that out so only the question is left.
+    const title = box.querySelector(".callout-title-container").cloneNode(true);
+    title.querySelectorAll(".screen-reader-only, .visually-hidden, .sr-only").forEach((hidden) => hidden.remove());
+    const question = title.textContent.trim().replace(/^Note\s*(?=[A-Z])/, "");
+    return {
+    question: `Q: ${question}`,
     // The answer as plain text, with runs of spaces and line breaks tidied to one space.
     answer: box.querySelector(".callout-body-container").textContent.replace(/\s+/g, " ").trim(),
-  }));
+    };
+  });
 }

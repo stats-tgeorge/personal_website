@@ -77,7 +77,7 @@ export function positionLabels(camera, player) {
     const far =
       player &&
       (thing.thought || (nearbyOnly && ordinary)) &&
-      Math.hypot(x + camera.x - player.x, y + camera.y - player.y) > NEAR_TILES * TILE;
+      Math.hypot(x + camera.x - player.x, y + camera.y - player.y) > (thing.thought ? 2 : NEAR_TILES) * TILE;
     element.hidden = !onScreen || far;
   }
 }

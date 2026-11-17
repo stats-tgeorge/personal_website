@@ -35,7 +35,7 @@
   description: "Who I am, how to reach me, and the dogs who run the household."
 
 - door: 2
-  title: "Classroom"
+  title: "Classroom and Teaching"
   path: teaching.qmd
   room: classroom
   description: "The statistics and data science courses I teach, and how I teach them."

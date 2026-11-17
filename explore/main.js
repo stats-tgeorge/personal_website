@@ -195,7 +195,7 @@ function draw() {
 
   if (!insidePlace) drawStall(ctx, camera); // the game, or its still display
   drawThings(ctx, things, camera, performance.now());
-  if (!insidePlace) drawSigns(ctx, things.filter((thing) => thing.kind === "door"), camera);
+  if (!insidePlace) drawSigns(ctx, things, camera);
   drawPlayer(ctx, player, player.x - camera.x, player.y - camera.y);
   positionLabels(camera, player); // keep the name tags above their things
   positionPlayerTag(player.x - camera.x, player.y - camera.y);

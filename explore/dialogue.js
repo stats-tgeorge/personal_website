@@ -19,6 +19,12 @@ const box = document.getElementById("dialogue");
 const speakerName = document.getElementById("dialogue-speaker");
 const text = document.getElementById("dialogue-text");
 const nextButton = document.getElementById("dialogue-next");
+const pictureBox = document.getElementById("dialogue-picture");
+// If the picture's file is missing, show the words without it rather
+// than a "broken image" mark.
+pictureBox.addEventListener("error", () => {
+  pictureBox.hidden = true;
+});
 
 // The conversation in progress: the lines still to come, and where we are.
 let lines = [];
@@ -31,8 +37,14 @@ let whenFinished = null;
 //   speaker  the name shown on the box, e.g. "Fairy"
 //   allLines what they say, one entry per press of Next
 //   then     optional: a function to call when the box closes
-export function openDialogue(speaker, allLines, then = null) {
+// picture (optional) = { src, alt }: an image shown under the words.
+export function openDialogue(speaker, allLines, then = null, picture = null) {
   whenFinished = then;
+  if (picture) {
+    pictureBox.src = picture.src;
+    pictureBox.alt = picture.alt;
+  }
+  pictureBox.hidden = !picture;
   // What people say is written for a keyboard ("press Enter"). On a
   // phone the same thing is done with the Go button, so say that.
   lines = isTouch() ? allLines.map((line) => line.replace(/press Enter/g, "press Go")) : allLines;
