@@ -1,0 +1,59 @@
+---
+title: "Useful Links"
+---
+
+## Guides and References
+
+-   [Data Wrangling and Viz Interactive Tutorials](https://datasciencebox.org/02-interactive-tutorials)
+-   [RStudio Cheatsheets](https://www.rstudio.com/resources/cheatsheets/)
+-   [Introduction to dplyr](https://cran.r-project.org/web/packages/dplyr/vignettes/dplyr.html)
+-   [R Date Examples](https://www.r-bloggers.com/2013/08/date-formats-in-r/)
+-   [NY Times Cornell College Sign-up](https://cornellcollege.libguides.com/nyt)
+-   [R for Data Science 2nd Ed](https://r4ds.hadley.nz/)
+-   [Quarto Documentation](https://quarto.org/)
+-   Data visualization
+    -   [ggplot2 Reference](https://ggplot2.tidyverse.org/reference/index.html)
+    -   [ggplot2: Elegant Graphics for Data Analysis](https://ggplot2-book.org/)
+    -   [Data Visualization: A Practice Introduction](https://socviz.co/index.html)
+    -   [Patchwork R Package](https://patchwork.data-imaginist.com/index.html)
+
+## Data Links
+
+-   [TidyTuesday](https://github.com/rfordatascience/tidytuesday)
+-   [R Data Sources for Regression Analysis](https://rfun.library.duke.edu/blog/data-sources-for-regression-analysis/)
+-   [FiveThirtyEight data](https://data.fivethirtyeight.com/)
+-   [Amazon Registry of Open Data](https://registry.opendata.aws/)
+-   [Open data StackExchange](https://opendata.stackexchange.com/)
+-   [Data.gov](https://catalog.data.gov/dataset)
+-   [US Census](https://www.census.gov/data.html)
+-   [New York City data](https://opendata.cityofnewyork.us/)
+-   [George Mason University Data Link List](https://infoguides.gmu.edu/find-data/practice)
+-   [Toward Data Science list of Data Sources](https://towardsdatascience.com/data-repositories-for-almost-every-type-of-data-science-project-7aa2f98128b )
+-   [NHS Scotland Open Data](https://www.opendata.nhs.scot/)
+-   [Edinburgh Open Data](https://edinburghopendata.info/)
+-   [Open access to Scotland's official statistics](https://statistics.gov.scot/home)
+-   [Bikeshare data portal](https://www.bikeshare.com/data/)
+-   [UK Gov Data](https://data.gov.uk/)
+-   [Kaggle datasets](https://www.kaggle.com/datasets)
+-   [OpenIntro datasets](http://openintrostat.github.io/openintro/)
+-   [Awesome public datasets](https://github.com/awesomedata/awesome-public-datasets)
+-   [Youth Risk Behavior Surveillance System (YRBSS)](https://chronicdata.cdc.gov/Youth-Risk-Behaviors/DASH-Youth-Risk-Behavior-Surveillance-System-YRBSS/q6p7-56au)
+-   [PRISM Data Archive Project](https://www.icpsr.umich.edu/icpsrweb/content/ICPSR/fenway.html)
+-   [Harvard Dataverse](https://dataverse.harvard.edu/)
+-   [Andrew G. Reiter Poly Scie Datasets](https://andyreiter.com/datasets/)
+-   [European Statistics](https://ec.europa.eu/eurostat/)
+-   [Statistics Canada](https://www.statcan.gc.ca/eng/start)
+-   [Pew Research](https://www.pewresearch.org/download-datasets/)
+-   [UNICEF](https://data.unicef.org/)
+-   [CDC](https://www.cdc.gov/datastatistics/index.html)
+-   [World Bank](https://datacatalog.worldbank.org/)
+-   [Election Studies](https://electionstudies.org//)
+-   [U.S. Data](https://www.data.gov/)
+-   [World Health Organization](https://www.who.int/gho/database/en/)
+-   [The National Bureau of Economic Research](https://data.nber.org/data/)
+-   [International Monetary Fund](https://data.imf.org/?sk=388DFA60-1D26-4ADE-B505-A05A558D9A42&sId=1479329328660)
+-   [General Social Survey](http://gss.norc.org/)
+-   [United Nations Data](http://data.un.org/)
+-   [United Nations Statistics Division](https://unstats.un.org/home/)
+-   [State of Iowa Open Geospatial Data](https://geodata.iowa.gov/)
+-   If you know of others, let me know!

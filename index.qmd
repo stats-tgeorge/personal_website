@@ -25,9 +25,12 @@ You have made it to the website of Associate Professor Tyler George. There are t
 ::: chooser-card
 ### Regular Website
 
-The regular website: courses, student support, blog, and CV.
+This will bring you to the standard about Dr. George's page, and, from there you can navigate the site using the buttons on the top right. 
 
 [Jump to the regular site](about.qmd){.btn .chooser-btn}
+
+
+
 :::
 
 ::: chooser-card
@@ -38,7 +41,3 @@ A small game campus you can walk around. You have to walk to the content you are
 [Enter explore mode](explore.qmd){.btn .chooser-btn .chooser-btn-alt}
 :::
 :::::
-
-::: chooser-contact
-**Students:** See your course syllabus for current office hours or email Professor George at [tgeorge\@cornellcollege.edu](mailto:tgeorge@cornellcollege.edu). Office: West 311.
-:::
