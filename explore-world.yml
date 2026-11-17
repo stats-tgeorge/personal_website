@@ -6,7 +6,8 @@
 # need to edit to change a building's name, blurb or destination.
 #
 # Each place has four lines:
-#   door:        the digit used for that building's door in map.js
+#   door:        the digit used for that building's door in
+#                explore/maps/outdoor.js
 #   title:       the name shown on the building's sign and in the pop-up
 #   path:        the page it opens. Use the .qmd file name, exactly as
 #                you would in a Quarto link. A full web address
@@ -26,7 +27,8 @@
 # Quarto reads it to build the plain list of links under the map.
 #
 # To add a building, add an entry here with a new digit, then draw the
-# building in map.js with that digit as its door.
+# building in explore/maps/outdoor.js with that digit as its door.
+# explore/README.md has the full maintenance guide.
 
 - door: 1
   title: "Professor George's Office"
