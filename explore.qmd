@@ -38,6 +38,9 @@ listing:
      traditional site lives here so that it is ALWAYS on screen. -->
 <div class="game-bar">
   <span id="scene-label" aria-live="polite">Outside</span>
+  <!-- How many of the spreadsheets hidden in the trees have been
+       collected. places.js keeps it up to date. -->
+  <span id="sheet-count" title="Spreadsheets collected from the trees"></span>
   <span class="game-bar-buttons">
     <!-- Hidden until the game fills the window (see layout.js); before
          that, the list of places is simply further down the page. -->
@@ -98,6 +101,7 @@ listing:
 <div id="dialogue" aria-live="polite" hidden>
   <strong id="dialogue-speaker"></strong>
   <p id="dialogue-text"></p>
+  <img id="dialogue-picture" alt="" hidden>
   <button id="dialogue-next" class="btn" type="button">Next</button>
 </div>
 
@@ -214,6 +218,6 @@ Walk up to a building's door to visit it, or use these links.
 :::
 
 ::: explore-credit
-Explore mode was designed by Tyler George and written by Claude, an AI model made by Anthropic. The art is placeholder art, also made by Claude.
+Explore mode was designed by Tyler George and written by Claude, an AI model made by Anthropic. The art is placeholder art, also made by Claude: it is drawn by the code, with no pictures taken from elsewhere. The R logo is © 2016 The R Foundation, used under the [CC-BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) licence.
 :::
 :::::

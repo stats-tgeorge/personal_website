@@ -165,11 +165,71 @@ export async function loadPlaces() {
       tree.shakenAt = performance.now(); // things.js draws the wobble from this time
       tree.description = TREE_REMARKS[shakes % TREE_REMARKS.length];
       shakes++;
+      // The first shake of each tree adds its sheets to the count.
+      if (!tree.collected) {
+        tree.collected = true;
+        showSheetCount(places);
+        const trees = places.filter((place) => place.kind === "shaketree");
+        if (trees.every((each) => each.collected)) {
+          // Wait for the sheets to finish falling, then celebrate.
+          setTimeout(() => {
+            openDialogue(
+              "Congratulations!",
+              ["Congratulations, you collected all of the sheets. You have been awarded the gift of R."],
+              null,
+              { src: new URL("img/Rlogo.svg", import.meta.url).href, alt: "The R logo" }
+            );
+          }, 1200);
+        }
+      }
     };
     places.push(tree);
   }
+  showSheetCount(places);
+
+  // The billboard beside the starting spot ("G"), pointing down the
+  // map to the game.
+  for (const spot of findInRows(OUTDOOR_ROWS, "G")) {
+    places.push({
+      kind: "billboard",
+      ...spot,
+      reach: "adjacent",
+      label: "Sheet Breaker Game!",
+      title: "Sheet Breaker Game!",
+      description: "This way: follow the path down the map to the big spreadsheet and press Play.",
+    });
+  }
+
+  // The portal the player arrives through, on the starting spot ("@").
+  // Stepping back onto it offers the way back to the regular website.
+  for (const spot of findInRows(OUTDOOR_ROWS, "@")) {
+    places.push({
+      kind: "portal",
+      ...spot,
+      reach: "on",
+      asleepUntilLeft: true, // see thingInReach in things.js
+      title: "The portal you arrived through",
+      description: "It leads back to the regular website. You can come back to it at any time.",
+      url: new URL("../about.html", import.meta.url).href,
+      linkLabel: "Step through to the regular site",
+    });
+  }
 
   return places;
+}
+
+// Each tree drops this many spreadsheets (things.js draws three falling).
+const SHEETS_PER_TREE = 3;
+
+// Writes "Sheets: 6 of 18" in the bar across the top of the game.
+function showSheetCount(places) {
+  const trees = places.filter((place) => place.kind === "shaketree");
+  const collected = trees.filter((tree) => tree.collected).length;
+  // On phones, where the bar is short of room, it reads "6/18": the
+  // "wide-only" and "narrow-only" pieces are shown or hidden by explore.css.
+  document.getElementById("sheet-count").innerHTML =
+    `<span class="wide-only">Sheets: </span>${collected * SHEETS_PER_TREE}` +
+    `<span class="wide-only"> of </span><span class="narrow-only">/</span>${trees.length * SHEETS_PER_TREE}`;
 }
 
 // What the strip says each time a tree is shaken, in turn.
@@ -216,7 +276,13 @@ export function drawSigns(ctx, places, camera) {
   ctx.textBaseline = "middle";
   ctx.fillStyle = "#ffffff";
 
-  for (const place of places) {
+  // The park's name on the board on its bottom fence.
+  for (const place of places.filter((each) => each.kind === "banner")) {
+    const centreX = (place.col + place.wide / 2) * TILE - camera.x;
+    drawSignLine(ctx, place.title, centreX, place.row * TILE + 8 - camera.y);
+  }
+
+  for (const place of places.filter((each) => each.kind === "door")) {
     const buildingWidth = (place.rightCol - place.leftCol + 1) * TILE;
     const centreX = place.leftCol * TILE + buildingWidth / 2 - camera.x;
     const roofY = place.roofTopRow * TILE - camera.y;
@@ -270,24 +336,37 @@ function wrapText(ctx, text, maxWidth) {
 // more "Q" or "Z" spots to maps/outdoor.js.
 //
 // places = the places made so far (used to find the Student Support page)
+const PARK_NAME = "Support Trail";
+
 async function supportTrail(places) {
   const things = [];
 
-  // The park's name sign, and a name for the pond.
-  for (const spot of findInRows(OUTDOOR_ROWS, "N")) {
+  // The park's name board: the run of "N" tiles on the bottom fence.
+  // drawSigns (above) writes PARK_NAME across it. It is read from the
+  // tiles just below it, outside the fence.
+  const board = findInRows(OUTDOOR_ROWS, "N");
+  if (board.length > 0) {
+    things.push({
+      kind: "banner",
+      col: board[0].col,
+      row: board[0].row,
+      wide: board.length,
+      reachTiles: board.map((tile) => ({ col: tile.col, row: tile.row + 1 })),
+      title: PARK_NAME,
+      description: "A fenced park around the Student Support Center, with a walk around Ink Pond. The people inside are thinking about questions students often ask. Talk to one to hear the answer.",
+    });
+  }
+
+  // The sign beside the pond.
+  for (const spot of findInRows(OUTDOOR_ROWS, "I")) {
     things.push({
       kind: "sign",
       ...spot,
       reach: "adjacent",
-      label: "Support Trail",
-      title: "Support Trail",
-      description: "A walk around Ink Pond. The people here are thinking about questions students often ask. Talk to one to hear the answer.",
+      label: "Ink Pond",
+      title: "Ink Pond",
+      description: "Small, calm and very dark blue. No swimming, however the block is going.",
     });
-  }
-  const water = findInRows(OUTDOOR_ROWS, "~").filter((tile) => tile.col < 12); // the park's pond, not the one by the Classroom
-  if (water.length > 0) {
-    const middle = water[Math.floor(water.length / 2)];
-    things.push({ kind: "name", ...middle, reach: "none", label: "Ink Pond" });
   }
 
   // The dog comes before its walker in the list: where both are in
