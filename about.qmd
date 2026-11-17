@@ -5,10 +5,15 @@ title: "Tyler George"
 I am an Associate Professor of Statistics (and data science) at [Cornell College](https://www.cornellcollege.edu/) and Director of Cornell Summer Research Institute [(CSRI)](https://www.cornellcollege.edu/research/cornell-summer-research-institute.shtml). I received my PhD in Statistics and Analytics at Central Michigan University. During my PhD I also studied mathematics and statistics education. My dissertation work involved creating a new lack of fit test for linear regression models. 
 
 My interests are broadly in statistics education and data science. Active collaborations and projects:
+
 - Working with undergraduate students in teaching, advising, and overseeing undergraduate research
+
 - Building text analysis tools to support the Scottish Gaelic language ([About](https://scottish-gaelic-collab.github.io/lemmatizer_gaelic/))
+
 - [Community Engaged Statistics and Data Science](https://community-engaged-stats-ds.github.io/CESDS_website/)
+
 - Creating, testing, and studying the impact of educational board games in statistics classrooms
+
 - Developing and teaching (and soon studying) a study abroad course on this history of statistics in the British Isles
 
 ::::: columns
