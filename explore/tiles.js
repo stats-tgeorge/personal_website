@@ -131,7 +131,31 @@ export function drawTile(ctx, char, x, y, col, row) {
     fill(ctx, "#ffffff", x, y, TILE, TILE);
     return;
   }
-  if (char === "P" || char === "W") {
+  // A fence around the Support Trail: two rails on posts. "F" runs
+  // left-right and "H" runs up-down.
+  if (char === "F" || char === "H" || char === "N") {
+    fill(ctx, COLORS.grass, x, y, TILE, TILE);
+    const wood = "#8a5a2b";
+    const darkWood = "#6b4a2b";
+    if (char === "H") {
+      fill(ctx, wood, x + 5, y, 2, TILE); // two rails, top to bottom
+      fill(ctx, wood, x + 9, y, 2, TILE);
+      fill(ctx, darkWood, x + 4, y + 6, 8, 3); // a cross-piece
+    } else {
+      fill(ctx, wood, x, y + 5, TILE, 2); // two rails, side to side
+      fill(ctx, wood, x, y + 10, TILE, 2);
+      fill(ctx, darkWood, x + 6, y + 3, 3, 12); // a post
+    }
+    // "N": the park's name board hangs on this stretch of fence.
+    // (places.js writes the name on it.)
+    if (char === "N") {
+      fill(ctx, "#3b2257", x, y + 1, TILE, 13);
+      fill(ctx, "#523178", x, y + 2, TILE, 11);
+    }
+    return;
+  }
+
+  if (char === "P" || char === "W" || char === "I" || char === "G") {
     // A signpost stands on grass; things.js draws the sign itself.
     fill(ctx, COLORS.grass, x, y, TILE, TILE);
     return;
