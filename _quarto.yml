@@ -45,6 +45,8 @@ website:
 
       - text: CV
         file: cv.qmd
+      - text: "Useful Links"
+        file: useful-links.qmd
         
       - icon: github 
         href: https://github.com/stats-tgeorge/personal_website
